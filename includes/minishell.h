@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/08/30 11:55:41 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:24:29 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include "../libft/libft.h"
 # include "structure.h"
+# include "ast_tree.h"
 # include <string.h>
 # include <stdarg.h>
 # include <stdbool.h>
@@ -37,5 +38,10 @@ t_token	*command_token(t_lexer **lexer);
 t_token	*option_variable_token(t_tokentype type, t_lexer **lexer);
 t_token	*redirection_token(t_lexer **lexer);
 t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer);
+
+/*Parser functions*/
+//t_ast_tree	*new_node(t_tokentype token_type);
+t_command_node	*new_node(t_token **token);
+t_command	*init_node(t_token *token);
 
 #endif

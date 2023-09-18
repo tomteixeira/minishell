@@ -6,16 +6,16 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/14 11:52:52 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:18:04 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURE_H
 # define STRUCTURE_H
 
-
 typedef enum 
 {
+    TOKEN_ROOT,
     TOKEN_PIPE,
     TOKEN_SEMICOLON,
     TOKEN_COMMAND,
@@ -42,57 +42,22 @@ typedef struct s_lexer
     size_t position;
 } t_lexer;
 
-
-typedef struct s_command_node
+typedef struct s_command
 {
+    char    *command;
+    char    **command_args;
+    int     pipe_start;
+    int     pipe_end;
+    int     nb_args;
     
-}   t_command_node;
+}   t_command;
 
-typedef struct s_pipe_node
+typedef struct s_command_parser
 {
-    
-}   t_pipe_node;
+    t_command           *command;
+    t_command_parser    *next;
+    t_command_parser    *previous;
+}   t_command_parser;
 
-typedef struct s_redirection_node
-{
-    
-}   t_redirection_node;
-
-typedef struct s_if_node
-{
-    
-}   t_if_node;
-
-typedef struct s_while_node
-{
-    
-}   t_while_node;
-
-typedef struct s_pipe_sequence_node
-{
-    
-}   t_pipe_sequence_node;
-
-typedef struct s_sequence_node
-{
-    
-}   t_sequence_node;
-
-typedef struct s_ast_tree
-{
-    char    *type;
-    union
-    {
-        t_pipe_sequence_node    *pipe_sequence_node;
-        t_sequence_node         *sequence_node;
-        t_command_node          *command_node;
-        t_pipe_node             *pipe_node;
-        t_redirection_node      *redirection_node;
-        t_if_node               *if_node;
-        t_while_node            *while_node;
-    } u_data;
-    struct t_ast_tree   *right;
-    struct t_ast_tree   *left;
-}   t_ast_tree;
 
 #endif
