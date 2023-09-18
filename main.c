@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/08/30 13:55:23 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:14:21 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int main(int argc, char **argv, char **env)
             exit(EXIT_FAILURE);
         }
         tokens = lexer(line);
+        free(line);
         if (!tokens)
         {
             perror("malloc");
