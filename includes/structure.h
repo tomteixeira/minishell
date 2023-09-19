@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/18 17:18:04 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/19 10:42:39 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_command
 typedef struct s_command_parser
 {
     t_command           *command;
-    t_command_parser    *next;
-    t_command_parser    *previous;
+    struct s_command_parser    *next;
+    struct s_command_parser    *previous;
 }   t_command_parser;
 
 

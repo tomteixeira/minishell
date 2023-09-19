@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/13 18:14:21 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/19 10:50:30 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv, char **env)
 {
     char *line;
     t_token **tokens;
-    //t_ast_tree  *root;
+    t_command_parser  *first_command;
     
     (void)argv;
     (void)env;
@@ -52,6 +52,12 @@ int main(int argc, char **argv, char **env)
         tokens = lexer(line);
         free(line);
         if (!tokens)
+        {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
+        first_command = parse_tokens(tokens);
+        if (!first_command)
         {
             perror("malloc");
             exit(EXIT_FAILURE);

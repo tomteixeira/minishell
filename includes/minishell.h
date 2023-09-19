@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/18 16:24:29 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:04:11 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 # include <signal.h>
 # include "../libft/libft.h"
 # include "structure.h"
-# include "ast_tree.h"
 # include <string.h>
 # include <stdarg.h>
 # include <stdbool.h>
 
 # define SIZE_PATH 4096
-int g_signal;
+//int g_signal;
 
 
 /*Lexer fonctions*/
@@ -41,7 +40,10 @@ t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer);
 
 /*Parser functions*/
 //t_ast_tree	*new_node(t_tokentype token_type);
-t_command_node	*new_node(t_token **token);
-t_command	*init_node(t_token *token);
+t_command_parser	*new_node(t_token **token);
+t_command			*init_command(t_token *token);
+t_command   		*fill_command(t_token **token);
+t_command_parser 	*parse_tokens(t_token **token);
+void				append(t_command_parser **head, t_token **token);
 
 #endif

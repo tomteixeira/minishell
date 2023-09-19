@@ -6,11 +6,13 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/18 17:24:40 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:03:40 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void    print_parser(t_command_parser *head);
 
 // t_if_node *parse_if()
 // {
@@ -62,54 +64,134 @@
 //     return (parse_sequence(&token));
 // }
 
-char    **fill_args(t_token **token, int nb_arg)
+char    **fill_args(t_token **token, int *nb_arg)
 {
     t_token **copy;
     char    **args;
     int     i;
+    int     j;
     
     copy = token;
-    while ((*copy)->type != TOKEN_PIPE && *copy)
+    i = 0;
+    while (copy[i] && copy[i]->type != TOKEN_PIPE)
     {
-        (*copy)++;
-        nb_arg++;
+        i++;
+        (*nb_arg)++;
     }
     copy = token;
     i = 0;
-    args = malloc(nb_arg * sizeof(char *));
+    j = 0;
+    args = malloc(*nb_arg * sizeof(char *));
     if (!args)
         return (NULL);
-    while ((*copy)->type != TOKEN_PIPE && *copy)
+    while (copy[i] && copy[i]->type != TOKEN_PIPE)
     {
-        args[i++] = ft_strdup((*copy)->value);
-        if (!args[i - 1])
+        args[j++] = ft_strdup(copy[i]->value);
+        if (!args[j - 1])
             return (NULL); // NE pas oublier de free en cascade
-        (*copy)++;
+        i++;
     }
-    free(copy);
+    //free(copy);
     return (args);
 }
 
 t_command   *fill_command(t_token **token)
 {
     t_command   *command;
+    t_token     **buffer;
+    int         i;
 
-    command = init_command(*token);
+    i = 0;
+    buffer = token;
+    command = init_command(buffer[i]);
     if (!command)
         return (NULL);
-    (*token)++;
-    if ((*token)->type == TOKEN_COMMAND)
-        command->command_args = fill_args(token, command->nb_args);
+    i++;
+    if (buffer[i] && (buffer[i]->type == TOKEN_COMMAND
+        || buffer[i]->type == TOKEN_OPTION || buffer[i]->type == TOKEN_VARIABLE))
+        command->command_args = fill_args(&buffer[i], &command->nb_args);
     if (!command->command_args)
         return (free(command->command), free(command), NULL);
-    
     return (command);
 }
+
+// t_command_parser *parse_tokens(t_token **token)
+// {
+//     t_command_parser    *first_command;
+//     t_command_parser    *buffer;
+//     t_command_parser    *buffer2;
+//     int                 i;
+    
+//     i = 0;
+//     if (token[i] == NULL)
+//         return (NULL);
+//     first_command = new_node(token);
+//     if (!first_command)
+//         return (NULL);
+//     buffer = first_command;
+//     while (token[i] != NULL)
+//     {
+//         if (token[i]->type == TOKEN_PIPE && token[i + 1])
+//         {
+//             i++;
+//             first_command->next = new_node(&token[i]);
+//             if (!first_command->next)
+//                 return (NULL);  // NE pas oublier de free en cascade;
+//             if (first_command->previous == NULL)
+//                 buffer = first_command;
+//             buffer2 = first_command;
+//             first_command = first_command->next;
+//             first_command->previous = buffer2;
+//         }
+//         i++;
+//     }
+//     print_parser(buffer);
+//     return (buffer); // NE pas oublier de free les buffers
+// }
 
 t_command_parser *parse_tokens(t_token **token)
 {
     t_command_parser    *first_command;
-
+    int                 i;
     
-    return (first_command);
+    i = 0;
+    if (token[i] == NULL)
+        return (NULL);
+    first_command = NULL;
+    append(&first_command, token);
+    if (!first_command)
+        return (NULL);
+    while (token[i] != NULL)
+    {
+        if (token[i]->type == TOKEN_PIPE && token[i + 1])
+        {
+          i++;
+          append(&first_command, &token[i]);
+        }
+        i++;
+    }
+    print_parser(first_command);
+    return (first_command); // NE pas oublier de free les buffers
+}
+
+
+
+void    print_parser(t_command_parser *head)
+{
+    t_command_parser    *buffer;
+    int                 i;
+
+    buffer = head;
+    while (buffer->next)
+    {
+        printf("command : %s\n", buffer->command->command);
+        i = 0;
+        while (i < buffer->command->nb_args)
+        {
+            printf("Argument %d : %s\n", i, buffer->command->command_args[i]);
+            i++;
+        }
+        printf("\n");
+        buffer = buffer->next;
+    }
 }
