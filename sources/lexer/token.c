@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/08/30 11:54:49 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/20 12:25:19 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*string_token(t_lexer **lexer)
 	return (token);
 }
 
-t_token	*command_token(t_lexer **lexer)
+t_token	*word_token(t_lexer **lexer)
 {
 	t_token *token;
 	char	cur;
@@ -51,10 +51,10 @@ t_token	*command_token(t_lexer **lexer)
 	token->value = malloc((len + 1) * sizeof(char));
 	if (!token->value)
 		return (NULL);
-	token->type = TOKEN_COMMAND;
+	token->type = TOKEN_WORD;
 	len = 0;
 	while ((*lexer)->input_string[(*lexer)->position] != '\0' && 
-			ft_isalpha((*lexer)->input_string[(*lexer)->position]))
+			ft_word_char((*lexer)->input_string[(*lexer)->position]))
 	{
         cur = (*lexer)->input_string[(*lexer)->position];
 		token->value[len] = cur;
@@ -122,12 +122,12 @@ t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer)
 {
     t_token *token;
     
-	if (type == TOKEN_COMMAND)
-		return (command_token(lexer));
+	if (type == TOKEN_WORD)
+		return (word_token(lexer));
 	else if (type == TOKEN_STRING)
 		return (string_token(lexer));
-	else if (type == TOKEN_OPTION ||type == TOKEN_VARIABLE)
-		return (option_variable_token(type, lexer));
+	// else if (type == TOKEN_OPTION ||type == TOKEN_VARIABLE)
+	// 	return (option_variable_token(type, lexer));
 	else if (type == TOKEN_REDIRECTION)
 		return (redirection_token(lexer));
 	token = malloc(sizeof(t_token));

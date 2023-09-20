@@ -6,14 +6,15 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/09/18 13:22:40 by toteixei         ###   ########.fr        #
+#    Updated: 2023/09/20 15:26:20 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME 		= 	minishell
 SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
-				sources/lexer/token.c sources/parser/parser.c sources/parser/node.c
+				sources/lexer/token.c sources/parser/parser.c sources/parser/node.c \
+				sources/parser/redirection.c
 				
 OBJ 		= 	$(SRCS:.c=.o)
 

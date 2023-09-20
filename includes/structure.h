@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/19 10:42:39 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:20:45 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 
 typedef enum 
 {
-    TOKEN_ROOT,
     TOKEN_PIPE,
-    TOKEN_SEMICOLON,
     TOKEN_COMMAND,
     TOKEN_STRING,
 	TOKEN_VARIABLE,
-	TOKEN_OPTION,
+	TOKEN_WORD,
 	TOKEN_REDIRECTION,
     TOKEN_HEREDOC,
-    TOKEN_FILE,
-    TOKEN_WHILE,
-    TOKEN_CONDITION,
 } t_tokentype;
+
+typedef enum
+{
+    R_IN,
+    R_OUT,
+    A_R_OUT,
+}   t_redirection_type;
 
 typedef struct s_token
 {
@@ -42,14 +44,22 @@ typedef struct s_lexer
     size_t position;
 } t_lexer;
 
+typedef struct s_redirection
+{
+    t_redirection_type  type;
+    char                *command;
+    char                *file;
+    
+}   t_redirection;
+
 typedef struct s_command
 {
-    char    *command;
-    char    **command_args;
-    int     pipe_start;
-    int     pipe_end;
-    int     nb_args;
-    
+    char                    *command;
+    char                    **command_args;
+    int                     pipe_before;
+    int                     pipe_after;
+    int                     nb_args;
+    struct s_redirection   *redirection 
 }   t_command;
 
 typedef struct s_command_parser

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/19 16:03:59 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:21:06 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // 	return (node);
 // }
 
-void	append(t_command_parser **head, t_token **token)
+void	append(t_command_parser **head, t_token **token, int is_pipe_before)
 {
 	t_command_parser	*node;
 	t_command_parser	*last_node;
@@ -31,7 +31,7 @@ void	append(t_command_parser **head, t_token **token)
 	node = malloc(sizeof(t_command_parser));
 	if (!node)
 		return ;
-	node->command = fill_command(token);
+	node->command = fill_command(token, is_pipe_before);
 	if (!node->command)
 		return (free(node));
 	last_node = *head;
@@ -46,6 +46,8 @@ void	append(t_command_parser **head, t_token **token)
 		last_node = last_node->next;
 	last_node->next = node;
 	node->previous = last_node;
+	if (is_pipe_before == 1)
+		node->previous->command->pipe_after = 1;
 	return ;
 }
 
@@ -60,24 +62,25 @@ t_command	*init_command(t_token *token)
 	if (!command->command)
 		return (free(command), NULL);
 	command->command_args = NULL;
-	command->pipe_end = 0;
-	command->pipe_start = 0;
+	command->pipe_after = 0;
+	command->pipe_before = 0;
 	command->nb_args = 0;
+	command->redirection = NULL;
 	return (command);
 }
 
-t_command_parser	*new_node(t_token **token)
-{
-	t_command_parser	*node;
+// t_command_parser	*new_node(t_token **token)
+// {
+// 	t_command_parser	*node;
 
-	node = malloc(sizeof(t_command_parser));
-	if (!node)
-		return (NULL);
-	printf("token %s\n", (*token)->value);
-	node->command = fill_command(token);
-	if (!node->command)
-		return (free(node), NULL);
-	node->previous = NULL;
-	node->next = NULL;
-	return (node);
-}
+// 	node = malloc(sizeof(t_command_parser));
+// 	if (!node)
+// 		return (NULL);
+// 	printf("token %s\n", (*token)->value);
+// 	node->command = fill_command(token);
+// 	if (!node->command)
+// 		return (free(node), NULL);
+// 	node->previous = NULL;
+// 	node->next = NULL;
+// 	return (node);
+// }

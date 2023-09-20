@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/08/28 15:06:26 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/20 11:53:22 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,20 @@ int	option_len(t_lexer **lexer)
 	
 	i = (*lexer)->position + 1;
 	count = 1;
-	while ((*lexer)->input_string[i] != '\0' && ft_isalpha((*lexer)->input_string[i]))
+	while ((*lexer)->input_string[i] != '\0' && ft_word_char((*lexer)->input_string[i]))
 	{
 		i++;
 		count++;
 	}
 	return (count);
+}
+
+int	ft_word_char(int c)
+{
+	if (c == '|' || c == '\'' || c == '$' || c == '\"' || c == '>' || c == '<')
+		return (0);
+	if (c > 32 && c < 127)
+		return (1);
+	else
+		return (0);
 }
