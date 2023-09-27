@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 12:55:49 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:36:36 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ int		ft_word_char(int c);
 /*Parser functions*/
 //t_ast_tree	*new_node(t_tokentype token_type);
 t_command_parser	*new_node(t_token **token);
-t_command			*init_command(t_token *token);
-t_command   		*fill_command(t_token **token, int is_pipe_before);
+t_command			*init_command();
+t_command   		*fill_command(t_token **token);
 t_command_parser 	*parse_tokens(t_token **token);
 void				append(t_command_parser **head, t_token **token, int is_pipe_before);
+void	            fill_redirection(t_token **token, t_command **command, int *i);
 
 #endif

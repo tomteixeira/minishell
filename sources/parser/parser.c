@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 15:22:14 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:39:56 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char    **fill_args(t_token **token, int *nb_arg)
     
     copy = token;
     i = 0;
-    while (copy[i] && copy[i]->type != TOKEN_PIPE)
+    while (copy[i] && copy[i]->type != TOKEN_PIPE && copy[i]->type != TOKEN_REDIRECTION)
     {
         i++;
         (*nb_arg)++;
@@ -34,7 +34,7 @@ char    **fill_args(t_token **token, int *nb_arg)
     args = malloc(*nb_arg * sizeof(char *));
     if (!args)
         return (NULL);
-    while (copy[i] && copy[i]->type != TOKEN_PIPE)
+    while (copy[i] && copy[i]->type != TOKEN_PIPE && copy[i]->type != TOKEN_REDIRECTION)
     {
         args[j++] = ft_strdup(copy[i]->value);
         if (!args[j - 1])
@@ -45,17 +45,23 @@ char    **fill_args(t_token **token, int *nb_arg)
     return (args);
 }
 
-t_command   *fill_command(t_token **token, int is_pipe_before)
+t_command   *fill_command(t_token **token)
 {
     t_command   *command;
     t_token     **buffer;
     int         i;
 
-    if (token[0]->type = TOKEN_REDIRECTION)
-        fill_redirection(token, &command);
     i = 0;
     buffer = token;
-    command = init_command(buffer[i]);
+    command = init_command();
+    while (buffer[i]->type == TOKEN_REDIRECTION)
+    {
+        fill_redirection(buffer, &command, &i);
+        i += 2;
+    }
+    command->command = ft_strdup(buffer[i]->value);
+    if (!command->command)
+		return (free(command), NULL);
     if (!command)
         return (NULL);
     i++;
@@ -65,9 +71,13 @@ t_command   *fill_command(t_token **token, int is_pipe_before)
         command->command_args = fill_args(&buffer[i], &command->nb_args);
         if (!command->command_args)
             return (free(command->command), free(command), NULL);
+        i += command->nb_args;
     }
-    if (is_pipe_before == 1)
-        command->pipe_before = 1;
+    while (buffer[i] && buffer[i]->type == TOKEN_REDIRECTION)
+    {
+        fill_redirection(buffer, &command, &i);
+        i += 2;
+    }
     return (command);
 }
 
@@ -106,14 +116,30 @@ void    print_parser(t_command_parser *head)
     buffer = head;
     while (buffer)
     {
-        if (buffer->command->pipe_before == 1)
-            printf(" | pipe before\n");
+        // if (buffer->command->pipe_before == 1)
+        //     printf(" | pipe before\n");
         printf("command : %s\n", buffer->command->command);
         i = 0;
         while (i < buffer->command->nb_args)
         {
             printf("Argument %d : %s\n", i, buffer->command->command_args[i]);
             i++;
+        }
+        if (buffer->command->in_redirection != NULL)
+        {
+            while (buffer->command->in_redirection)
+            {
+                printf("Infile redirection : %s\n", buffer->command->in_redirection->file);
+                buffer->command->in_redirection = buffer->command->in_redirection->next;
+            }
+        }
+        if (buffer->command->out_redirection != NULL)
+        {
+            while (buffer->command->out_redirection)
+            {
+                printf("Outfile redirection : %s\n", buffer->command->out_redirection->file);
+                buffer->command->out_redirection = buffer->command->out_redirection->next;
+            }
         }
         if (buffer->command->pipe_after == 1)
             printf(" | pipe after\n");
