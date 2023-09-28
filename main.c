@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 12:21:03 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/28 11:56:42 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,30 @@
 void    print_prompt(void)
 {
     
-    char cwd[SIZE_PATH];
+    char    cwd[SIZE_PATH];
+    char    **split_cwd;
+    int     i;
+    int     num_directories; 
     
     getcwd(cwd, SIZE_PATH);
-    ft_printf("> %s\nMinishell>> ", cwd);
+    split_cwd = ft_split(cwd, '/');
+    if (!split_cwd)
+        return ;
+    i = 0;
+    num_directories = 0;
+    while (split_cwd[num_directories])
+        num_directories++;
+    while(i < num_directories)
+    {
+        if (i == num_directories - 1)
+        {
+            ft_printf("\e[36m\e[1m%s\e[0m", split_cwd[i]);
+            break;
+        }
+        ft_printf("\e[36m%s/\e[0m", split_cwd[i]);
+        i++;
+    }
+    ft_printf("\e[32m\e[1m\n> \e[0m");
 }
 
 char *read_line(void)
