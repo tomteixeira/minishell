@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/27 17:36:36 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:17:38 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_token	*command_token(t_lexer **lexer);
 t_token	*option_variable_token(t_tokentype type, t_lexer **lexer);
 t_token	*redirection_token(t_lexer **lexer);
 t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer);
+t_token *heredoc_token(t_lexer **lexer);
 int		ft_word_char(int c);
 
 /*Parser functions*/

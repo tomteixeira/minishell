@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 12:06:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:11:45 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_token	*get_next_token_bis(t_lexer *lexer, char cur)
 {
 	if (cur == '|')
         return (create_token(TOKEN_PIPE, "|", &lexer));
-	// else if (cur == ';')
-    //     return (create_token(TOKEN_SEMICOLON, ";", &lexer));
 	else if (cur == '\"' || cur == '\'')
         return (create_token(TOKEN_STRING, 
 			&lexer->input_string[lexer->position], &lexer));

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 12:25:19 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:44:59 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,15 @@ t_token	*redirection_token(t_lexer **lexer)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	if ((*lexer)->input_string[(*lexer)->position + 1] == '>')
+	if ((*lexer)->input_string[(*lexer)->position + 1] &&
+		(*lexer)->input_string[(*lexer)->position + 1] == '>')
 	{
 		token->value = ft_strdup(">>");
 		(*lexer)->position++;
 	}
+	//else if ((*lexer)->input_string[(*lexer)->position + 1] &&
+	//	(*lexer)->input_string[(*lexer)->position + 1] == '<')
+	//	return (heredoc_token(lexer));
 	else
 	{
 		token->value = malloc(2 * sizeof(char));
@@ -126,8 +130,6 @@ t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer)
 		return (word_token(lexer));
 	else if (type == TOKEN_STRING)
 		return (string_token(lexer));
-	// else if (type == TOKEN_OPTION ||type == TOKEN_VARIABLE)
-	// 	return (option_variable_token(type, lexer));
 	else if (type == TOKEN_REDIRECTION)
 		return (redirection_token(lexer));
 	token = malloc(sizeof(t_token));

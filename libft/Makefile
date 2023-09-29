@@ -6,7 +6,7 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 16:50:01 by toteixei          #+#    #+#              #
-#    Updated: 2023/03/22 12:16:15 by toteixei         ###   ########.fr        #
+#    Updated: 2023/09/28 15:29:57 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS	= ft_isalnum.c ft_isprint.c ft_memcmp.c  ft_putchar_fd.c ft_split.c \
 	ft_treat_hexa.c ft_treat_uint.c ft_treat_int.c ft_lstnew.c \
 	ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 	ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
-	ft_lstmap.c get_next_line.c free.c
+	ft_lstmap.c get_next_line.c free.c ft_iswhitespace.c
 
 INCLUDES	= libft.h
 
