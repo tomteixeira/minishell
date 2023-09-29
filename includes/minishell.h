@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/27 17:36:36 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:22:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -47,5 +49,8 @@ t_command   		*fill_command(t_token **token);
 t_command_parser 	*parse_tokens(t_token **token);
 void				append(t_command_parser **head, t_token **token, int is_pipe_before);
 void	            fill_redirection(t_token **token, t_command **command, int *i);
+
+/*Execution functions*/
+void execute_command(t_command_parser *first_command, char **env);
 
 #endif

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/27 11:33:36 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:18:00 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURE_H
 # define STRUCTURE_H
 
-typedef enum 
+typedef enum
 {
     TOKEN_PIPE,
     TOKEN_COMMAND,
@@ -49,7 +49,7 @@ typedef struct s_redirection
     t_redirection_type      type;
     char                    *file;
     struct s_redirection    *next;
-    
+
 }   t_redirection;
 
 typedef struct s_command
@@ -68,6 +68,5 @@ typedef struct s_command_parser
     struct s_command_parser    *next;
     struct s_command_parser    *previous;
 }   t_command_parser;
-
 
 #endif

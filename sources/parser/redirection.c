@@ -3,16 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 14:43:59 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/27 18:38:27 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:18:00 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    append_redirection(t_redirection **head, t_redirection_type type, 
+char **copy_char_array(char **src) {
+    if (!src) return NULL;
+    int count = 0;
+    while (src[count]) {
+        count++;
+    }
+    char **dest = (char **)malloc((count + 1) * sizeof(char *));
+    if (!dest) return NULL;
+    for (int i = 0; i < count; i++) {
+        dest[i] = strdup(src[i]);
+        if (!dest[i]) {
+            for (int j = 0; j < i; j++) {
+                free(dest[j]);
+            }
+            free(dest);
+            return NULL;
+        }
+    }
+    dest[count] = NULL;
+    return (dest);
+}
+
+void    append_redirection(t_redirection **head, t_redirection_type type,
                             t_token **token)
 {
     t_redirection   *node;
