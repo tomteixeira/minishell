@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 13:52:59 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:48:23 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_redirection
 
 typedef struct s_command
 {
-    char                    *command;
+    //char                    *command;
     char                    **command_args;
     int                     pipe_after;
     int                     nb_args;

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 13:59:19 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:48:46 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_command	*init_command()
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
-	command->command = NULL;
+	//command->command = NULL;
 	command->command_args = NULL;
 	command->pipe_after = 0;
 	//command->pipe_before = 0;

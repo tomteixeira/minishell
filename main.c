@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:22:05 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:03:45 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,27 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	environment = fill_env(env);
+	line = NULL;
+	tokens = NULL;
+	first_command = NULL;
 	while (42)
 	{
 		print_prompt();
 		line = read_line();
-		if (!line)
+
+		if (line)
 		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
+			tokens = lexer(line);
+			free(line);
 		}
-		tokens = lexer(line);
-		free(line);
-		if (!tokens)
+
+		if (tokens)
+			first_command = parse_tokens(tokens);
+		if (first_command)
 		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
+			print_parser(first_command);
+			execute_command(first_command, env);
 		}
-		first_command = parse_tokens(tokens);
-		if (!first_command)
-		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
-		}
-		print_parser(first_command);
-		execute_command(first_command, env);
 	}
 	return (0);
 }

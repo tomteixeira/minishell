@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 14:01:42 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:56:22 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char    **fill_args(t_token **token, int *nb_arg)
     return (args);
 }
 
-t_command   *fill_command(t_token **token)
+t_command   *fill_command(t_token **token) // gestion de la memoire
 {
     t_command   *command;
     t_token     **buffer;
@@ -53,23 +53,21 @@ t_command   *fill_command(t_token **token)
     i = 0;
     buffer = token;
     command = init_command();
-    while (buffer[i]->type == TOKEN_REDIRECTION)
+    if (!command)
+        return (NULL);
+    while (buffer[i] && buffer[i]->type == TOKEN_REDIRECTION)
     {
         fill_redirection(buffer, &command, &i);
         i += 2;
     }
-    command->command = ft_strdup(buffer[i]->value);
-    if (!command->command)
-		return (free(command), NULL);
-    if (!command)
-        return (NULL);
-    i++;
+    if (!buffer[i])
+        return (command);
     if (buffer[i] && (buffer[i]->type == TOKEN_WORD
         || buffer[i]->type == TOKEN_STRING || buffer[i]->type == TOKEN_VARIABLE))
     {
         command->command_args = fill_args(&buffer[i], &command->nb_args);
         if (!command->command_args)
-            return (free(command->command), free(command), NULL);
+            return (free(command), NULL);
         i += command->nb_args;
     }
     while (buffer[i] && buffer[i]->type == TOKEN_REDIRECTION)
@@ -116,7 +114,6 @@ void    print_parser(t_command_parser *head)
     {
         // if (head->command->pipe_before == 1)
         //     printf(" | pipe before\n");
-        printf("command : %s\n", head->command->command);
         i = 0;
         while (i < head->command->nb_args)
         {
