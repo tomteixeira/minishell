@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:08:35 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:22:36 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <string.h>
 # include <stdarg.h>
 # include <stdbool.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define SIZE_PATH 4096
 //int g_signal;
@@ -42,6 +44,7 @@ t_token	*option_variable_token(t_tokentype type, t_lexer **lexer);
 t_token	*redirection_token(t_lexer **lexer);
 t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer);
 int		ft_word_char(int c);
+int		check_parsing(t_token **token);
 
 /*Parser functions*/
 t_command_parser	*new_node(t_token **token);

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 12:06:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:12:52 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ t_token	**lexer(char *command_line)
     }
 	free(lexer);
 	token[i] = NULL;
+	check_parsing(&token[0]);
 	return (&token[0]);
 }
