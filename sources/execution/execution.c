@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:37:27 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 12:49:32 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,79 +141,85 @@ void write_error_msg(const char *msg1, const char *msg2)
 
 void execute_command(t_command_parser *first_command, char **env)
 {
-    t_command_parser *current;
-    char *full_path;
-    char **args;
-    pid_t pid;
-    int status;
+	t_command_parser *current;
+	char *full_path;
+	char **args;
+	pid_t pid;
+	int status;
+	int num_children = 0;
 
-    int pipefd[2];  // for the current pipe
-    int prev_pipe_read_fd = -1;  // to store the read end of the previous pipe
+	int pipefd[2];  // for the current pipe
+	int prev_pipe_read_fd = -1;  // to store the read end of the previous pipe
 
-    current = first_command;
-    while (current)
-    {
-        if (current->command->pipe_after)
-        {
-            if (pipe(pipefd) == -1)
-            {
-                perror("pipe");
-                exit(EXIT_FAILURE);
-            }
-        }
+	current = first_command;
+	while (current)
+	{
+		if (current->command->pipe_after)
+		{
+			if (pipe(pipefd) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
+		}
 
-        pid = fork();
-        if (pid == 0)  // child process
-        {
-            if (prev_pipe_read_fd != -1)
-            {
-                dup2(prev_pipe_read_fd, 0);  // Set stdin to previous pipe's read end
-                close(prev_pipe_read_fd);
-            }
-            if (current->command->pipe_after)
-            {
-                close(pipefd[0]);  // Close read end, since we are going to write
-                dup2(pipefd[1], 1);  // Redirect stdout to the write end of the pipe
-                close(pipefd[1]);
-            }
+		pid = fork();
+		if (pid == 0)  // child process
+		{
+			if (prev_pipe_read_fd != -1)
+			{
+				dup2(prev_pipe_read_fd, 0);  // Set stdin to previous pipe's read end
+				close(prev_pipe_read_fd);
+			}
+			if (current->command->pipe_after)
+			{
+				close(pipefd[0]);  // Close read end, since we are going to write
+				dup2(pipefd[1], 1);  // Redirect stdout to the write end of the pipe
+				close(pipefd[1]);
+			}
 
-            handle_redirection(current->command);
+			handle_redirection(current->command);
 
-            full_path = find_command_in_path(current->command->command);
-            args = prepare_args_for_execve(current->command);
-            if (full_path && args)
-            {
-                execve(full_path, args, env);
-                free(args);
-                free(full_path);
-            }
-            else
-            {
-                write_error_msg("Command not found: ", current->command->command);
-                exit(EXIT_FAILURE);
-            }
-        }
-        else if (pid > 0)  // parent process
-        {
-            if (prev_pipe_read_fd != -1)
-                close(prev_pipe_read_fd);
+			full_path = find_command_in_path(current->command->command);
+			args = prepare_args_for_execve(current->command);
+			if (full_path && args)
+			{
+				execve(full_path, args, env);
+				free(args);
+				free(full_path);
+			}
+			else
+			{
+				write_error_msg("Command not found: ", current->command->command);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else if (pid > 0)  // parent process
+		{
+			num_children++;
+			if (prev_pipe_read_fd != -1)
+				close(prev_pipe_read_fd);
 
-            if (current->command->pipe_after)
-            {
-                close(pipefd[1]);
-                prev_pipe_read_fd = pipefd[0];
-            }
-            else
-            {
-                wait(&status);  // Wait only if it's the last command
-            }
-        }
-        else
-        {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
-
-        current = current->next;
-    }
+			if (current->command->pipe_after)
+			{
+				close(pipefd[1]);
+				prev_pipe_read_fd = pipefd[0];
+			}
+			else
+			{
+				wait(&status);  // Wait only if it's the last command
+			}
+		}
+		else
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		current = current->next;
+	}
+	while (num_children > 0)
+	{
+		wait(NULL);
+		num_children--;
+	}
 }
