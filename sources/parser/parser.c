@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 17:26:58 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:55:15 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char    **fill_args(t_token **token, int *nb_arg)
     char    **args;
     int     i;
     int     j;
-    
+
     copy = token;
     i = 0;
     while (copy[i] && copy[i]->type != TOKEN_PIPE && copy[i]->type != TOKEN_REDIRECTION)
@@ -31,7 +31,7 @@ char    **fill_args(t_token **token, int *nb_arg)
     copy = token;
     i = 0;
     j = 0;
-    args = malloc((*nb_arg) * sizeof(char *));
+    args = malloc((*nb_arg) * sizeof(char *) + 1);
     if (!args)
         return (NULL);
     while (copy[i] && copy[i]->type != TOKEN_PIPE && copy[i]->type != TOKEN_REDIRECTION)
@@ -41,6 +41,7 @@ char    **fill_args(t_token **token, int *nb_arg)
             return (NULL); // NE pas oublier de free en cascade
         i++;
     }
+    args[j] = NULL;
     return (args);
 }
 
@@ -82,7 +83,7 @@ t_command_parser *parse_tokens(t_token **token)
 {
     t_command_parser    *first_command;
     int                 i;
-    
+
     i = 0;
     if (token[i] == NULL)
         return (NULL);
