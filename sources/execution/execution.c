@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 11:57:50 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 12:37:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void handle_redirection(t_command *cmd)
 {
 	int fd;
 
+	fd = 0;
 	if (cmd->out_redirection)
 	{
 		if (cmd->out_redirection->type == R_OUT)
