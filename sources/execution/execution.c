@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:49:32 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:31:40 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,6 @@ void handle_redirection(t_command *cmd)
 		}
 		close(fd);
 	}
-}
-
-// Fonction qui mets la commande et les arguments dans un char ** (necessaire pour execve)
-static char	**prepare_args_for_execve(t_command *cmd)
-{
-	char	**args;
-	int		i;
-
-	i = 0;
-	args = malloc(sizeof(char *) * (cmd->nb_args + 2));
-	if (!args)
-	{
-		perror("malloc");
-		return NULL;
-	}
-	args[0] = cmd->command;
-	while (i < cmd->nb_args)
-	{
-		args[i + 1] = cmd->command_args[i];
-		i++;
-	}
-	args[cmd->nb_args + 1] = NULL;
-	return (args);
 }
 
 // Utility function to join two strings with a '/'
@@ -143,7 +120,6 @@ void execute_command(t_command_parser *first_command, char **env)
 {
 	t_command_parser *current;
 	char *full_path;
-	char **args;
 	pid_t pid;
 	int status;
 	int num_children = 0;
@@ -180,17 +156,17 @@ void execute_command(t_command_parser *first_command, char **env)
 
 			handle_redirection(current->command);
 
-			full_path = find_command_in_path(current->command->command);
-			args = prepare_args_for_execve(current->command);
-			if (full_path && args)
+			full_path = find_command_in_path(current->command->command_args[0]);
+			if (full_path && access(full_path, X_OK) != -1)
 			{
-				execve(full_path, args, env);
-				free(args);
+				printf("Executing %s\n", full_path);
+				execve(full_path, current->command->command_args, env);
+				free(current->command->command_args);
 				free(full_path);
 			}
 			else
 			{
-				write_error_msg("Command not found: ", current->command->command);
+				write_error_msg("Command not found: ", current->command->command_args[0]);
 				exit(EXIT_FAILURE);
 			}
 		}
