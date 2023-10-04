@@ -6,9 +6,10 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/28 13:11:45 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:44:47 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -95,5 +96,7 @@ t_token	**lexer(char *command_line)
     }
 	free(lexer);
 	token[i] = NULL;
+	if (check_parsing(&token[0]) == 0)
+		return (NULL);
 	return (&token[0]);
 }

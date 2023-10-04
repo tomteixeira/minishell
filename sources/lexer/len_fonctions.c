@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/20 11:53:22 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:09:23 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int	ft_word_char(int c)
 		return (0);
 	if (c > 32 && c < 127)
 		return (1);
-	else
+	else 
 		return (0);
 }
