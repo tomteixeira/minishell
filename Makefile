@@ -6,7 +6,7 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/04 19:11:50 by toteixei         ###   ########.fr        #
+#    Updated: 2023/10/04 19:21:36 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,12 +26,12 @@ RM			=	rm -f
 LIB 		= 	libft.a
 INCLUDES	=	-I libft
 
-CFLAGS 		= 	-Wall -Wextra -Werror -g3 -lreadline
+CFLAGS 		= 	-Wall -Wextra -Werror -g3
 
 all : libs $(NAME)
 
 $(NAME) : $(OBJ)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a -o $(NAME) -lreadline
 
 %.o : %.c minishell.h Makefile
 		$(CC) $(CFLAGS) -c $< $(INCLUDES) -o $@
