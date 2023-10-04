@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 16:44:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:36:24 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <stdbool.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <limits.h>
 
 # define SIZE_PATH 4096
 //int g_signal;

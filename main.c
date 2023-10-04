@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 17:55:44 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:11:07 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,29 @@
 #include "includes/minishell.h"
 
 
-void    print_prompt(void)
+
+char	*custom_prompt()
 {
-
-	char    cwd[SIZE_PATH];
-	char    **split_cwd;
-	int     i;
-	int     num_directories;
-
-	getcwd(cwd, SIZE_PATH);
-	split_cwd = ft_split(cwd, '/');
-	if (!split_cwd)
-		return ;
-	i = 0;
-	num_directories = 0;
-	while (split_cwd[num_directories])
-		num_directories++;
-	while(i < num_directories)
-	{
-		if (i == num_directories - 1)
-		{
-			ft_printf("\e[36m\e[1m%s\e[0m", split_cwd[i]);
-			break;
-		}
-		ft_printf("\e[36m%s/\e[0m", split_cwd[i]);
-		i++;
-	}
-	ft_printf("\e[32m\e[1m\n> \e[0m");
+    char cwd[PATH_MAX];
+    char *cwd_color;
+    char *reset_color;
+	
+	cwd_color = "\033[36m";
+	reset_color = "\033[0m";
+	getcwd(cwd, PATH_MAX);
+	printf("\033[0;33m\033[0m%s%s%s", cwd_color, cwd, reset_color);
+	printf("\e[32m\e[1m\n> \e[0m");
+    return (readline(""));
 }
 
 char *read_line(void)
 {
 	char *line;
 
-	line = get_next_line(0);
+	line = custom_prompt();
 	if (!line)
 		return (NULL);
+	add_history(line);
 	return (line);
 }
 
@@ -69,7 +56,7 @@ int main(int argc, char **argv, char **env)
 	first_command = NULL;
 	while (42)
 	{
-		print_prompt();
+		//print_prompt();
 		line = read_line();
 
 		if (line)
@@ -83,7 +70,7 @@ int main(int argc, char **argv, char **env)
 		if (first_command)
 		{
 			print_parser(first_command);
-		//	execute_command(first_command, env);
+			execute_command(first_command, env);
             //free_parsing(&tokens, &first_command)
 			tokens = NULL;
 			first_command = NULL;

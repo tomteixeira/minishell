@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 14:31:40 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:02:29 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,7 @@ void execute_command(t_command_parser *first_command, char **env)
 			full_path = find_command_in_path(current->command->command_args[0]);
 			if (full_path && access(full_path, X_OK) != -1)
 			{
-				printf("Executing %s\n", full_path);
 				execve(full_path, current->command->command_args, env);
-				free(current->command->command_args);
 				free(full_path);
 			}
 			else
