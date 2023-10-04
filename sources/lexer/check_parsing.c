@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 17:28:20 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:53:54 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@ int	check_directory(char *token)
 	int	i;
 
 	i = 0;
-	while 
-	return (1);
+	while(token[i])
+	{
+		if (token[i] != '.' &&  token[i] != '/')
+			return (1);
+		i++;
+	}
+	printf("bash: %s: is a directory\n", token);
+	return (0);
 }
  
  
@@ -41,8 +47,11 @@ int	check_parsing(t_token **token)
 		print_syntax_error("newline");
 		return (0);
 	}
-	if (token[0]->type == TOKEN_WORD)
-		return (check_directory(token[0]->value));
+	if (token[0]->type == TOKEN_WORD || token[0]->type == TOKEN_STRING)
+	{
+		if (!check_directory(token[0]->value))
+			return (0);
+	}
 	while (token[i])
 	{
 		if (token[i + 1] && ((token[i]->type == TOKEN_REDIRECTION ||  token[i]->type == TOKEN_PIPE)

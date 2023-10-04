@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 17:26:58 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:50:28 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void    print_parser(t_command_parser *head)
         // if (head->command->pipe_before == 1)
         //     printf(" | pipe before\n");
         i = 0;
-        while (i < head->command->nb_args + 1)
+        while (i < head->command->nb_args)
         {
             printf("Argument %d : %s\n", i, head->command->command_args[i]);
             i++;
