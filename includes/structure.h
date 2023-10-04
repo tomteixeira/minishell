@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/29 14:18:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 11:46:32 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ typedef enum
     R_OUT,
     A_R_OUT,
 }   t_redirection_type;
+
+typedef struct s_env
+{
+    char    *var;
+    struct   s_env *next;
+}   t_env;
 
 typedef struct s_token
 {
