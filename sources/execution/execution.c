@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/29 14:37:13 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 11:57:50 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,49 @@
 // 1. Implementer < et > et >>
 // 2. Gestion d'erreur
 // 3. Gestion du Heredoc
+
+void handle_redirection(t_command *cmd)
+{
+	int fd;
+
+	if (cmd->out_redirection)
+	{
+		if (cmd->out_redirection->type == R_OUT)
+		{
+			fd = open(cmd->out_redirection->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
+		else if (cmd->out_redirection->type == A_R_OUT)
+		{
+			fd = open(cmd->out_redirection->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
+		if (fd == -1)
+		{
+			perror("open");
+			exit(EXIT_FAILURE);
+		}
+		if (dup2(fd, 1) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(fd);
+	}
+	if (cmd->in_redirection)
+	{
+		fd = open(cmd->in_redirection->file, O_RDONLY);
+		if (fd == -1)
+		{
+			perror("open");
+			exit(EXIT_FAILURE);
+		}
+		if (dup2(fd, 0) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(fd);
+	}
+}
 
 // Fonction qui mets la commande et les arguments dans un char ** (necessaire pour execve)
 static char	**prepare_args_for_execve(t_command *cmd)
@@ -87,52 +130,89 @@ static char	*find_command_in_path(const char *command)
 
 
 
-void write_error_msg(const char *msg1, const char *msg2) {
-	write(STDERR_FILENO, msg1, ft_strlen(msg1));
+void write_error_msg(const char *msg1, const char *msg2)
+{
+	write(2, msg1, ft_strlen(msg1));
 	if (msg2)
-		write(STDERR_FILENO, msg2, ft_strlen(msg2));
+		write(2, msg2, ft_strlen(msg2));
 	write(STDERR_FILENO, "\n", 1);
 }
 
-void execute_command(t_command_parser *first_command, char **env) {
-	t_command_parser *current;
-	char *full_path;
-	char **args;
-	pid_t pid;
-	int status;
+void execute_command(t_command_parser *first_command, char **env)
+{
+    t_command_parser *current;
+    char *full_path;
+    char **args;
+    pid_t pid;
+    int status;
 
-	current = first_command;
-	while (current)
-	{
-		full_path = find_command_in_path(current->command->command);
-		if (full_path)
-		{
-			args = prepare_args_for_execve(current->command);
-			if (!args)
-			{
-				free(full_path);
-				return;
-			}
-			pid = fork();
-			if (pid == 0)
-			{
-			execve(full_path, args, env);
-			perror("execve");
-			exit(EXIT_FAILURE);
-			}
-			else if (pid > 0)
-			{
-				wait(&status);
-				if (status != 0)
-					write_error_msg("Command exited with an error.", NULL);
-			}
-			else
-				perror("fork");
-			free(args);
-			free(full_path);
-		}
-		else
-			write_error_msg("Command not found: ", current->command->command);
-		current = current->next;
-	}
+    int pipefd[2];  // for the current pipe
+    int prev_pipe_read_fd = -1;  // to store the read end of the previous pipe
+
+    current = first_command;
+    while (current)
+    {
+        if (current->command->pipe_after)
+        {
+            if (pipe(pipefd) == -1)
+            {
+                perror("pipe");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        pid = fork();
+        if (pid == 0)  // child process
+        {
+            if (prev_pipe_read_fd != -1)
+            {
+                dup2(prev_pipe_read_fd, 0);  // Set stdin to previous pipe's read end
+                close(prev_pipe_read_fd);
+            }
+            if (current->command->pipe_after)
+            {
+                close(pipefd[0]);  // Close read end, since we are going to write
+                dup2(pipefd[1], 1);  // Redirect stdout to the write end of the pipe
+                close(pipefd[1]);
+            }
+
+            handle_redirection(current->command);
+
+            full_path = find_command_in_path(current->command->command);
+            args = prepare_args_for_execve(current->command);
+            if (full_path && args)
+            {
+                execve(full_path, args, env);
+                free(args);
+                free(full_path);
+            }
+            else
+            {
+                write_error_msg("Command not found: ", current->command->command);
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if (pid > 0)  // parent process
+        {
+            if (prev_pipe_read_fd != -1)
+                close(prev_pipe_read_fd);
+
+            if (current->command->pipe_after)
+            {
+                close(pipefd[1]);
+                prev_pipe_read_fd = pipefd[0];
+            }
+            else
+            {
+                wait(&status);  // Wait only if it's the last command
+            }
+        }
+        else
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        current = current->next;
+    }
 }
