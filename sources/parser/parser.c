@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/27 18:39:56 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:01:42 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char    **fill_args(t_token **token, int *nb_arg)
             return (NULL); // NE pas oublier de free en cascade
         i++;
     }
-    //free(copy);
     return (args);
 }
 
@@ -102,7 +101,6 @@ t_command_parser *parse_tokens(t_token **token)
         }
         i++;
     }
-    print_parser(first_command);
     return (first_command); // NE pas oublier de free les buffers
 }
 
@@ -114,36 +112,45 @@ void    print_parser(t_command_parser *head)
     int                 i;
 
     buffer = head;
-    while (buffer)
+    while (head)
     {
-        // if (buffer->command->pipe_before == 1)
+        // if (head->command->pipe_before == 1)
         //     printf(" | pipe before\n");
-        printf("command : %s\n", buffer->command->command);
+        printf("command : %s\n", head->command->command);
         i = 0;
-        while (i < buffer->command->nb_args)
+        while (i < head->command->nb_args)
         {
-            printf("Argument %d : %s\n", i, buffer->command->command_args[i]);
+            printf("Argument %d : %s\n", i, head->command->command_args[i]);
             i++;
         }
-        if (buffer->command->in_redirection != NULL)
+        if (head->command->in_redirection != NULL)
         {
-            while (buffer->command->in_redirection)
+            while (head->command->in_redirection)
             {
-                printf("Infile redirection : %s\n", buffer->command->in_redirection->file);
-                buffer->command->in_redirection = buffer->command->in_redirection->next;
+                printf("Infile redirection : %s\n", head->command->in_redirection->file);
+                head->command->in_redirection = head->command->in_redirection->next;
             }
         }
-        if (buffer->command->out_redirection != NULL)
+        if (head->command->out_redirection != NULL)
         {
-            while (buffer->command->out_redirection)
+            while (head->command->out_redirection)
             {
-                printf("Outfile redirection : %s\n", buffer->command->out_redirection->file);
-                buffer->command->out_redirection = buffer->command->out_redirection->next;
+                printf("Outfile redirection : %s\n", head->command->out_redirection->file);
+                head->command->out_redirection = head->command->out_redirection->next;
             }
         }
-        if (buffer->command->pipe_after == 1)
+        if (head->command->heredoc_r != NULL)
+        {
+            while (head->command->heredoc_r)
+            {
+                printf("Heredoc redirection : %s\n", head->command->heredoc_r->file);
+                head->command->heredoc_r = head->command->heredoc_r->next;
+            }
+        }
+        if (head->command->pipe_after == 1)
             printf(" | pipe after\n");
         printf("\n");
-        buffer = buffer->next;
+        head = head->next;
     }
+    head = buffer;
 }

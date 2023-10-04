@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/29 14:38:30 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 12:22:05 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
 
 void    print_prompt(void)
 {
@@ -56,10 +57,11 @@ int main(int argc, char **argv, char **env)
 	char *line;
 	t_token **tokens;
 	t_command_parser  *first_command;
+	t_env	*environment;
 
 	(void)argv;
-	(void)env;
 	(void)argc;
+	environment = fill_env(env);
 	while (42)
 	{
 		print_prompt();
@@ -82,6 +84,7 @@ int main(int argc, char **argv, char **env)
 			perror("malloc");
 			exit(EXIT_FAILURE);
 		}
+		print_parser(first_command);
 		execute_command(first_command, env);
 	}
 	return (0);

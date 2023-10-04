@@ -6,22 +6,11 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/27 17:16:17 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:59:19 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// t_ast_tree	*new_node(t_tokentype token_type)
-// {
-//     t_ast_tree	*node;
-
-// 	node = malloc(sizeof(t_ast_tree));
-// 	if (!node)
-// 		return (NULL);
-// 	node->type = token_type;
-// 	return (node);
-// }
 
 void	append(t_command_parser **head, t_token **token, int is_pipe_before)
 {
@@ -65,21 +54,6 @@ t_command	*init_command()
 	command->nb_args = 0;
 	command->in_redirection = NULL;
 	command->out_redirection = NULL;
+	command->heredoc_r = NULL;
 	return (command);
 }
-
-// t_command_parser	*new_node(t_token **token)
-// {
-// 	t_command_parser	*node;
-
-// 	node = malloc(sizeof(t_command_parser));
-// 	if (!node)
-// 		return (NULL);
-// 	printf("token %s\n", (*token)->value);
-// 	node->command = fill_command(token);
-// 	if (!node->command)
-// 		return (free(node), NULL);
-// 	node->previous = NULL;
-// 	node->next = NULL;
-// 	return (node);
-// }

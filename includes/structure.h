@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/29 14:18:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:52:59 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ typedef enum
     R_IN,
     R_OUT,
     A_R_OUT,
+    HEREDOC,
 }   t_redirection_type;
+
+typedef struct s_env
+{
+    char    *var;
+    struct   s_env *next;
+}   t_env;
 
 typedef struct s_token
 {
@@ -60,6 +67,7 @@ typedef struct s_command
     int                     nb_args;
     struct s_redirection    *in_redirection;
     struct s_redirection    *out_redirection;
+    struct s_redirection    *heredoc_r;
 }   t_command;
 
 typedef struct s_command_parser
