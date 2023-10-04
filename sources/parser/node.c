@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:20:23 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:59:19 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_command	*init_command()
 	command->nb_args = 0;
 	command->in_redirection = NULL;
 	command->out_redirection = NULL;
+	command->heredoc_r = NULL;
 	return (command);
 }

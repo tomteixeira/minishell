@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 14:43:59 by toteixei          #+#    #+#             */
-/*   Updated: 2023/09/29 14:18:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:00:20 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	fill_redirection(t_token **token, t_command **command, int *i)
         return ; // implementer la gestion d'erreur, fonction generale d'erreur
     if (token[*i]->value[0] == '>' && token[*i]->value[1] && token[*i]->value[1] == '>')
         append_redirection(&(*command)->out_redirection, A_R_OUT, &token[*i]);
+    else if (token[*i]->value[0] == '<' && token[*i]->value[1] && token[*i]->value[1] == '<')
+        append_redirection(&(*command)->heredoc_r, HEREDOC, &token[*i]);
     else if (token[*i]->value[0] == '>')
         append_redirection(&(*command)->out_redirection, R_OUT, &token[*i]);
     else if (token[*i]->value[0] == '<')

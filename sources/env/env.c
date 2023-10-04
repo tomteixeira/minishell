@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 11:49:09 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:39:15 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:57:49 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ t_env	*fill_env(char **env)
 		append_env(&first_node, env[i]);
 		i++;
 	}
-	print_env(first_node);
 	return (first_node);
 }

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 12:33:01 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:01:42 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char    **fill_args(t_token **token, int *nb_arg)
             return (NULL); // NE pas oublier de free en cascade
         i++;
     }
-    //free(copy);
     return (args);
 }
 
@@ -102,7 +101,6 @@ t_command_parser *parse_tokens(t_token **token)
         }
         i++;
     }
-    //print_parser(first_command);
     return (first_command); // NE pas oublier de free les buffers
 }
 
@@ -139,6 +137,14 @@ void    print_parser(t_command_parser *head)
             {
                 printf("Outfile redirection : %s\n", head->command->out_redirection->file);
                 head->command->out_redirection = head->command->out_redirection->next;
+            }
+        }
+        if (head->command->heredoc_r != NULL)
+        {
+            while (head->command->heredoc_r)
+            {
+                printf("Heredoc redirection : %s\n", head->command->heredoc_r->file);
+                head->command->heredoc_r = head->command->heredoc_r->next;
             }
         }
         if (head->command->pipe_after == 1)
