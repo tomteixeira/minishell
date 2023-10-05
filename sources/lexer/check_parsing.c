@@ -6,13 +6,20 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 18:27:38 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:24:24 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
+void	check_exit(char *token)
+{
+	if (ft_strncmp(token, "exit", ft_strlen(token)) == 0)
+	{
+		exit(0);
+	}
+	return ;
+}
 
 void	print_syntax_error(char *token)
 {
@@ -31,6 +38,8 @@ int	check_parsing(t_token **token)
 		print_syntax_error("newline");
 		return (0);
 	}
+	if (token[0]->type == TOKEN_WORD && !token[1])
+		check_exit(token[0]->value);
 	while (token[i])
 	{
 		if (token[i + 1] && ((token[i]->type == TOKEN_REDIRECTION ||  token[i]->type == TOKEN_PIPE)

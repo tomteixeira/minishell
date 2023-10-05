@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 18:36:24 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:07:44 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_H
 
 # include <sys/types.h>
+# include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>

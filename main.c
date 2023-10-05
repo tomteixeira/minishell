@@ -6,14 +6,12 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 19:11:07 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:06:47 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "includes/minishell.h"
-
-
 
 char	*custom_prompt()
 {
@@ -40,6 +38,22 @@ char *read_line(void)
 	return (line);
 }
 
+void	handle_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
+}
+
+void	handle_sigquit(int signal)
+{
+	(void)signal;
+	return ;
+}
+
 int main(int argc, char **argv, char **env)
 {
 	char *line;
@@ -54,6 +68,8 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	tokens = NULL;
 	first_command = NULL;
+	signal(SIGINT, handle_sigint); // ctrl-C
+    signal(SIGQUIT, handle_sigquit); // ctrl-
 	while (42)
 	{
 		//print_prompt();
