@@ -6,7 +6,7 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/05 10:12:33 by toteixei         ###   ########.fr        #
+#    Updated: 2023/10/05 11:13:16 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,17 +24,18 @@ CC			= 	cc
 LIBFT 		= 	libft
 RM			=	rm -f
 LIB 		= 	libft.a
-INCLUDES	=	-I libft
+INCLUDES	=	-I libft -I /opt/homebrew/opt/readline/include
+RLLIBS		=	-L /opt/homebrew/opt/readline/lib -lreadline
 
-CFLAGS 		= 	-Wall -Wextra -Werror -g3
+CFLAGS 		= 	-Wall -Wextra -Werror
 
 all : libs $(NAME)
 
 $(NAME) : $(OBJ)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a -o $(NAME) -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -lreadline
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT)/libft.a -o $(NAME) $(RLLIBS) $(INCLUDES)
 
 %.o : %.c minishell.h Makefile
-		$(CC) $(CFLAGS) -c $< $(INCLUDES) -o $@
+		$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 
 libs:
