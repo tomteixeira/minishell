@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 16:02:29 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:53:30 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,46 +19,72 @@
 
 void handle_redirection(t_command *cmd)
 {
-	int fd;
+    int fd;
+    t_redirection *redir;
 
-	fd = 0;
-	if (cmd->out_redirection)
-	{
-		if (cmd->out_redirection->type == R_OUT)
-		{
-			fd = open(cmd->out_redirection->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
-		else if (cmd->out_redirection->type == A_R_OUT)
-		{
-			fd = open(cmd->out_redirection->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		}
-		if (fd == -1)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		if (dup2(fd, 1) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(fd);
-	}
-	if (cmd->in_redirection)
-	{
-		fd = open(cmd->in_redirection->file, O_RDONLY);
-		if (fd == -1)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		if (dup2(fd, 0) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(fd);
-	}
+    fd = -1;
+    // Handle output redirections (last one takes precedence)
+    redir = cmd->out_redirection;
+    while (redir)
+    {
+        if (fd != -1) // close any previous file descriptor
+            close(fd);
+
+        if (redir->type == R_OUT)
+        {
+            fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        }
+        else if (redir->type == A_R_OUT)
+        {
+            fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        }
+
+        if (fd == -1)
+        {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+
+        redir = redir->next;
+    }
+
+    if (fd != -1)  // if a file was opened for writing
+    {
+        if (dup2(fd, 1) == -1)
+        {
+            perror("dup2");
+            exit(EXIT_FAILURE);
+        }
+        close(fd);
+    }
+
+    fd = -1;
+    // Handle input redirections (last one takes precedence)
+    redir = cmd->in_redirection;
+    while (redir)
+    {
+        if (fd != -1) // close any previous file descriptor
+            close(fd);
+
+        fd = open(redir->file, O_RDONLY);
+        if (fd == -1)
+        {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+
+        redir = redir->next;
+    }
+
+    if (fd != -1)  // if a file was opened for reading
+    {
+        if (dup2(fd, 0) == -1)
+        {
+            perror("dup2");
+            exit(EXIT_FAILURE);
+        }
+        close(fd);
+    }
 }
 
 // Utility function to join two strings with a '/'
@@ -149,13 +175,11 @@ void execute_command(t_command_parser *first_command, char **env)
 			}
 			if (current->command->pipe_after)
 			{
-				close(pipefd[0]);  // Close read end, since we are going to write
-				dup2(pipefd[1], 1);  // Redirect stdout to the write end of the pipe
+				close(pipefd[0]);
+				dup2(pipefd[1], 1);
 				close(pipefd[1]);
 			}
-
 			handle_redirection(current->command);
-
 			full_path = find_command_in_path(current->command->command_args[0]);
 			if (full_path && access(full_path, X_OK) != -1)
 			{
@@ -164,7 +188,7 @@ void execute_command(t_command_parser *first_command, char **env)
 			}
 			else
 			{
-				write_error_msg("Command not found: ", current->command->command_args[0]);
+				write_error_msg(current->command->command_args[0], ": command not found");
 				exit(EXIT_FAILURE);
 			}
 		}
