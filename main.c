@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 10:31:48 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:34:43 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ void	handle_sigint(int sig)
 	}
 }
 
-void	handle_sigquit(int signal)
-{
-	(void)signal;
-	return ;
-}
-
 int main(int argc, char **argv, char **env)
 {
 	char *line;
@@ -69,12 +63,13 @@ int main(int argc, char **argv, char **env)
 	tokens = NULL;
 	first_command = NULL;
 	signal(SIGINT, handle_sigint); // ctrl-C
-    signal(SIGQUIT, handle_sigquit); // ctrl-
+    signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
 		//print_prompt();
 		line = read_line();
-
+		if (!line)
+			exit(0);
 		if (line)
 		{
 			tokens = lexer(line);
