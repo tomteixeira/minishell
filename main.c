@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 11:34:43 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/06 08:47:43 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*custom_prompt()
     char cwd[PATH_MAX];
     char *cwd_color;
     char *reset_color;
-	
+
 	cwd_color = "\033[36m";
 	reset_color = "\033[0m";
 	getcwd(cwd, PATH_MAX);
@@ -80,7 +80,7 @@ int main(int argc, char **argv, char **env)
 			first_command = parse_tokens(tokens);
 		if (first_command)
 		{
-			print_parser(first_command);
+//			print_parser(first_command);
 			execute_command(first_command, env);
             //free_parsing(&tokens, &first_command)
 			tokens = NULL;

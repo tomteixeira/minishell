@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 10:07:44 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/08 12:31:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,8 @@ void    			print_parser(t_command_parser *head);
 
 /*Execution functions*/
 void execute_command(t_command_parser *first_command, char **env);
+char *find_command_in_path(const char *command);
+void write_error_msg(const char *msg1, const char *msg2);
+void handle_redirection(t_command *cmd);
 
 #endif
