@@ -6,12 +6,14 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 16:44:47 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:05:06 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minishell.h"
+
+void	print_token_list(t_tokenlist *list);
 
 void free_tokens(t_token **token, int i) // A tester
 {
@@ -37,18 +39,18 @@ t_lexer *init_lexer(const char *input)
 t_token	*get_next_token_bis(t_lexer *lexer, char cur)
 {
 	if (cur == '|')
-        return (create_token(TOKEN_PIPE, "|", &lexer));
+        return (create_token(T_PIP, "|", &lexer));
 	else if (cur == '\"' || cur == '\'')
-        return (create_token(TOKEN_STRING, 
+        return (create_token(T_STR, 
 			&lexer->input_string[lexer->position], &lexer));
 	else if (cur == '$')
-		return (create_token(TOKEN_VARIABLE, 
+		return (create_token(T_VAR, 
 			&lexer->input_string[lexer->position], &lexer));
 	else if (cur == '>' || cur == '<')
-		return (create_token(TOKEN_REDIRECTION, 
+		return (create_token(T_RED, 
 			&lexer->input_string[lexer->position], &lexer));
 	else if (ft_isprint(cur))
-        return (create_token(TOKEN_WORD, 
+        return (create_token(T_WORD, 
 			&lexer->input_string[lexer->position], &lexer));
 	return (NULL);
 }
@@ -73,30 +75,94 @@ t_token *get_next_token(t_lexer *lexer)
     return (NULL);
 }
 
-t_token	**lexer(char *command_line) 
+void		append_token(t_tokenlist **head, t_token *token)
 {
-    t_lexer *lexer;
+	t_tokenlist	*last_node;
+	t_tokenlist	*node;
+
+	node = malloc(sizeof(t_tokenlist));
+	if (!node)
+		return ;
+	node->token = token;
+	node->next = NULL;		//gerer les problemes de memoires
+	if (*head == NULL)
+	{
+		*head = node;
+		return ;
+	}
+	last_node = *head;
+	while (last_node->next)
+		last_node = last_node->next;
+	last_node->next = node;
+	return ;
+}
+
+t_tokenlist	*lexer(char *command_line) 
+{
+    t_lexer 	*lexer;
+	t_tokenlist *head;
+	t_tokenlist	*cur;
+	t_token		*token;
+	
 	lexer = init_lexer(command_line);
-    int	i = 0;
-    t_token **token;
-	token = malloc(sizeof(t_token *));
-	if (!token)
-		return (NULL);
+	head = NULL;
+	cur = NULL;
 	while (1) 
   	{
-		token[i] = get_next_token(lexer);
-		if (!token[i])
+		token = get_next_token(lexer);
+		if (token == NULL)
 			break ;
-        // if (!token[i])
-		// 	return (free_tokens(token, i), NULL);
-        i++;
-        token = realloc(token, (i + 1) * sizeof(t_token *));
-        // if (!token[i])
-		// 	return (free_tokens(token, i), NULL);
+		if (head == NULL)
+		{
+			append_token(&head, token);
+			cur = head;
+		}
+		else
+		{
+			append_token(&head, token);
+			cur = cur->next;
+		}
     }
 	free(lexer);
-	token[i] = NULL;
-	if (check_parsing(&token[0]) == 0)
+	if (check_parsing(head) == 0)
 		return (NULL);
-	return (&token[0]);
+	//print_token_list(head);
+	return (head);
 }
+
+void	print_token_list(t_tokenlist *list)
+{
+    while (list != NULL)
+	{
+        printf("Token Value: %s\n", list->token->value);
+        list = list->next;
+    }
+}
+
+// t_token	**lexer(char *command_line) 
+// {
+//     t_lexer *lexer;
+// 	lexer = init_lexer(command_line);
+//     int	i = 0;
+//     t_token **token;
+// 	token = malloc(sizeof(t_token *));
+// 	if (!token)
+// 		return (NULL);
+// 	while (1) 
+//   	{
+// 		token[i] = get_next_token(lexer);
+// 		if (!token[i])
+// 			break ;
+//         // if (!token[i])
+// 		// 	return (free_tokens(token, i), NULL);
+//         i++;
+//         token = realloc(token, (i + 1) * sizeof(t_token *));
+//         // if (!token[i])
+// 		// 	return (free_tokens(token, i), NULL);
+//     }
+// 	free(lexer);
+// 	token[i] = NULL;
+// 	if (check_parsing(&token[0]) == 0)
+// 		return (NULL);
+// 	return (&token[0]);
+// }

@@ -6,13 +6,13 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 15:48:46 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 10:53:18 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	append(t_command_parser **head, t_token **token, int is_pipe_before)
+void	append(t_command_parser **head, t_tokenlist **token, int is_pipe_before)
 {
 	t_command_parser	*node;
 	t_command_parser	*last_node;

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 11:34:43 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:58:43 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	handle_sigint(int sig)
 int main(int argc, char **argv, char **env)
 {
 	char *line;
-	t_token **tokens;
+	t_tokenlist *tokens;
 	t_command_parser  *first_command;
 	//t_env	*environment;
 
@@ -62,11 +62,10 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	tokens = NULL;
 	first_command = NULL;
-	signal(SIGINT, handle_sigint); // ctrl-C
+	signal(SIGINT, handle_sigint);
     signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
-		//print_prompt();
 		line = read_line();
 		if (!line)
 			exit(0);
@@ -75,13 +74,14 @@ int main(int argc, char **argv, char **env)
 			tokens = lexer(line);
 			free(line);
 		}
-
 		if (tokens)
+		{
 			first_command = parse_tokens(tokens);
+		}
 		if (first_command)
 		{
 			print_parser(first_command);
-			execute_command(first_command, env);
+			//execute_command(first_command, env);
             //free_parsing(&tokens, &first_command)
 			tokens = NULL;
 			first_command = NULL;

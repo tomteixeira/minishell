@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 16:45:11 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:39:58 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*string_token(t_lexer **lexer)
 	token->value = malloc((len + 1) * sizeof(char));
 	if (!token->value)
 		return (NULL);
-	token->type = TOKEN_STRING;
+	token->type = T_STR;
 	i = 0;
 	while (len > 0 && (*lexer)->input_string[(*lexer)->position])
 	{
@@ -52,7 +52,7 @@ t_token	*word_token(t_lexer **lexer)
 	token->value = malloc((len + 1) * sizeof(char));
 	if (!token->value)
 		return (NULL);
-	token->type = TOKEN_WORD;
+	token->type = T_WORD;
 	len = 0;
 	while ((*lexer)->input_string[(*lexer)->position] != '\0' && 
 			ft_word_char((*lexer)->input_string[(*lexer)->position]))
@@ -80,9 +80,6 @@ t_token	*redirection_token(t_lexer **lexer)
 		token->value = ft_strdup(">>");
 		(*lexer)->position++;
 	}
-	//else if ((*lexer)->input_string[(*lexer)->position + 1] &&
-	//	(*lexer)->input_string[(*lexer)->position + 1] == '<')
-	//	return (heredoc_token(lexer));
 	else if ((*lexer)->input_string[(*lexer)->position + 1] == '<')
 	{
 		token->value = ft_strdup("<<");
@@ -97,7 +94,7 @@ t_token	*redirection_token(t_lexer **lexer)
 		token->value[1] = '\0';
 	}
 	(*lexer)->position++;
-	token->type = TOKEN_REDIRECTION;
+	token->type = T_RED;
 	return (token);
 }
 
@@ -105,11 +102,11 @@ t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer)
 {
     t_token *token;
     
-	if (type == TOKEN_WORD)
+	if (type == T_WORD)
 		return (word_token(lexer));
-	else if (type == TOKEN_STRING)
+	else if (type == T_STR)
 		return (string_token(lexer));
-	else if (type == TOKEN_REDIRECTION)
+	else if (type == T_RED)
 		return (redirection_token(lexer));
 	token = malloc(sizeof(t_token));
 	if (!token)

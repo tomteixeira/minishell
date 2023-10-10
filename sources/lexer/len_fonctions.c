@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 14:09:23 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:13:57 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int		command_len(t_lexer **lexer)
 	
 	i = (*lexer)->position;
 	count = 0;
-	while ((*lexer)->input_string[i] != '\0' && ft_isalpha((*lexer)->input_string[i]))
+	while ((*lexer)->input_string[i] != '\0' 
+		&& ft_isalpha((*lexer)->input_string[i]))
 	{
 		i++;
 		count++;
@@ -38,7 +39,8 @@ int		string_len(t_lexer **lexer)
 	quote = (*lexer)->input_string[i++];
 	while ((*lexer)->input_string[i] != '\0')
 	{
-		if ((*lexer)->input_string[i] == quote && (*lexer)->input_string[i - 1] != '\\')
+		if ((*lexer)->input_string[i] == quote
+			&& (*lexer)->input_string[i - 1] != '\\')
 		{
 			count++;
 			return (count);
@@ -73,3 +75,30 @@ int	ft_word_char(int c)
 	else 
 		return (0);
 }
+
+// void	*ft_realloc(void* ptr, size_t new_size)
+// {
+//     void	*new_ptr;
+// 	size_t	old_size;
+// 	size_t	copy_size;
+	
+// 	if (new_size == 0)
+// 	{
+//         free(ptr);
+//         return NULL;
+//     }
+//     if (ptr == NULL)
+//         return malloc(new_size);
+//     new_ptr = malloc(new_size);
+//     if (new_ptr != NULL) {
+//         // Copy the content from the old block to the new block
+//         old_size = malloc_usable_size(ptr);  // Requires GNU extension
+//         copy_size = (new_size < old_size) ? new_size : old_size;
+//         ft_memcpy(new_ptr, ptr, copy_size);
+
+//         // Free the old block
+//         free(ptr);
+//     }
+
+//     return new_ptr;
+// }

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/04 15:48:23 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:38:45 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 typedef enum
 {
-    TOKEN_PIPE,
-    TOKEN_COMMAND,
-    TOKEN_STRING,
-	TOKEN_VARIABLE,
-	TOKEN_WORD,
-	TOKEN_REDIRECTION,
-    TOKEN_HEREDOC,
+    T_PIP,
+    T_STR,
+	T_VAR,
+	T_WORD,
+	T_RED,
+    T_HRD,
 } t_tokentype;
 
 typedef enum
@@ -44,6 +43,11 @@ typedef struct s_token
     char *value;
 } t_token;
 
+typedef struct s_tokenlist
+{
+    struct s_token      *token;
+    struct s_tokenlist  *next;
+}   t_tokenlist;
 
 typedef struct s_lexer
 {
