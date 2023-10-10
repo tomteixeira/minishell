@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 17:48:49 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:37:50 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,33 @@ void	print_syntax_error(char *token)
 	printf("bash: syntax error near unexpected token `%s'\n", token);
 }
 
-int check_parsing(t_tokenlist *token) 
+
+int check_parsing_bis(t_tokenlist *cur)
+{
+    t_tokenlist *n;
+
+    n = cur->next;
+    if (cur->token->type == T_RED && n->token->type != T_WORD
+        && n->token->type != T_STR && n->token->type != T_VAR)
+        return (print_syntax_error(n->token->value), 0);
+    if (cur->token->type == T_PIP && n->token->type == T_PIP)
+        return (print_syntax_error(n->token->value), 0);
+    return (1);
+}
+
+int check_parsing(t_tokenlist *t)
 {
     t_tokenlist *cur;
-	t_tokenlist	*n; //next_node
-	//t_token		*current_token;
-	t_token		*nt;
-	
-	cur = token;
+	t_tokenlist	*n;
+
+    cur = t;
     if (!cur)
-        return (0);
+    return (0);
+    if (cur->token && cur->token->type == T_PIP)
+        return (print_syntax_error(cur->token->value), 0);
     while (cur)
-	{
-		n = cur->next;
+    {
+        n = cur->next;
         if (!cur->token)
             return (0);
         if (!n && (cur->token->type == T_RED || cur->token->type == T_PIP))
@@ -46,14 +60,8 @@ int check_parsing(t_tokenlist *token)
         if (cur->token->type == T_WORD && !n)
             check_exit(cur->token->value);
         if (n)
-		{
-            nt = n->token;
-            if ((cur->token->type == T_RED || cur->token->type == T_PIP)
-                && (nt->type == T_RED || nt->type == T_PIP))
-                return (print_syntax_error(cur->token->value), 0);
-            if (cur->token->type == T_RED && (nt->type != T_WORD))
-                return (print_syntax_error(cur->token->value), 0);
-        }
+            if(!check_parsing_bis(cur))
+                return (0);
         cur = n;
     }
     return (1);
