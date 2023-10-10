@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 17:03:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:29:10 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,43 +94,36 @@ static void handle_out_redirection(t_redirection *redir) {
 
 // Handle input redirections
 static void handle_in_redirection(t_redirection *redir) {
-	int fd = -1;
-	while (redir) {
-		if (fd != -1)
-			close(fd);
-		fd = open(redir->file, O_RDONLY);
-		if (fd == -1) {
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		redir = redir->next;
-	}
+    int fd = -1;
+    while (redir) {
+        if (fd != -1)
+            close(fd);
+
+        if (redir->type == R_IN) {
+            fd = open(redir->file, O_RDONLY);
+            if (fd == -1) {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+        } else if (redir->type == HEREDOC) {
+            handle_heredoc(redir, &fd);
+        }
+
+        if (fd != -1) {
+            if (dup2(fd, 0) == -1) {
+                perror("dup2");
+                exit(EXIT_FAILURE);
+            }
+            close(fd);
+        }
+
+        redir = redir->next;
+    }
 }
 
 // Utility function to handle redirections
 void handle_redirection(t_command *cmd)
 {
-	int fd;
-	t_redirection *redir;
-
-	handle_out_redirection(cmd->out_redirection);
-	handle_in_redirection(cmd->in_redirection);
-	fd = -1;
-	redir = cmd->heredoc_r;
-	while (redir)
-	{
-		if (fd != -1)
-			close(fd);
-		handle_heredoc(redir, &fd);
-		redir = redir->next;
-	}
-	if (fd != -1)
-	{
-		if (dup2(fd, 0) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(fd);
-	}
+    handle_out_redirection(cmd->out_redirection);
+    handle_in_redirection(cmd->in_redirection);
 }
