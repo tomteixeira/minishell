@@ -6,7 +6,7 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/10 17:27:35 by toteixei         ###   ########.fr        #
+#    Updated: 2023/10/10 17:34:50 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/parser/redirection.c sources/lexer/check_parsing.c \
 				sources/env/env.c \
 				sources/handling_error/ft_free.c \
-				
 				sources/execution/execution_main.c \
 				sources/execution/execution_redirection.c \
 				sources/execution/execution_path.c \
