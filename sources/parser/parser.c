@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 10:58:56 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:11:33 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ char    **fill_args(t_tokenlist **token, int *nb_arg)
         buffer = buffer->next;
     }
     j = 0;
-    args = malloc((*nb_arg) * sizeof(char *) + 1);
+    args = malloc((*nb_arg + 1) * sizeof(char *));
     if (!args)
         return (NULL);
     while ((*token) && (*token)->token->type != T_PIP && (*token)->token->type != T_RED)
     {
         args[j++] = ft_strdup((*token)->token->value);
         if (!args[j - 1])
-            return (NULL); // NE pas oublier de free en cascade
+            return (ft_free_arrays_i(args, j - 1), NULL);
         (*token) = (*token)->next;
     }
     args[j] = NULL;
@@ -74,27 +74,27 @@ t_command   *fill_command(t_tokenlist **token) // gestion de la memoire
 t_command_parser *parse_tokens(t_tokenlist *token)
 {
     t_command_parser    *first_command;
-    t_tokenlist         *cur;
 
-    cur = token;
-    if (cur == NULL)
+    if (token == NULL)
         return (NULL);
     first_command = NULL;
-    append(&first_command, &cur, 0);
+    append(&first_command, &token, 0);
     if (!first_command)
         return (NULL);
-    while (cur != NULL)
+    while (token != NULL)
     {
-        if (cur->token->type == T_PIP && cur->next)
+        if (token->token->type == T_PIP && token->next)
         {
-            cur = cur->next;
-            append(&first_command, &cur, 1);
-            if (cur == NULL)
+            token = token->next;
+            append(&first_command, &token, 1);
+            if (token == NULL)
                 break ;
         }
-        cur = cur->next;
+        token = token->next;
     }
-    return (first_command); // NE pas oublier de free les buffers
+    if (token != NULL)
+        return (NULL);
+    return (first_command);
 }
 
 
@@ -129,14 +129,6 @@ void    print_parser(t_command_parser *head)
             {
                 printf("Outfile redirection : %s\n", head->command->out_redirection->file);
                 head->command->out_redirection = head->command->out_redirection->next;
-            }
-        }
-        if (head->command->heredoc_r != NULL)
-        {
-            while (head->command->heredoc_r)
-            {
-                printf("Heredoc redirection : %s\n", head->command->heredoc_r->file);
-                head->command->heredoc_r = head->command->heredoc_r->next;
             }
         }
         if (head->command->pipe_after == 1)

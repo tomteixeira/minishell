@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 15:41:29 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:27:39 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,15 @@ int main(int argc, char **argv, char **env)
 		if (!line)
 			exit(0);
 		if (line)
-		{
 			tokens = lexer(line);
-			free(line);
-		}
 		if (tokens)
-		{
 			first_command = parse_tokens(tokens);
-		}
 		if (first_command)
 		{
 			//print_parser(first_command);
 			execute_command(first_command, env);
-            //free_parsing(&tokens, &first_command)
-			tokens = NULL;
-			first_command = NULL;
 		}
+		ft_free(line, tokens, first_command);
 	}
 	return (0);
 }

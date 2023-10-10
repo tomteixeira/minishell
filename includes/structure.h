@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 17:38:45 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:49:18 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,13 @@ typedef struct s_command
     int                     nb_args;
     struct s_redirection    *in_redirection;
     struct s_redirection    *out_redirection;
-    struct s_redirection    *heredoc_r;
 }   t_command;
 
 typedef struct s_command_parser
 {
-    t_command           *command;
-    struct s_command_parser    *next;
-    struct s_command_parser    *previous;
+    t_command                   *command;
+    struct s_command_parser     *next;
+    struct s_command_parser     *previous;
 }   t_command_parser;
 
 #endif

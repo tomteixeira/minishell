@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/09 11:05:06 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:46:25 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void		append_token(t_tokenlist **head, t_token *token)
 	if (!node)
 		return ;
 	node->token = token;
-	node->next = NULL;		//gerer les problemes de memoires
+	node->next = NULL;
 	if (*head == NULL)
 	{
 		*head = node;
@@ -105,6 +105,8 @@ t_tokenlist	*lexer(char *command_line)
 	t_token		*token;
 	
 	lexer = init_lexer(command_line);
+	if (!lexer)
+		return (NULL);
 	head = NULL;
 	cur = NULL;
 	while (1) 
@@ -123,10 +125,11 @@ t_tokenlist	*lexer(char *command_line)
 			cur = cur->next;
 		}
     }
+	if (lexer->input_string[lexer->position] != '\0')
+		return (NULL);
 	free(lexer);
 	if (check_parsing(head) == 0)
 		return (NULL);
-	//print_token_list(head);
 	return (head);
 }
 

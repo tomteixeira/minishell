@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 17:39:58 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:14:12 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,15 @@ t_token	*redirection_token(t_lexer **lexer)
 		(*lexer)->input_string[(*lexer)->position + 1] == '>')
 	{
 		token->value = ft_strdup(">>");
+		if (!token->value)
+			return (NULL);
 		(*lexer)->position++;
 	}
 	else if ((*lexer)->input_string[(*lexer)->position + 1] == '<')
 	{
 		token->value = ft_strdup("<<");
+		if (!token->value)
+			return (NULL);
 		(*lexer)->position++;
 	}
 	else
@@ -113,6 +117,8 @@ t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer)
 		return (NULL);
 	token->type = type;
     token->value = ft_strdup(value);
+	if (!token->value)
+			return (NULL);
 	(*lexer)->position++;
     return (token);
 }
