@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 14:43:59 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 10:48:37 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:39:49 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	fill_redirection(t_tokenlist **token, t_command **command)
     if ((*token)->token->value[0] == '>' && (*token)->token->value[1] && (*token)->token->value[1] == '>')
         append_redirection(&(*command)->out_redirection, A_R_OUT, &(*token));
     else if ((*token)->token->value[0] == '<' && (*token)->token->value[1] && (*token)->token->value[1] == '<')
-        append_redirection(&(*command)->heredoc_r, HEREDOC, &(*token));
+        append_redirection(&(*command)->in_redirection, HEREDOC, &(*token));
     else if ((*token)->token->value[0] == '>')
         append_redirection(&(*command)->out_redirection, R_OUT, &(*token));
     else if ((*token)->token->value[0] == '<')
