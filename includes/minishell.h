@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/09 11:20:04 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:01:35 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,8 @@ void    			print_parser(t_command_parser *head);
 
 /*Execution functions*/
 void execute_command(t_command_parser *first_command, char **env);
+char *find_command_in_path(const char *command);
+void write_error_msg(const char *msg1, const char *msg2);
+void handle_redirection(t_command *cmd);
 
 #endif

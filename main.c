@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/09 11:58:43 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:01:42 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*custom_prompt()
     char cwd[PATH_MAX];
     char *cwd_color;
     char *reset_color;
-	
+
 	cwd_color = "\033[36m";
 	reset_color = "\033[0m";
 	getcwd(cwd, PATH_MAX);
@@ -80,8 +80,8 @@ int main(int argc, char **argv, char **env)
 		}
 		if (first_command)
 		{
-			print_parser(first_command);
-			//execute_command(first_command, env);
+//			print_parser(first_command);
+			execute_command(first_command, env);
             //free_parsing(&tokens, &first_command)
 			tokens = NULL;
 			first_command = NULL;

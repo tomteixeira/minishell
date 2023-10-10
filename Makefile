@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
+#    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/05 11:13:16 by toteixei         ###   ########.fr        #
+#    Updated: 2023/10/08 12:35:16 by hebernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,10 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/lexer/token.c sources/parser/parser.c sources/parser/node.c \
 				sources/parser/redirection.c sources/lexer/check_parsing.c \
 				sources/env/env.c \
-				sources/execution/execution.c
+				sources/execution/execution_main.c \
+				sources/execution/execution_redirection.c \
+				sources/execution/execution_path.c
+
 
 OBJ 		= 	$(SRCS:.c=.o)
 
