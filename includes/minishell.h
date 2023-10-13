@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/10 17:08:47 by toteixei         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/13 10:14:34 by hebernar         ###   ########.fr       */
+>>>>>>> 39a9775 (execution changes)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +21,7 @@
 # include <sys/types.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -33,7 +38,8 @@
 # include <limits.h>
 
 # define SIZE_PATH 4096
-//int g_signal;
+
+extern int g_signal;
 
 /*Env functions*/
 t_env	*fill_env(char **env);
@@ -63,10 +69,22 @@ void	            fill_redirection(t_tokenlist **token, t_command **command);
 void    			print_parser(t_command_parser *head);
 
 /*Execution functions*/
-void execute_command(t_command_parser *first_command, char **env);
-char *find_command_in_path(const char *command);
-void write_error_msg(const char *msg1, const char *msg2);
-void handle_redirection(t_command *cmd);
+// MAIN
+int		execute_command(t_command_parser *first_command, char **env);
+// ERROR
+void	ft_error(const char *str, ...);
+// FORK
+void handle_parent_process(t_command_parser *current, int *num_children, int *pipefd, int *prev_pipe_read_fd);
+void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
+// PATH
+char	*find_command_in_path(const char *command);
+// REDIRECTION
+void	handle_redirection(t_command *cmd);
+// SIGNALS
+void	put_sig(int sig_code);
+// UTILS
+void	write_error_msg(const char *msg1, const char *msg2);
+void	init_execution_context(t_command_parser **current, int *num_children, int *prev_pipe_read_fd, t_command_parser *first_command);
 
 /*Free functions*/
 void	ft_free(char *l, t_tokenlist *token_h, t_command_parser *cmd_h);

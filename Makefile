@@ -6,7 +6,11 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2023/10/10 17:34:50 by toteixei         ###   ########.fr        #
+=======
+#    Updated: 2023/10/13 09:14:37 by hebernar         ###   ########.fr        #
+>>>>>>> 39a9775 (execution changes)
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +22,16 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/env/env.c \
 				sources/handling_error/ft_free.c \
 				sources/execution/execution_main.c \
+				sources/execution/execution_error.c \
 				sources/execution/execution_redirection.c \
+<<<<<<< HEAD
 				sources/execution/execution_path.c \
+=======
+				sources/execution/execution_signal.c \
+				sources/execution/execution_utils.c \
+				sources/execution/execution_fork.c \
+				sources/execution/execution_path.c
+>>>>>>> 39a9775 (execution changes)
 
 
 OBJ 		= 	$(SRCS:.c=.o)

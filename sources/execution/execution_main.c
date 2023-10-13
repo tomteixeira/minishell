@@ -6,31 +6,16 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/08 13:24:53 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:38:29 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Utility function to write an error message to stderr
-void write_error_msg(const char *msg1, const char *msg2)
-{
-	write(2, msg1, ft_strlen(msg1));
-	if (msg2)
-		write(2, msg2, ft_strlen(msg2));
-	write(STDERR_FILENO, "\n", 1);
-}
-
-// Initialize Execution Context
-static void init_execution_context(t_command_parser **current, int *num_children, int *prev_pipe_read_fd, t_command_parser *first_command)
-{
-	*num_children = 0;
-	*current = first_command;
-	*prev_pipe_read_fd = -1;
-}
+int	g_signal = 0;
 
 // Handle Piping
-static void handle_piping(t_command *cmd, int *pipefd)
+static void	handle_piping(t_command *cmd, int *pipefd)
 {
 	if (cmd->pipe_after)
 	{
@@ -42,80 +27,159 @@ static void handle_piping(t_command *cmd, int *pipefd)
 	}
 }
 
-// Handle Child Process
-static void handle_child_process(t_command_parser *current, int *pipefd, char **env)
+// Function to reset signal handlers to default behaviors for child processes
+static void	reset_child_signals(void)
 {
-	char *full_path;
-	if (pipefd[0] != -1)
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGSEGV, SIG_DFL);
+}
+
+// Function to handle the fork and execute logic
+static void fork_and_execute(t_command_parser **current, int *num_children,
+	int *pipefd, int *prev_pipe_read_fd, char **env)
+{
+	pid_t pid;
+
+	pid = fork();
+	if (pid == 0)
 	{
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
+		reset_child_signals();
+		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
 	}
-	if (current->command->pipe_after)
+	else if (pid > 0)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], 1);
-		close(pipefd[1]);
-	}
-	handle_redirection(current->command);
-	full_path = find_command_in_path(current->command->command_args[0]);
-	if (full_path && access(full_path, X_OK) != -1)
-	{
-		execve(full_path, current->command->command_args, env);
-		free(full_path);
+		if (*prev_pipe_read_fd != -1)
+			close(*prev_pipe_read_fd);
+		handle_parent_process(*current, num_children,
+			pipefd, prev_pipe_read_fd);
 	}
 	else
 	{
-		write_error_msg(current->command->command_args[0], ": command not found");
+		perror("fork");
 		exit(EXIT_FAILURE);
 	}
 }
 
-// 4. Handle Parent Process
-static void handle_parent_process(t_command_parser *current, int *num_children, int *pipefd, int *prev_pipe_read_fd)
+// Function to wait for all child processes to complete
+static int wait_for_children(int num_children)
 {
-	(*num_children)++;
-	if (*prev_pipe_read_fd != -1)
-		close(*prev_pipe_read_fd);
-	if (current->command->pipe_after)
-	{
-		close(pipefd[1]);
-		*prev_pipe_read_fd = pipefd[0];
-	}
-	else
-		wait(NULL);
-}
+	int status;
+	pid_t child_pid;
 
-// 5. Wait for Children
-static void wait_for_children(int num_children)
-{
 	while (num_children > 0)
 	{
-		wait(NULL);
+		child_pid = waitpid(-1, &status, 0);
+		if (child_pid == -1)
+		{
+			perror("waitpid error");
+			exit(EXIT_FAILURE);
+		}
+		if (WIFSIGNALED(status))
+		{
+			put_sig(WTERMSIG(status));
+			g_signal = 128 + WTERMSIG(status);
+			return (g_signal);
+		}
+		else if (WIFEXITED(status))
+			g_signal = WEXITSTATUS(status);
 		num_children--;
 	}
+	return (g_signal);
 }
 
-// Utility function to execute a command
-void execute_command(t_command_parser *first_command, char **env)
-{
-	t_command_parser *current;
-	pid_t pid;
-	int pipefd[2] = {-1, -1};
-	int num_children;
-	int prev_pipe_read_fd;
 
-	init_execution_context(&current, &num_children, &prev_pipe_read_fd, first_command);
+// Utility function to execute a command
+int	execute_command(t_command_parser *first_command, char **env)
+{
+	t_command_parser	*current;
+	int					pipefd[2];
+	int					num_children;
+	int					prev_pipe_read_fd;
+
+	num_children = 0;
+	pipefd[0] = -1;
+	pipefd[1] = -1;
+	init_execution_context(&current, &num_children,
+		&prev_pipe_read_fd, first_command);
 	while (current)
 	{
 		handle_piping(current->command, pipefd);
-		pid = fork();
-		if (pid == 0)
+		fork_and_execute(&current, &num_children,
+			pipefd, &prev_pipe_read_fd, env);
+		current = current->next;
+	}
+	return (wait_for_children(num_children));
+}
+/*
+int execute_command(t_command_parser *first_command, char **env)
+{
+	t_command_parser *current;
+	char *full_path;
+	pid_t pid;
+	int status;
+	int num_children = 0;
+
+	int pipefd[2];  // for the current pipe
+	int prev_pipe_read_fd = -1;  // to store the read end of the previous pipe
+
+	current = first_command;
+	while (current)
+	{
+		if (current->command->pipe_after)
 		{
-			handle_child_process(current, pipefd, env);
+			if (pipe(pipefd) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
 		}
-		else if (pid > 0)
-			handle_parent_process(current, &num_children, pipefd, &prev_pipe_read_fd);
+
+		pid = fork();
+		if (pid == 0)  // child process
+		{
+			if (prev_pipe_read_fd != -1)
+			{
+				dup2(prev_pipe_read_fd, 0);  // Set stdin to previous pipe's read end
+				close(prev_pipe_read_fd);
+			}
+			if (current->command->pipe_after)
+			{
+				close(pipefd[0]);  // Close read end, since we are going to write
+				dup2(pipefd[1], 1);  // Redirect stdout to the write end of the pipe
+				close(pipefd[1]);
+			}
+
+			handle_redirection(current->command);
+
+			full_path = find_command_in_path(current->command->command_args[0]);
+			if (full_path && access(full_path, X_OK) != -1)
+			{
+				execve(full_path, current->command->command_args, env);
+				free(full_path);
+			}
+			else
+			{
+				write_error_msg("Command not found: ", current->command->command_args[0]);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else if (pid > 0)  // parent process
+		{
+			num_children++;
+			if (prev_pipe_read_fd != -1)
+				close(prev_pipe_read_fd);
+
+			if (current->command->pipe_after)
+			{
+				close(pipefd[1]);
+				prev_pipe_read_fd = pipefd[0];
+			}
+			else
+			{
+				wait(&status);  // Wait only if it's the last command
+			}
+		}
 		else
 		{
 			perror("fork");
@@ -123,5 +187,11 @@ void execute_command(t_command_parser *first_command, char **env)
 		}
 		current = current->next;
 	}
-	wait_for_children(num_children);
-}
+	while (num_children > 0)
+	{
+		wait(NULL);
+		num_children--;
+	}
+	return(0);
+//	return (wait_for_children(num_children));
+}*/
