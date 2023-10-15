@@ -6,7 +6,7 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/15 11:03:18 by toteixei         ###   ########.fr        #
+#    Updated: 2023/10/15 11:26:12 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,10 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/env/env.c \
 				sources/handling_error/ft_free.c \
 				sources/execution/execution_main.c \
+				sources/execution/execution_error.c \
 				sources/execution/execution_redirection.c \
+<<<<<<< HEAD
 				sources/execution/execution_path.c \
-				sources/builtins/pwd.c\
-				sources/builtins/echo.c \
-				sources/builtins/cd.c
-				
 
 
 OBJ 		= 	$(SRCS:.c=.o)
