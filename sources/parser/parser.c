@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/15 11:16:06 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/15 20:45:58 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,61 +15,128 @@
 
 void    print_parser(t_command_parser *head);
 
-char    **fill_args(t_tokenlist **token, int *nb_arg)
-{
-    t_tokenlist *buffer;
-    char        **args;
-    int         j;
+// char    **fill_args(t_tokenlist **token, int *nb_arg)
+// {
+//     t_tokenlist *buffer;
+//     char        **args;
+//     int         j;
 
-    buffer = *token;
-    while (buffer && buffer->token->type != T_PIP && buffer->token->type != T_RED)
-    {
-        (*nb_arg)++;
-        buffer = buffer->next;
-    }
-    j = 0;
-    args = malloc((*nb_arg + 1) * sizeof(char *));
+//     buffer = *token;
+//     while (buffer && buffer->token->type != T_PIP && buffer->token->type != T_RED)
+//     {
+//         (*nb_arg)++;
+//         buffer = buffer->next;
+//     }
+//     j = 0;
+//     args = malloc((*nb_arg + 1) * sizeof(char *));
+//     if (!args)
+//         return (NULL);
+//     while ((*token) && (*token)->token->type != T_PIP && (*token)->token->type != T_RED)
+//     {
+//         args[j++] = ft_strdup((*token)->token->value);
+//         if (!args[j - 1])
+//             return (ft_free_arrays_i(args, j - 1), NULL);
+//         (*token) = (*token)->next;
+//     }
+//     args[j] = NULL;
+//     return (args);
+// }
+
+char    **first_arg(t_token *token, t_command **command)
+{
+    char **args;
+
+    args = malloc(2 * sizeof(char *));
     if (!args)
         return (NULL);
-    while ((*token) && (*token)->token->type != T_PIP && (*token)->token->type != T_RED)
-    {
-        args[j++] = ft_strdup((*token)->token->value);
-        if (!args[j - 1])
-            return (ft_free_arrays_i(args, j - 1), NULL);
-        (*token) = (*token)->next;
-    }
-    args[j] = NULL;
+    args[0] = ft_strdup(token->value);
+    if (!args[0])
+            return (ft_free_arrays_i(args, 0), NULL);
+    args[1] = NULL;
+    (*command)->nb_args = 2;
+    (*command)->command_args = args;
     return (args);
 }
 
-t_command   *fill_command(t_tokenlist **token) // gestion de la memoire
+char **fill_args(t_token *token, t_command **command)
+{
+    char    **args;
+    int     j;
+
+    if (!(*command)->command_args)
+        return (first_arg(token, command));
+    args = malloc(((*command)->nb_args + 1) * sizeof(char *));
+    if (!args)
+        return (NULL);
+    j = 0;
+    while (j < (*command)->nb_args - 1)
+    {
+        args[j] = ft_strdup((*command)->command_args[j]);
+        if (!args[j])
+            return (ft_free_arrays_i(args, j), NULL);
+        j++;
+    }
+    args[j] = ft_strdup(token->value);
+    if (!args[j])
+            return (ft_free_arrays_i(args, j), NULL);
+    args[j + 1] = NULL;
+    (*command)->nb_args++;
+    free((*command)->command_args);
+    return (args);
+}
+
+t_command   *fill_command(t_tokenlist **token)
 {
     t_command   *command;
-
     command = init_command();
     if (!command)
         return (NULL);
-    while ((*token) && (*token)->token->type == T_RED)
+    while ((*token) && (*token)->token->type != T_PIP)
     {
-        fill_redirection(token, &command);
-        (*token) = (*token)->next->next;
-    }
-    if (!(*token))
-        return (command);
-    if ((*token) && ((*token)->token->type == T_WORD
-        || (*token)->token->type == T_STR || (*token)->token->type == T_VAR))
-    {
-        command->command_args = fill_args(token, &command->nb_args);
-        if (!command->command_args)
-            return (free(command), NULL);
-    }
-    while ((*token) && (*token)->token->type == T_RED)
-    {
-        fill_redirection(token, &command);
-        (*token) = (*token)->next->next;
+        if ((*token)->token->type == T_WORD)
+        {
+            command->command_args = fill_args((*token)->token, &command);
+            if (!command->command_args)
+                return (free(command), NULL);
+        }
+        if ((*token)->token->type == T_RED)
+        {
+            fill_redirection(token, &command);
+            (*token) = (*token)->next;
+        }
+        *token = (*token)->next;
     }
     return (command);
 }
+
+// t_command   *fill_command(t_tokenlist **token) // gestion de la memoire
+// {
+//     t_command   *command;
+
+//     command = init_command();
+//     if (!command)
+//         return (NULL);
+//     while ((*token) && (*token)->token->type == T_RED)
+//     {
+//         fill_redirection(token, &command);
+//         (*token) = (*token)->next->next;
+//     }
+//     if (!(*token))
+//         return (command);
+//     if ((*token) && ((*token)->token->type == T_WORD
+//         || (*token)->token->type == T_STR || (*token)->token->type == T_VAR))
+//     {
+//         command->command_args = fill_args(token, &command->nb_args);
+//         if (!command->command_args)
+//             return (free(command), NULL);
+//     }
+//     while ((*token) && (*token)->token->type == T_RED)
+//     {
+//         fill_redirection(token, &command);
+//         (*token) = (*token)->next->next;
+//     }
+//     return (command);
+// }
 
 t_command_parser *parse_tokens(t_tokenlist *token)
 {
@@ -106,8 +173,6 @@ void    print_parser(t_command_parser *head)
     buffer = head;
     while (head)
     {
-        // if (head->command->pipe_before == 1)
-        //     printf(" | pipe before\n");
         i = 0;
         while (i < head->command->nb_args)
         {
