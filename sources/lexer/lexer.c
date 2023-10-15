@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 16:46:25 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/15 11:22:38 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ t_token	*get_next_token_bis(t_lexer *lexer, char cur)
         return (create_token(T_PIP, "|", &lexer));
 	else if (cur == '\"' || cur == '\'')
         return (create_token(T_STR, 
-			&lexer->input_string[lexer->position], &lexer));
-	else if (cur == '$')
-		return (create_token(T_VAR, 
 			&lexer->input_string[lexer->position], &lexer));
 	else if (cur == '>' || cur == '<')
 		return (create_token(T_RED, 
@@ -115,15 +112,9 @@ t_tokenlist	*lexer(char *command_line)
 		if (token == NULL)
 			break ;
 		if (head == NULL)
-		{
-			append_token(&head, token);
-			cur = head;
-		}
+			(append_token(&head, token), cur = head);
 		else
-		{
-			append_token(&head, token);
-			cur = cur->next;
-		}
+			(append_token(&head, token), cur = cur->next);
     }
 	if (lexer->input_string[lexer->position] != '\0')
 		return (NULL);

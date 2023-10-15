@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 17:08:47 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:35:15 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,10 @@ void handle_redirection(t_command *cmd);
 /*Free functions*/
 void	ft_free(char *l, t_tokenlist *token_h, t_command_parser *cmd_h);
 void	free_tokenlist(t_tokenlist *h);
+
+/*Builtins*/
+int     pwd(char **args, char **envp);
+int     echo(char **args, char **env);
+int     cd(char **args, char **env);
 
 #endif

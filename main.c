@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 17:27:39 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/15 11:10:16 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*custom_prompt()
 	reset_color = "\033[0m";
 	getcwd(cwd, PATH_MAX);
 	printf("\033[0;33m\033[0m%s%s%s", cwd_color, cwd, reset_color);
-	printf("\e[32m\e[1m\n> \e[0m");
+	printf("\e[32m\e[1m\n❯ \e[0m");
     return (readline(""));
 }
 
@@ -75,8 +75,8 @@ int main(int argc, char **argv, char **env)
 			first_command = parse_tokens(tokens);
 		if (first_command)
 		{
-			//print_parser(first_command);
-			execute_command(first_command, env);
+			print_parser(first_command);
+			//execute_command(first_command, env);
 		}
 		ft_free(line, tokens, first_command);
 	}

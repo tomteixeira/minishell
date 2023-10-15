@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/05 17:13:57 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/15 11:22:25 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,37 +68,10 @@ int	option_len(t_lexer **lexer)
 
 int	ft_word_char(int c)
 {
-	if (c == '|' || c == '\'' || c == '$' || c == '\"' || c == '>' || c == '<')
+	if (c == '|' || c == '\'' || c == '\"' || c == '>' || c == '<')
 		return (0);
 	if (c > 32 && c < 127)
 		return (1);
 	else 
 		return (0);
 }
-
-// void	*ft_realloc(void* ptr, size_t new_size)
-// {
-//     void	*new_ptr;
-// 	size_t	old_size;
-// 	size_t	copy_size;
-	
-// 	if (new_size == 0)
-// 	{
-//         free(ptr);
-//         return NULL;
-//     }
-//     if (ptr == NULL)
-//         return malloc(new_size);
-//     new_ptr = malloc(new_size);
-//     if (new_ptr != NULL) {
-//         // Copy the content from the old block to the new block
-//         old_size = malloc_usable_size(ptr);  // Requires GNU extension
-//         copy_size = (new_size < old_size) ? new_size : old_size;
-//         ft_memcpy(new_ptr, ptr, copy_size);
-
-//         // Free the old block
-//         free(ptr);
-//     }
-
-//     return new_ptr;
-// }
