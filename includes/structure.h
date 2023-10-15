@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/10 16:49:18 by toteixei         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/11 11:41:31 by hebernar         ###   ########.fr       */
->>>>>>> 39a9775 (execution changes)
+/*   Updated: 2023/10/15 11:28:06 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
