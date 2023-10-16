@@ -29,7 +29,7 @@ void	append(t_command_parser **head, t_tokenlist **token, int is_pipe_before)
 	{
 		node->previous = NULL;
 		*head = node;
-		return;
+		return ;
 	}
 	while (last_node->next != NULL)
 		last_node = last_node->next;
@@ -40,7 +40,7 @@ void	append(t_command_parser **head, t_tokenlist **token, int is_pipe_before)
 	return ;
 }
 
-t_command	*init_command()
+t_command	*init_command(void)
 {
 	t_command	*command;
 

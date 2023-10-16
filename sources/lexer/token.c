@@ -6,45 +6,45 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 16:14:12 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/16 11:32:56 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
 
-t_token	*string_token(t_lexer **lexer)
+t_token	*word_token_bis(t_lexer **lexer, t_token *token, int len)
 {
-	t_token *token;
 	char	cur;
-	int		len;
-	int		i;
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	len = string_len(lexer);
-	token->value = malloc((len + 1) * sizeof(char));
-	if (!token->value)
-		return (NULL);
-	token->type = T_STR;
-	i = 0;
-	while (len > 0 && (*lexer)->input_string[(*lexer)->position])
+	char	quote;
+
+	while ((*lexer)->input_string[(*lexer)->position] != '\0'
+		&& ft_word_char((*lexer)->input_string[(*lexer)->position]))
 	{
+		if ((*lexer)->input_string[(*lexer)->position] == '\''
+			|| (*lexer)->input_string[(*lexer)->position] == '\"')
+		{
+			quote = (*lexer)->input_string[(*lexer)->position];
+			while ((*lexer)->input_string[(*lexer)->position]
+				&& (*lexer)->input_string[(*lexer)->position] != quote)
+			{
+				cur = (*lexer)->input_string[(*lexer)->position];
+				token->value[len++] = cur;
+				(*lexer)->position++;
+			}
+		}
 		cur = (*lexer)->input_string[(*lexer)->position];
-		token->value[i++] = cur;
+		token->value[len++] = cur;
 		(*lexer)->position++;
-		len--;
 	}
-	token->value[i] = '\0';
+	token->value[len] = '\0';
 	return (token);
 }
 
 t_token	*word_token(t_lexer **lexer)
 {
-	t_token *token;
-	char	cur;
+	t_token	*token;
 	int		len;
-	
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
@@ -54,71 +54,60 @@ t_token	*word_token(t_lexer **lexer)
 		return (NULL);
 	token->type = T_WORD;
 	len = 0;
-	while ((*lexer)->input_string[(*lexer)->position] != '\0' && 
-			ft_word_char((*lexer)->input_string[(*lexer)->position]))
-	{
-        cur = (*lexer)->input_string[(*lexer)->position];
-		token->value[len] = cur;
-		(*lexer)->position++;
-		len++;
-	}
-	token->value[len] = '\0';
-	return (token);
+	return (word_token_bis(lexer, token, len));
 }
 
-
-t_token	*redirection_token(t_lexer **lexer)
+t_token	*redirection_token_bis(char *value, t_lexer **lexer)
 {
-	t_token *token;
-	
+	t_token	*token;
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	if ((*lexer)->input_string[(*lexer)->position + 1] &&
-		(*lexer)->input_string[(*lexer)->position + 1] == '>')
-	{
-		token->value = ft_strdup(">>");
-		if (!token->value)
-			return (NULL);
-		(*lexer)->position++;
-	}
-	else if ((*lexer)->input_string[(*lexer)->position + 1] == '<')
-	{
-		token->value = ft_strdup("<<");
-		if (!token->value)
-			return (NULL);
-		(*lexer)->position++;
-	}
-	else
-	{
-		token->value = malloc(2 * sizeof(char));
-		if (!token->value)
-			return (NULL);
-		token->value[0] = (*lexer)->input_string[(*lexer)->position];
-		token->value[1] = '\0';
-	}
-	(*lexer)->position++;
+	token->value = value;
 	token->type = T_RED;
+	(*lexer)->position++;
 	return (token);
 }
 
-t_token *create_token(t_tokentype type, const char *value, t_lexer **lexer)
+t_token	*redirection_token(t_lexer **lexer)
 {
-    t_token *token;
-    
+	char	value[2];
+
+	if ((*lexer)->input_string[(*lexer)->position + 1] == '>')
+	{
+		(*lexer)->position++;
+		return (redirection_token_bis(ft_strdup(">>"), lexer));
+	}
+	else if ((*lexer)->input_string[(*lexer)->position + 1] == '<')
+	{
+		(*lexer)->position++;
+		return (redirection_token_bis(ft_strdup("<<"), lexer));
+	}
+	else
+	{
+		value[0] = (*lexer)->input_string[(*lexer)->position];
+		value[1] = '\0';
+		return (redirection_token_bis(strdup(value), lexer));
+	}
+	return (NULL);
+}
+
+t_token	*create_token(t_tokentype type, const char *value, t_lexer **lexer)
+{
+	t_token	*token;
+
 	if (type == T_WORD)
 		return (word_token(lexer));
-	else if (type == T_STR)
-		return (string_token(lexer));
 	else if (type == T_RED)
 		return (redirection_token(lexer));
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->type = type;
-    token->value = ft_strdup(value);
+	token->value = ft_strdup(value);
 	if (!token->value)
-			return (NULL);
+		return (NULL);
 	(*lexer)->position++;
-    return (token);
+	return (token);
 }
