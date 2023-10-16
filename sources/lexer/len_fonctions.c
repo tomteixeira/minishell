@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:34:03 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/16 11:54:13 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ int	string_len(t_lexer **lexer)
 		count++;
 	}
 	return (count);
+}
+
+int	ft_string_char(int c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return (0);
+	if ((c >= 32 && c < 127) || c == '\t' || c == '\n')
+		return (1);
+	else
+		return (0);
 }
 
 int	ft_word_char(int c)

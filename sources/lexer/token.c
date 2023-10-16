@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:32:56 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/16 11:55:55 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ t_token	*word_token_bis(t_lexer **lexer, t_token *token, int len)
 			|| (*lexer)->input_string[(*lexer)->position] == '\"')
 		{
 			quote = (*lexer)->input_string[(*lexer)->position];
+			token->value[len++] = quote;
+			(*lexer)->position++;
 			while ((*lexer)->input_string[(*lexer)->position]
-				&& (*lexer)->input_string[(*lexer)->position] != quote)
+				&& (*lexer)->input_string[(*lexer)->position] != quote
+				&& ft_string_char((*lexer)->input_string[(*lexer)->position]))
 			{
 				cur = (*lexer)->input_string[(*lexer)->position];
 				token->value[len++] = cur;
