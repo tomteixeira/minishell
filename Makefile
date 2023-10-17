@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
+#    By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/15 11:34:52 by toteixei         ###   ########.fr        #
+#    Updated: 2023/10/17 11:31:40 by tomteixeira      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ LIB 		= 	libft.a
 INCLUDES	=	-I libft -I /opt/homebrew/opt/readline/include
 RLLIBS		=	-L /opt/homebrew/opt/readline/lib -lreadline
 
-CFLAGS 		= 	-Wall -Wextra -Werror
+CFLAGS 		= 	-Wall -Wextra -Werror -fsanitize=address
 
 all : libs $(NAME)
 

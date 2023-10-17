@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:25:05 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:33:25 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ char	**fill_args(t_token *token, t_command **command)
 	if (!args[j])
 		return (ft_free_arrays_i(args, j), NULL);
 	args[j + 1] = NULL;
+	ft_free_arrays_i((*command)->command_args, (*command)->nb_args);
 	(*command)->nb_args++;
-	free((*command)->command_args);
 	return (args);
 }
 
@@ -74,7 +74,7 @@ t_command	*fill_command(t_tokenlist **token)
 		}
 		if ((*token)->token->type == T_RED)
 		{
-			fill_redirection(token, &command);
+			fill_redirection(token, &command); //a voir si c'est bien protege
 			(*token) = (*token)->next;
 		}
 		*token = (*token)->next;
@@ -103,7 +103,7 @@ t_command_parser	*parse_tokens(t_tokenlist *token)
 		}
 	}
 	if (token != NULL)
-		return (NULL);
+		return (free_cmdlist(first_command), NULL);
 	return (first_command);
 }
 

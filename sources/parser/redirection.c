@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 14:43:59 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:31:09 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:01:49 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	append_redirection(t_redirection **head, t_redirection_type type,
 		return ;
 	node->file = ft_strdup((*token)->next->token->value);
 	if (!node->file)
+	{
+		free(node);
 		return ;
+	}
 	node->type = type;
 	node->next = NULL;
 	if (*head == NULL)

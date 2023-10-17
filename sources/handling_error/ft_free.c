@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 17:25:45 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 10:13:38 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,21 @@ void	free_cmdlist(t_command_parser *h)
 	}
 }
 
-void	ft_free(char *l, t_tokenlist *token_h, t_command_parser *cmd_h)
+void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h)
 {
 	if (l)
 	{
-		free(l);
-		l = NULL;
+		free(*l);
+		*l = NULL;
 	}
 	if (token_h)
 	{
-		free_tokenlist(token_h);
-		token_h = NULL;
+		free_tokenlist(*token_h);
+		*token_h = NULL;
 	}
 	if (cmd_h)
 	{
-		free_cmdlist(cmd_h);
-		cmd_h = NULL;
+		free_cmdlist(*cmd_h);
+		*cmd_h = NULL;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:55:25 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 10:39:56 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ void	write_error_msg(const char *msg1, const char *msg2);
 void	init_execution_context(t_command_parser **current, int *num_children, int *prev_pipe_read_fd, t_command_parser *first_command);
 
 /*Free functions*/
-void	ft_free(char *l, t_tokenlist *token_h, t_command_parser *cmd_h);
+void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h);
 void	free_tokenlist(t_tokenlist *h);
+void    free_cmdlist(t_command_parser *h);
 
 /*Builtins*/
 int     pwd(char **args, char **envp);
