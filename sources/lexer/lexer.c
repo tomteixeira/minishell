@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:32:26 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:55:26 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ t_tokenlist	*lexer(char *command_line)
 		return (NULL);
 	free(lexer);
 	if (check_parsing(head) == 0)
-		return (NULL);
+		return (free_tokenlist(head), NULL);
 	return (head);
 }
