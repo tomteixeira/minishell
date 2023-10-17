@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:55:55 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:04:25 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ t_token	*word_token(t_lexer **lexer)
 	len = command_len(lexer);
 	token->value = malloc((len + 1) * sizeof(char));
 	if (!token->value)
+	{
+		free(token);
 		return (NULL);
+	}
 	token->type = T_WORD;
 	len = 0;
 	return (word_token_bis(lexer, token, len));
@@ -110,7 +113,10 @@ t_token	*create_token(t_tokentype type, const char *value, t_lexer **lexer)
 	token->type = type;
 	token->value = ft_strdup(value);
 	if (!token->value)
+	{
+		free(token);
 		return (NULL);
+	}
 	(*lexer)->position++;
 	return (token);
 }
