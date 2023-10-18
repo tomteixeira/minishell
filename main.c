@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 10:39:00 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 12:58:49 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-    (void)env;
 	//environment = fill_env(env);
 	line = NULL;
 	tokens = NULL;

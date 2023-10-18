@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 12:51:25 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 15:58:25 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ void    export_no_args(char **env)
         }
         write(1, "\n", 1);
     }
+}
+
+int    check_existant_var(char *var)
+{
+    char    *var_key;
+    char    *var_check;
+
+    var_key = ft_substr(var, 0, ft_strchr(var, '='));
+    if (!var_key)
+        return (0);
+    var_check = getenv(var_key);
+    if (!var_check)
+        return (free(var_key), 0);
+    free(var_key);
+        return (1);
+    
 }
 
 char    *set_var(char *arg)
@@ -95,30 +111,26 @@ int     export(char **args, char **env)
 {
     int     i;
     char    *var;
-    //char    **env_buffer;
     
     if (!args[1])
-    {
-        export_no_args(env);
-        return (EXIT_SUCCESS);
-    }
+        return (export_no_args(env), EXIT_SUCCESS);
     i = 1;
     while (args[i])
     {
         var = NULL;
         var = set_var(args[i]);
+        if (var && check_existant_var(var))
+        {
+            
+        }
         if (var)
         {
-            //env_buffer = env;
             env = set_new_env(var, env);
             if (!env)
-            {
-                //ft_free_arrays_i(env_buffer, -1);
                 return (EXIT_FAILURE);
-            }
-            //ft_free_arrays_i(env_buffer, -1);
         }
         i++;
+        free(var);
     }
     return (EXIT_SUCCESS);
 }
