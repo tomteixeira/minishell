@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 17:38:25 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 12:51:25 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void    export_no_args(char **env)
     i = -1;
     while (env[++i])
     {
-        printf("declare -x ");
+        write(1, "declare -x ", 11);
         j = -1;
         while (env[i][++j])
         {
-            if (env[i][j] = '=')
+            if (env[i][j] == '=')
             {
                 write(1, &env[i][j], 1);
                 write(1, "\"", 1);
@@ -35,6 +35,7 @@ void    export_no_args(char **env)
             }
             write(1, &env[i][j], 1);
         }
+        write(1, "\n", 1);
     }
 }
 
@@ -52,13 +53,13 @@ char    *set_var(char *arg)
     }
     while (arg[i])
     {
-        if (equal == 0 && !ft_isalpha(arg[i]) && arg[i] != '_')
+        if (arg[i] == '=')
+            equal = 1;
+        if (equal == 0 && (!ft_isalpha(arg[i]) && arg[i] != '_'))
         {
             printf("bash: export: `%s': not a valid identifier\n", arg);
             return (NULL);
         }
-        if (arg[i] == '=')
-            equal = 1;
         i++;
     }
     return (arg);
@@ -76,15 +77,16 @@ char    **set_new_env(char *var, char **env)
         env_count++;
     new_env = malloc((env_count + 1) * sizeof(char *));
     if (!new_env)
-        return (EXIT_FAILURE);
+        return (NULL);
     i = -1;
     while (++i < env_count)
     {
         new_env[i] = ft_strdup(env[i]);
         if (!new_env[i])
-            return (ft_free_arrays_i(new_env, i), EXIT_FAILURE);
+            return (ft_free_arrays_i(new_env, i), NULL);
     }
-    new_env[env_count] = NULL;
+    new_env[env_count] = var;
+    new_env[env_count + 1] = NULL;
 
     return (new_env);
 }
@@ -93,7 +95,7 @@ int     export(char **args, char **env)
 {
     int     i;
     char    *var;
-    char    **env_buffer;
+    //char    **env_buffer;
     
     if (!args[1])
     {
@@ -107,11 +109,14 @@ int     export(char **args, char **env)
         var = set_var(args[i]);
         if (var)
         {
-            env_buffer = env;
-            env = set_new_env(var, env_buffer);
+            //env_buffer = env;
+            env = set_new_env(var, env);
             if (!env)
-                return (EXIT_FAILURE); // check leaks;
-            ft_free_arrays_i(env_buffer, -1);
+            {
+                //ft_free_arrays_i(env_buffer, -1);
+                return (EXIT_FAILURE);
+            }
+            //ft_free_arrays_i(env_buffer, -1);
         }
         i++;
     }

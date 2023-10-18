@@ -6,7 +6,7 @@
 #    By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/18 10:46:19 by tomteixeira      ###   ########.fr        #
+#    Updated: 2023/10/18 12:21:40 by tomteixeira      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/execution/execution_expansion.c \
 				sources/builtins/cd.c \
 				sources/builtins/pwd.c \
-				sources/builtins/echo.c
-##				sources/builtins/export.c
+				sources/builtins/echo.c \
+				sources/builtins/export.c
 
 
 OBJ 		= 	$(SRCS:.c=.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 09:12:39 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:51:27 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ int execute_builtin(t_command *cmd, char **env) //ne pas oublier de recoder la f
 		pwd(cmd->command_args, env);
 		return (1);
 	}
-	// else if (ft_strcmp(cmd->command_args[0], "export") == 0)
-	// {
-	// 	export(cmd->command_args, env);
-	// 	return (1);
-	// }
+	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
+	{
+		export(cmd->command_args, env);
+		return (1);
+	}
 	// else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
 	// {
 	// 	unset(cmd->command_args, env);
