@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 17:26:25 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 00:57:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:36:18 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int				ft_isprint(int c);
 int				ft_strcmp(char *s1, char *s2);
 
 size_t			ft_strlen(char const *str);
+
+size_t			ft_strlenchr(const char *s, int c);
 
 void			*ft_memset(void *b, int c, size_t len);
 

@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 15:58:25 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 16:42:34 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,41 @@ void    export_no_args(char **env)
     }
 }
 
+int    modify_existant_var(char *var, char ***env)
+{
+    char    *var_key;
+    int     i;
+
+	i = 0;
+	var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
+    if (!var_key)
+        return (0);
+    while ((*env)[i])
+    {
+        if (ft_strncmp(var_key, (*env)[i], ft_strlen(var_key)) == 0)
+        {
+            (*env)[i] = ft_strdup(var);
+            if (!(*env)[i])
+				return (0);
+        }
+		i++;
+    }
+	return (1);
+}
+
 int    check_existant_var(char *var)
 {
     char    *var_key;
     char    *var_check;
 
-    var_key = ft_substr(var, 0, ft_strchr(var, '='));
+    var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
     if (!var_key)
         return (0);
     var_check = getenv(var_key);
     if (!var_check)
         return (free(var_key), 0);
     free(var_key);
-        return (1);
+    return (1);
     
 }
 
@@ -99,7 +121,7 @@ char    **set_new_env(char *var, char **env)
     {
         new_env[i] = ft_strdup(env[i]);
         if (!new_env[i])
-            return (ft_free_arrays_i(new_env, i), NULL);
+        	return (ft_free_arrays_i(new_env, i), NULL);
     }
     new_env[env_count] = var;
     new_env[env_count + 1] = NULL;
@@ -107,13 +129,13 @@ char    **set_new_env(char *var, char **env)
     return (new_env);
 }
 
-int     export(char **args, char **env)
+int     export(char **args, char ***env)
 {
     int     i;
     char    *var;
     
     if (!args[1])
-        return (export_no_args(env), EXIT_SUCCESS);
+        return (export_no_args(*env), EXIT_SUCCESS);
     i = 1;
     while (args[i])
     {
@@ -121,16 +143,17 @@ int     export(char **args, char **env)
         var = set_var(args[i]);
         if (var && check_existant_var(var))
         {
-            
-        }
-        if (var)
+			modify_existant_var(var, env);
+			if (!*env)
+                return (EXIT_FAILURE);
+		}
+        else if (var)
         {
-            env = set_new_env(var, env);
-            if (!env)
+            *env = set_new_env(var, *env);
+            if (!*env)
                 return (EXIT_FAILURE);
         }
         i++;
-        free(var);
     }
     return (EXIT_SUCCESS);
 }
