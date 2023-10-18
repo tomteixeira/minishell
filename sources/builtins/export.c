@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/15 13:08:20 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:38:25 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void    export_no_args(char **env)
+{
+    int i;
+    int j;
+
+    i = -1;
+    while (env[++i])
+    {
+        printf("declare -x ");
+        j = -1;
+        while (env[i][++j])
+        {
+            if (env[i][j] = '=')
+            {
+                write(1, &env[i][j], 1);
+                write(1, "\"", 1);
+                while (env[i][++j])
+                    write(1, &env[i][j], 1);
+                write(1, "\"", 1);
+                break ;
+            }
+            write(1, &env[i][j], 1);
+        }
+    }
+}
 
 char    *set_var(char *arg)
 {
@@ -35,7 +61,7 @@ char    *set_var(char *arg)
             equal = 1;
         i++;
     }
-    return (NULL);
+    return (arg);
 }
 
 char    **set_new_env(char *var, char **env)
@@ -71,8 +97,8 @@ int     export(char **args, char **env)
     
     if (!args[1])
     {
-        ft_putstr_fd("bash: export: missing arguments\n", 2);
-        return (EXIT_FAILURE);
+        export_no_args(env);
+        return (EXIT_SUCCESS);
     }
     i = 1;
     while (args[i])
@@ -83,10 +109,11 @@ int     export(char **args, char **env)
         {
             env_buffer = env;
             env = set_new_env(var, env_buffer);
-            free(env_buffer);
+            if (!env)
+                return (EXIT_FAILURE); // check leaks;
+            ft_free_arrays_i(env_buffer, -1);
         }
         i++;
     }
-    
     return (EXIT_SUCCESS);
 }

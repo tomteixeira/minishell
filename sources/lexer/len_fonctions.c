@@ -3,52 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   len_fonctions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/16 11:54:13 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:28:59 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	command_len(t_lexer **lexer)
+int	string_len(const char *cmdline, int *i)
 {
-	int	i;
-	int	count;
+	int		count;
+	char	quote;
 
-	i = (*lexer)->position;
-	count = 0;
-	while ((*lexer)->input_string[i] != '\0'
-		&& ft_word_char((*lexer)->input_string[i]))
+	count = 1;
+	quote = cmdline[*i];
+	i++;
+	while (cmdline[*i] != '\0')
 	{
-		if ((*lexer)->input_string[i] == '\''
-			|| (*lexer)->input_string[i] == '\"')
-			count += string_len(lexer);
+		if (cmdline[*i] == quote)
+		{
+			count++;
+			return (count);
+		}
+		printf("s %c\n", cmdline[*i]);
 		i++;
 		count++;
 	}
 	return (count);
 }
 
-int	string_len(t_lexer **lexer)
+int	command_len(t_lexer **lexer)
 {
 	int		i;
 	int		count;
 	char	quote;
-
-	i = (*lexer)->position;
-	count = 1;
-	quote = (*lexer)->input_string[i++];
-	while ((*lexer)->input_string[i] != '\0')
+	
+	i = (*lexer)->position - 1;
+	count = 0;
+	while ((*lexer)->input_string[++i] != '\0'
+		&& ft_word_char((*lexer)->input_string[i]))
 	{
-		if ((*lexer)->input_string[i] == quote
-			&& (*lexer)->input_string[i - 1] != '\\')
+		if ((*lexer)->input_string[i] == '\''
+			|| (*lexer)->input_string[i] == '\"')
 		{
+			quote = (*lexer)->input_string[i++];
 			count++;
-			return (count);
+			while ((*lexer)->input_string[i] && (*lexer)->input_string[i] != quote)
+			{
+				i++;
+				count++;
+			}
+			if ((*lexer)->input_string[i] == '\0')
+				return (count);
 		}
-		i++;
 		count++;
 	}
 	return (count);

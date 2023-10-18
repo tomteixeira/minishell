@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:39:04 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 11:55:26 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/17 11:58:32 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_tokenlist	*lexer(char *command_line)
 			(append_token(&head, token), cur = cur->next);
 	}
 	if (lexer->input_string[lexer->position] != '\0')
-		return (NULL);
+		return (free_tokenlist(head), NULL);
 	free(lexer);
 	if (check_parsing(head) == 0)
 		return (free_tokenlist(head), NULL);

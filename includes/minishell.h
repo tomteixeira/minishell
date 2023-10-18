@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 10:39:56 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/17 18:42:44 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_env	*fill_env(char **env);
 /*Lexer fonctions*/
 t_tokenlist     *lexer(char *command_line);
 int		        command_len(t_lexer **lexer);
-int		        string_len(t_lexer **lexer);
 int             option_len(t_lexer **lexer);
 t_token	        *string_token(t_lexer **lexer);
 t_token	        *command_token(t_lexer **lexer);
@@ -62,7 +61,7 @@ t_command			*init_command();
 t_command   		*fill_command(t_tokenlist **token);
 t_command_parser 	*parse_tokens(t_tokenlist *token);
 void				append(t_command_parser **head, t_tokenlist **token, int is_pipe_before);
-void	            fill_redirection(t_tokenlist **token, t_command **command);
+int	            fill_redirection(t_tokenlist **token, t_command **command);
 void    			print_parser(t_command_parser *head);
 
 /*Execution functions*/

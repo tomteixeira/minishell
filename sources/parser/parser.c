@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 11:33:25 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/17 15:31:59 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_command	*fill_command(t_tokenlist **token)
 		}
 		if ((*token)->token->type == T_RED)
 		{
-			fill_redirection(token, &command); //a voir si c'est bien protege
+			if (fill_redirection(token, &command) == 0)
+				return (NULL);
 			(*token) = (*token)->next;
 		}
 		*token = (*token)->next;
@@ -91,7 +92,7 @@ t_command_parser	*parse_tokens(t_tokenlist *token)
 	first_command = NULL;
 	append(&first_command, &token, 0);
 	if (!first_command)
-		return (NULL);
+		return (free_cmdlist(first_command), NULL);
 	while (token != NULL)
 	{
 		if (token->token->type == T_PIP && token->next)

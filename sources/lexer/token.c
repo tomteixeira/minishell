@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 11:04:25 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 10:34:31 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,18 @@ t_token	*word_token_bis(t_lexer **lexer, t_token *token, int len)
 		if ((*lexer)->input_string[(*lexer)->position] == '\''
 			|| (*lexer)->input_string[(*lexer)->position] == '\"')
 		{
-			quote = (*lexer)->input_string[(*lexer)->position];
+			quote = (*lexer)->input_string[(*lexer)->position++];
 			token->value[len++] = quote;
-			(*lexer)->position++;
 			while ((*lexer)->input_string[(*lexer)->position]
 				&& (*lexer)->input_string[(*lexer)->position] != quote
 				&& ft_string_char((*lexer)->input_string[(*lexer)->position]))
-			{
-				cur = (*lexer)->input_string[(*lexer)->position];
-				token->value[len++] = cur;
-				(*lexer)->position++;
-			}
+					token->value[len++] = 
+						(*lexer)->input_string[(*lexer)->position++];
 		}
-		cur = (*lexer)->input_string[(*lexer)->position];
+		if ((*lexer)->input_string[(*lexer)->position] == '\0')
+			return (token);
+		cur = (*lexer)->input_string[(*lexer)->position++];
 		token->value[len++] = cur;
-		(*lexer)->position++;
 	}
 	token->value[len] = '\0';
 	return (token);
@@ -59,6 +56,7 @@ t_token	*word_token(t_lexer **lexer)
 		return (NULL);
 	}
 	token->type = T_WORD;
+	printf("%d\n", len);
 	len = 0;
 	return (word_token_bis(lexer, token, len));
 }
