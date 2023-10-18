@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 10:17:14 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 01:08:28 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int main(int argc, char **argv, char **env)
 			first_command = parse_tokens(tokens);
 		if (first_command)
 		{
-			//print_parser(first_command);
-			//execute_command(first_command, env);
+//			print_parser(first_command);
+			execute_command(first_command, env);
 		}
 		ft_free(&line, &tokens, &first_command);
 	}

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/13 16:29:44 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/18 01:07:48 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,51 @@ static void	execute_child_command(t_command_parser *current, char **env)
 		exit(EXIT_FAILURE);
 	}
 }*/
+/*
+static int execute_builtin(t_command *cmd, char **env)
+{
+	if (strcmp(cmd->command_args[0], "echo") == 0)
+	{
+		echo(cmd->command_args);
+		return (1);
+	}
+	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
+	{
+		cd(cmd->command_args);
+		return (1);
+	}
+	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
+	{
+		pwd();
+		return (1);
+	}
+	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
+	{
+		export(cmd->command_args, env);
+		return (1);
+	}
+	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
+	{
+		unset(cmd->command_args, env);
+		return (1);
+	}
+	else if (ft_strcmp(cmd->command_args[0], "env") == 0)
+	{
+		env(env);
+		return (1);
+	}
+	else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
+	{
+		exit(cmd->command_args);
+		return (1);
+	}
+	return (0);
+}*/
 
 void handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd)
 {
 	char *full_path;
 
-	// Check if there's a previous command in the pipeline
 	if (current->previous && current->previous->command->pipe_after && *prev_pipe_read_fd != -1)
 	{
 		dup2(*prev_pipe_read_fd, 0);
@@ -64,9 +103,9 @@ void handle_child_process(t_command_parser *current, int *pipefd, char **env, in
 		dup2(pipefd[1], 1);
 		close(pipefd[1]);
 	}
-
 	handle_redirection(current->command);
-
+//	if (execute_builtin(current->command, env))
+//		exit(EXIT_SUCCESS);
 	full_path = find_command_in_path(current->command->command_args[0]);
 	if (full_path && access(full_path, X_OK) != -1)
 	{
@@ -79,6 +118,7 @@ void handle_child_process(t_command_parser *current, int *pipefd, char **env, in
 		exit(EXIT_FAILURE);
 	}
 }
+
 
 // Handle Parent Process
 void handle_parent_process(t_command_parser *current, int *num_children,

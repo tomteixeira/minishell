@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/15 11:31:38 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/18 00:58:00 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ static void	handle_in_redirection(t_redirection *redir)
 		if (redir->type == R_IN)
 		{
 			fd = open(redir->file, O_RDONLY);
-			if (fd == -1) {
+			if (fd == -1)
+			{
 				perror("open");
 				exit(EXIT_FAILURE);
 			}
