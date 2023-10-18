@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 12:58:43 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 15:59:40 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int wait_for_children(int num_children)
 
 
 // Utility function to execute a command
-int execute_command(t_command_parser *first_command, char **env)
+int execute_command(t_command_parser *first_command, char ***env)
 {
 	t_command_parser *current;
 	int pipefd[2];
@@ -112,14 +112,14 @@ int execute_command(t_command_parser *first_command, char **env)
 	init_execution_context(&current, &num_children, &prev_pipe_read_fd, first_command);
 	while (current)
 	{
-		expand_command_arguments(current->command, env);
+		expand_command_arguments(current->command, *env);
 //		if (is_assignment(current->command->command_args[0]) && current->command->command_args[1] == NULL)
 //		{
 //			char *assignment_args[3];
 //			assignment_args[0] = "export";
 //			assignment_args[1] = current->command->command_args[0];
 //			assignment_args[2] = NULL;
-//			export(assignment_args, env);
+//			export(assignment_args, &env);
 //			current = current->next;
 //			continue;
 //		}
@@ -128,9 +128,9 @@ int execute_command(t_command_parser *first_command, char **env)
 			current = current->next;
 			continue;
 		}
-		expand_command_arguments(current->command, env);
+		expand_command_arguments(current->command, *env);
 		handle_piping(current->command, pipefd);
-		fork_and_execute(&current, &num_children, pipefd, &prev_pipe_read_fd, env);
+		fork_and_execute(&current, &num_children, pipefd, &prev_pipe_read_fd, *env);
 		current = current->next;
 	}
 	return wait_for_children(num_children);

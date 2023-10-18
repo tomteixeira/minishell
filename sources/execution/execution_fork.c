@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 12:55:42 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 16:01:03 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,41 @@ static void	execute_child_command(t_command_parser *current, char **env)
 	}
 }*/
 
-int execute_builtin(t_command *cmd, char **env) //ne pas oublier de recoder la fonction strcmp
+int execute_builtin(t_command *cmd, char ***env) //ne pas oublier de recoder la fonction strcmp
 {
 	if (ft_strcmp(cmd->command_args[0], "echo") == 0)
 	{
-		echo(cmd->command_args, env);
+		g_signal = echo(cmd->command_args, *env);
 		return (1);
 	}
 	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
 	{
-		cd(cmd->command_args, env);
+		g_signal = cd(cmd->command_args, *env);
 		return (1);
 	}
 	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
 	{
-		pwd(cmd->command_args, env);
+		g_signal = pwd(cmd->command_args, *env);
 		return (1);
 	}
 	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
 	{
-		export(cmd->command_args, env);
+		g_signal = export(cmd->command_args, env);
 		return (1);
 	}
 	// else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
 	// {
-	// 	unset(cmd->command_args, env);
+	// 	g_signal = unset(cmd->command_args, *env);
 	// 	return (1);
 	// }
 	// else if (ft_strcmp(cmd->command_args[0], "env") == 0)
 	// {
-	// 	env(env);
+	// 	g_signal = env(*env);
 	// 	return (1);
 	// }
 	// else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
 	// {
-	// 	exit(cmd->command_args);
+	// 	g_signal = exit(cmd->command_args);
 	// 	return (1);
 	// }
 	return (0);
