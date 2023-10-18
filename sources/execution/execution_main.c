@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 01:05:48 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/18 09:12:53 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int execute_command(t_command_parser *first_command, char **env)
 	init_execution_context(&current, &num_children, &prev_pipe_read_fd, first_command);
 	while (current)
 	{
+		expand_command_arguments(current->command, env);
 //		if (is_assignment(current->command->command_args[0]) && current->command->command_args[1] == NULL)
 //		{
 //			char *assignment_args[3];
@@ -122,6 +123,11 @@ int execute_command(t_command_parser *first_command, char **env)
 //			current = current->next;
 //			continue;
 //		}
+		if (execute_builtin(current->command, env))
+		{
+			current = current->next;
+			continue;
+		}
 		expand_command_arguments(current->command, env);
 		handle_piping(current->command, pipefd);
 		fork_and_execute(&current, &num_children, pipefd, &prev_pipe_read_fd, env);

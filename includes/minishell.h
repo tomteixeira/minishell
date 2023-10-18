@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 10:40:06 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 09:10:09 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	ft_error(const char *str, ...);
 // EXPANSION
 void	expand_command_arguments(t_command *cmd, char **env);
 // FORK
+int execute_builtin(t_command *cmd, char **env);
 void handle_parent_process(t_command_parser *current, int *num_children, int *pipefd, int *prev_pipe_read_fd);
 void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
 // PATH

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 10:52:46 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 09:12:39 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static void	execute_child_command(t_command_parser *current, char **env)
 	}
 }*/
 
-static int execute_builtin(t_command *cmd, char **env) //ne pas oublier de recoder la fonction strcmp
+int execute_builtin(t_command *cmd, char **env) //ne pas oublier de recoder la fonction strcmp
 {
-	if (strcmp(cmd->command_args[0], "echo") == 0)
+	if (ft_strcmp(cmd->command_args[0], "echo") == 0)
 	{
 		echo(cmd->command_args, env);
 		return (1);
@@ -104,8 +104,8 @@ void handle_child_process(t_command_parser *current, int *pipefd, char **env, in
 		close(pipefd[1]);
 	}
 	handle_redirection(current->command);
-	if (execute_builtin(current->command, env))
-		exit(EXIT_SUCCESS);
+//	if (execute_builtin(current->command, env))
+//		exit(EXIT_SUCCESS);
 	full_path = find_command_in_path(current->command->command_args[0]);
 	if (full_path && access(full_path, X_OK) != -1)
 	{
