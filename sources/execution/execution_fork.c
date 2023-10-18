@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 01:07:48 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:52:46 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,46 +47,46 @@ static void	execute_child_command(t_command_parser *current, char **env)
 		exit(EXIT_FAILURE);
 	}
 }*/
-/*
-static int execute_builtin(t_command *cmd, char **env)
+
+static int execute_builtin(t_command *cmd, char **env) //ne pas oublier de recoder la fonction strcmp
 {
 	if (strcmp(cmd->command_args[0], "echo") == 0)
 	{
-		echo(cmd->command_args);
+		echo(cmd->command_args, env);
 		return (1);
 	}
 	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
 	{
-		cd(cmd->command_args);
+		cd(cmd->command_args, env);
 		return (1);
 	}
 	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
 	{
-		pwd();
+		pwd(cmd->command_args, env);
 		return (1);
 	}
-	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
-	{
-		export(cmd->command_args, env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
-	{
-		unset(cmd->command_args, env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "env") == 0)
-	{
-		env(env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
-	{
-		exit(cmd->command_args);
-		return (1);
-	}
+	// else if (ft_strcmp(cmd->command_args[0], "export") == 0)
+	// {
+	// 	export(cmd->command_args, env);
+	// 	return (1);
+	// }
+	// else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
+	// {
+	// 	unset(cmd->command_args, env);
+	// 	return (1);
+	// }
+	// else if (ft_strcmp(cmd->command_args[0], "env") == 0)
+	// {
+	// 	env(env);
+	// 	return (1);
+	// }
+	// else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
+	// {
+	// 	exit(cmd->command_args);
+	// 	return (1);
+	// }
 	return (0);
-}*/
+}
 
 void handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd)
 {
@@ -104,8 +104,8 @@ void handle_child_process(t_command_parser *current, int *pipefd, char **env, in
 		close(pipefd[1]);
 	}
 	handle_redirection(current->command);
-//	if (execute_builtin(current->command, env))
-//		exit(EXIT_SUCCESS);
+	if (execute_builtin(current->command, env))
+		exit(EXIT_SUCCESS);
 	full_path = find_command_in_path(current->command->command_args[0]);
 	if (full_path && access(full_path, X_OK) != -1)
 	{

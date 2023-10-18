@@ -6,7 +6,7 @@
 #    By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/10/18 10:40:25 by tomteixeira      ###   ########.fr        #
+#    Updated: 2023/10/18 10:46:19 by tomteixeira      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ LIB 		= 	libft.a
 INCLUDES	=	-I libft -I /opt/homebrew/opt/readline/include
 RLLIBS		=	-L /opt/homebrew/opt/readline/lib -lreadline
 
-CFLAGS 		= 	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS 		= 	-Wall -Wextra -Werror
 
 all : libs $(NAME)
 

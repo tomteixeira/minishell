@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 10:34:31 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 10:48:56 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_token	*word_token(t_lexer **lexer)
 		return (NULL);
 	}
 	token->type = T_WORD;
-	printf("%d\n", len);
 	len = 0;
 	return (word_token_bis(lexer, token, len));
 }
