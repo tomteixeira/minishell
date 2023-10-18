@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 18:42:44 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 10:40:06 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void    			print_parser(t_command_parser *head);
 int		execute_command(t_command_parser *first_command, char **env);
 // ERROR
 void	ft_error(const char *str, ...);
+// EXPANSION
+void	expand_command_arguments(t_command *cmd, char **env);
 // FORK
 void handle_parent_process(t_command_parser *current, int *num_children, int *pipefd, int *prev_pipe_read_fd);
 void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
@@ -91,5 +93,6 @@ void    free_cmdlist(t_command_parser *h);
 int     pwd(char **args, char **envp);
 int     echo(char **args, char **env);
 int     cd(char **args, char **env);
+int     export(char **args, char **env);
 
 #endif
