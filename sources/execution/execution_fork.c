@@ -3,96 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 16:01:03 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/24 02:26:02 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-/*
-// Set up the child's input and output based on the piping
-static void	setup_child_io(t_command_parser *current, int *pipefd)
-{
-	if (pipefd[0] != -1)
-	{
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
-	}
-	if (current->command->pipe_after)
-	{
-		dup2(pipefd[1], 1);
-		close(pipefd[1]);
-	}
-}
 
-// Execute the command in the child process
-static void	execute_child_command(t_command_parser *current, char **env)
+static int	is_directory(const char *path)
 {
-	char	*full_path;
+	DIR	*dir;
 
-	full_path = find_command_in_path(current->command->command_args[0]);
-	if (full_path && access(full_path, X_OK) != -1)
+	dir = opendir(path);
+	if (dir)
 	{
-		execve(full_path, current->command->command_args, env);
-		perror("execve");
-		free(full_path);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		write_error_msg(current->command->command_args[0],
-			": command not found");
-		exit(EXIT_FAILURE);
-	}
-}*/
-
-int execute_builtin(t_command *cmd, char ***env) //ne pas oublier de recoder la fonction strcmp
-{
-	if (ft_strcmp(cmd->command_args[0], "echo") == 0)
-	{
-		g_signal = echo(cmd->command_args, *env);
+		closedir(dir);
 		return (1);
 	}
-	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
-	{
-		g_signal = cd(cmd->command_args, *env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
-	{
-		g_signal = pwd(cmd->command_args, *env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
-	{
-		g_signal = export(cmd->command_args, env);
-		return (1);
-	}
-	// else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
-	// {
-	// 	g_signal = unset(cmd->command_args, *env);
-	// 	return (1);
-	// }
-	// else if (ft_strcmp(cmd->command_args[0], "env") == 0)
-	// {
-	// 	g_signal = env(*env);
-	// 	return (1);
-	// }
-	// else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
-	// {
-	// 	g_signal = exit(cmd->command_args);
-	// 	return (1);
-	// }
 	return (0);
 }
 
-void handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd)
+static void	check_directory(const char *command)
 {
-	char *full_path;
+	if (strchr(command, '/'))
+	{
+		if (access(command, F_OK) == -1)
+		{
+			ft_error("bash: %s: No such file or directory\n", command);
+			exit(127);
+		}
+		else if (is_directory(command))
+		{
+			ft_error("bash: %s: Is a directory\n", command);
+			exit(126);
+		}
+	}
+}
 
-	if (current->previous && current->previous->command->pipe_after && *prev_pipe_read_fd != -1)
+static void	handle_pipe_redirection(t_command_parser *current,
+	int *pipefd, int *prev_pipe_read_fd)
+{
+	if (current->previous && current->previous->command->pipe_after
+		&& *prev_pipe_read_fd != -1)
 	{
 		dup2(*prev_pipe_read_fd, 0);
 		close(*prev_pipe_read_fd);
@@ -103,28 +57,37 @@ void handle_child_process(t_command_parser *current, int *pipefd, char **env, in
 		dup2(pipefd[1], 1);
 		close(pipefd[1]);
 	}
+}
+
+void	handle_child_process(t_command_parser *current,
+	int *pipefd, char **env, int *prev_pipe_read_fd)
+{
+	char	*full_path;
+
+	handle_pipe_redirection(current, pipefd, prev_pipe_read_fd);
 	handle_redirection(current->command);
-//	if (execute_builtin(current->command, env))
-//		exit(EXIT_SUCCESS);
-	full_path = find_command_in_path(current->command->command_args[0]);
-	if (full_path && access(full_path, X_OK) != -1)
+	if (current->command->command_args)
+	{
+		check_directory(current->command->command_args[0]);
+		full_path = find_command_in_path(current->command->command_args[0]);
+	}
+	if (current->command->command_args && full_path && access(full_path, X_OK) != -1)
 	{
 		execve(full_path, current->command->command_args, env);
 		free(full_path);
 	}
-	else
+	else if (current->command->command_args)
 	{
-		write_error_msg("Command not found: ", current->command->command_args[0]);
+		ft_error("bash: %s: command not found\n",
+			current->command->command_args[0]);
+		free(full_path);
 		exit(EXIT_FAILURE);
 	}
 }
 
-
 // Handle Parent Process
-void handle_parent_process(t_command_parser *current, int *num_children,
-	int *pipefd, int *prev_pipe_read_fd)
+void	handle_parent_process(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd)
 {
-	(*num_children)++;
 	if (!current->command->pipe_after && *prev_pipe_read_fd != -1)
 		close(*prev_pipe_read_fd);
 	if (current->command->pipe_after)

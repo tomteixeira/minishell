@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 16:00:02 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/24 02:27:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <dirent.h>
 # include <sys/types.h>
 # include <sys/ioctl.h>
+# include <termios.h>
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdio.h>
@@ -72,18 +74,20 @@ void	ft_error(const char *str, ...);
 // EXPANSION
 void	expand_command_arguments(t_command *cmd, char **env);
 // FORK
-int execute_builtin(t_command *cmd, char ***env);
-void handle_parent_process(t_command_parser *current, int *num_children, int *pipefd, int *prev_pipe_read_fd);
+void handle_parent_process(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd);
 void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
 // PATH
 char	*find_command_in_path(const char *command);
 // REDIRECTION
 void	handle_redirection(t_command *cmd);
+void	handle_heredoc(t_redirection *heredoc, int *read_end);
 // SIGNALS
 void	put_sig(int sig_code);
 // UTILS
-void	write_error_msg(const char *msg1, const char *msg2);
-void	init_execution_context(t_command_parser **current, int *num_children, int *prev_pipe_read_fd, t_command_parser *first_command);
+int		is_assignment(const char *cmd);
+int		execute_builtin(t_command *cmd, char ***env);
+char	**remove_from_list(char **list, char *arg);
+void	init_execution_context(t_command_parser **current, int *prev_pipe_read_fd, t_command_parser *first_command);
 
 /*Free functions*/
 void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h);
@@ -95,5 +99,8 @@ int     pwd(char **args, char **envp);
 int     echo(char **args, char **env);
 int     cd(char **args, char **env);
 int     export(char **args, char ***env);
+
+/*Main*/
+void	handle_sigint(int sig);
 
 #endif
