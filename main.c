@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 15:59:54 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 14:43:43 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,9 @@ int main(int argc, char **argv, char **env)
 	char *line;
 	t_tokenlist *tokens;
 	t_command_parser  *first_command;
-	//t_env	*environment;
 
 	(void)argv;
 	(void)argc;
-	//environment = fill_env(env);
 	line = NULL;
 	tokens = NULL;
 	first_command = NULL;

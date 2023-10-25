@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 16:01:03 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/18 16:49:46 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ int execute_builtin(t_command *cmd, char ***env) //ne pas oublier de recoder la 
 		g_signal = export(cmd->command_args, env);
 		return (1);
 	}
-	// else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
-	// {
-	// 	g_signal = unset(cmd->command_args, *env);
-	// 	return (1);
-	// }
+	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
+	{
+		g_signal = unset(cmd->command_args, env);
+		return (1);
+	}
 	// else if (ft_strcmp(cmd->command_args[0], "env") == 0)
 	// {
 	// 	g_signal = env(*env);
