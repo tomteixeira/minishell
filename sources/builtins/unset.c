@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:21:23 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:56:36 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,17 @@ char	**unset_var(char *var, char **env)
         env_count++;
     new_env = malloc((env_count - 1) * sizeof(char *));
     if (!new_env)
-        return (NULL);
+		return (NULL);
     i = 0;
 	j = 0;
 	while (i < env_count - 1)
     {
-		if (ft_strncmp(var, env[i], ft_strlen(var)) != 0)
+		if (ft_strcmp(var, env[i]) != 0)
         {
-			new_env[i++] = ft_strdup(env[j++]);
+			new_env[i] = ft_strdup(env[j++]);
         	if (!new_env[i])
-            	return (ft_free_arrays_i(new_env, i), NULL);
+				return (ft_free_arrays_i(new_env, i), NULL);
+			i++;
 		}
 		else
 			j++;
@@ -63,7 +64,6 @@ char	**unset_var(char *var, char **env)
 int unset(char **args, char ***env)
 {
     int     i;
-    char    **env_buffer;
 
     i = 1;
     if (!args[i])
@@ -72,11 +72,12 @@ int unset(char **args, char ***env)
     {
         if (check_var(args[i], *env) == 1)
 		{
-			env_buffer = *env;
-        	*env = unset_var(args[i], env_buffer);
+        	*env = unset_var(args[i], *env);
         	if (!*env)
-           		return (EXIT_FAILURE);
-        	ft_free_arrays_i(env_buffer, -1);
+			{
+           		printf("log\n");
+				return (EXIT_FAILURE);
+			}
 		}
 		i++;
     }

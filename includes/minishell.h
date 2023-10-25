@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:42:25 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:57:34 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int     pwd(char **args, char **envp);
 int     echo(char **args, char **env);
 int     cd(char **args, char **env);
 int     export(char **args, char ***env);
+int unset(char **args, char ***env);
 int		ft_env(char **args, char **envp);
 
 #endif

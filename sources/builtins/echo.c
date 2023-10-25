@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:25:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:55:47 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int     echo(char **args, char **env)
         printf("\n");
         return (EXIT_SUCCESS);
     }
-    if (strncmp(args[i], "-n", 2) == 0)
+    if (ft_strncmp(args[i], "-n", 2) == 0)
     {
         opt = 1;
         i++;
