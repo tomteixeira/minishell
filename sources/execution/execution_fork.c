@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 14:51:51 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 14:56:23 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,12 @@
 
 static int	is_directory(const char *path)
 {
-	char	*full_path;
+	DIR	*dir;
 
-	full_path = find_command_in_path(current->command->command_args[0]);
-	if (full_path && access(full_path, X_OK) != -1)
+	dir = opendir(path);
+	if (dir)
 	{
-		execve(full_path, current->command->command_args, env);
-		perror("execve");
-		free(full_path);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		write_error_msg(current->command->command_args[0],
-			": command not found");
-		exit(EXIT_FAILURE);
-	}
-}*/
-
-int execute_builtin(t_command *cmd, char ***env) //ne pas oublier de recoder la fonction strcmp
-{
-	if (ft_strcmp(cmd->command_args[0], "echo") == 0)
-	{
-		g_signal = echo(cmd->command_args, *env);
+		closedir(dir);
 		return (1);
 	}
 	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
