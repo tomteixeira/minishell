@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 16:53:24 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 13:21:23 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int unset(char **args, char ***env)
            		return (EXIT_FAILURE);
         	ft_free_arrays_i(env_buffer, -1);
 		}
+		i++;
     }
 	return (EXIT_SUCCESS);
 }
