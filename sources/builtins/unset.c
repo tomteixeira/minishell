@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 15:59:35 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 16:44:26 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@ int		check_var(char *var, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(var, env[i], ft_strlen(var)) == 0)
-		{
-			printf("key find\n");
+		if (ft_strncmp(var, env[i], ft_strlenchr(env[i], '=')) == 0)
 			return (1);
-		}
 		i++;
 	}
 	return (0);
@@ -47,12 +44,13 @@ char	**unset_var(char *var, char **env)
 	j = 0;
 	while (i < env_count - 1)
     {
-		if (ft_strcmp(var, env[i]) != 0)
+		if (env[j] && ft_strncmp(var, env[j], ft_strlenchr(env[j], '=')) != 0)
         {
-			new_env[i] = ft_strdup(env[j++]);
+			new_env[i] = ft_strdup(env[j]);
         	if (!new_env[i])
 				return (ft_free_arrays_i(new_env, i), NULL);
 			i++;
+			j++;
 		}
 		else
 			j++;
@@ -74,10 +72,8 @@ int unset(char **args, char ***env)
 		{
         	*env = unset_var(args[i], *env);
         	if (!*env)
-			{
-           		printf("log\n");
 				return (EXIT_FAILURE);
-			}
+			//ft_env(args, *env);
 		}
 		i++;
     }
