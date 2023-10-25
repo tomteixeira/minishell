@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 15:09:38 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 13:55:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	execute_builtin(t_command *cmd, char ***env)
 		return (g_signal = export(cmd->command_args, env), 1);
 	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
 		return (g_signal = unset(cmd->command_args, env), 1);
-	// else if (ft_strcmp(cmd->command_args[0], "env") == 0)
-	// 	return (g_signal = env(*env), 1);
+	else if (ft_strcmp(cmd->command_args[0], "env") == 0)
+		return (g_signal = ft_env(NULL, *env), 1);
 	// else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
 	// 	return (g_signal = exit(cmd->command_args), 1);
 	return (0);
