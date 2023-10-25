@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 14:48:34 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 15:10:03 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ int     pwd(char **args, char **envp);
 int     echo(char **args, char **env);
 int     cd(char **args, char **env);
 int     export(char **args, char ***env);
+int     unset(char **args, char ***env);
 
 #endif
