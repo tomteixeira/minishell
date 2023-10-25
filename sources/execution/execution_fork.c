@@ -6,9 +6,11 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 14:56:23 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 15:04:43 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../includes/minishell.h"
 
 #include "../../includes/minishell.h"
 
@@ -22,36 +24,6 @@ static int	is_directory(const char *path)
 		closedir(dir);
 		return (1);
 	}
-	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
-	{
-		g_signal = cd(cmd->command_args, *env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
-	{
-		g_signal = pwd(cmd->command_args, *env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
-	{
-		g_signal = export(cmd->command_args, env);
-		return (1);
-	}
-	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
-	{
-		g_signal = unset(cmd->command_args, env);
-		return (1);
-	}
-	// else if (ft_strcmp(cmd->command_args[0], "env") == 0)
-	// {
-	// 	g_signal = env(*env);
-	// 	return (1);
-	// }
-	// else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
-	// {
-	// 	g_signal = exit(cmd->command_args);
-	// 	return (1);
-	// }
 	return (0);
 }
 

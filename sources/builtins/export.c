@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 14:40:23 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 15:07:43 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int    check_existant_var(char *var)
     var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
     if (!var_key)
         return (0);
-    printf("%s\n", var);
     var_check = getenv(var_key);
     if (!var_check)
         return (free(var_key), 0);
@@ -145,14 +144,12 @@ int     export(char **args, char ***env)
         var = set_var(args[i]);
         if (var && check_existant_var(var))
         {
-            printf("existant var\n");
 			modify_existant_var(var, env);
 			if (!*env)
                 return (EXIT_FAILURE);
 		}
         else if (var)
         {
-            printf("new_var\n");
             *env = set_new_env(var, *env);
             if (!*env)
                 return (EXIT_FAILURE);
