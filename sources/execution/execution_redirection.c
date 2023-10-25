@@ -6,11 +6,41 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 00:58:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/24 02:26:29 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// Utility function to remove /0 from char*
+static void	remove_null_char(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			str[i] = '\0';
+		i++;
+	}
+}
+
+void	exit_custom(const char *format, ...)
+{
+	va_list	args;
+
+	va_start(args, format);
+	ft_error(format, args);
+	va_end(args);
+	exit(EXIT_FAILURE);
+}
+
+void	exit_with_error(const char *error_msg)
+{
+	perror(error_msg);
+	exit(EXIT_FAILURE);
+}
 
 // Utility function to setup the heredoc pipe
 static void	setup_heredoc_pipe(int pipefd[2])
@@ -18,7 +48,7 @@ static void	setup_heredoc_pipe(int pipefd[2])
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 }
 
@@ -29,10 +59,13 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 
 	while (1)
 	{
-		line = readline("heredoc> ");
-		if (!line)
+		write(STDOUT_FILENO, "heredoc> ", 9);  // Display the heredoc prompt
+		line = get_next_line(STDERR_FILENO);
+		remove_null_char(line);
+		if (!line || line[0] == '\0')  // Check for EOF or empty line
 		{
-			write_error_msg("Unexpected EOF while looking for heredoc delimiter",NULL);
+			ft_error("Unexpected EOF while looking for heredoc delimiter\n");
+			free(line);
 			exit(EXIT_FAILURE);
 		}
 		if (strcmp(line, delimiter) == 0)
@@ -40,8 +73,8 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 			free(line);
 			break ;
 		}
-		if (write(pipefd[1], line, strlen(line)) == -1 ||
-			write(pipefd[1], "\n", 1) == -1)
+		if (write(pipefd[1], line, strlen(line)) == -1
+			|| write(pipefd[1], "\n", 1) == -1)
 		{
 			perror("write");
 			exit(EXIT_FAILURE);
@@ -51,7 +84,7 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 }
 
 // Utility function to handle heredoc redirections
-static void	handle_heredoc(t_redirection *heredoc, int *read_end)
+void	handle_heredoc(t_redirection *heredoc, int *read_end)
 {
 	int	pipefd[2];
 
@@ -76,19 +109,13 @@ static void	handle_out_redirection(t_redirection *redir)
 		else if (redir->type == A_R_OUT)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
+			exit_custom("bash: %s: %s\n", redir->file, strerror(errno));
 		redir = redir->next;
 	}
 	if (fd != -1)
 	{
 		if (dup2(fd, 1) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
+			exit_with_error("dup2");
 		close(fd);
 	}
 }
@@ -107,20 +134,14 @@ static void	handle_in_redirection(t_redirection *redir)
 		{
 			fd = open(redir->file, O_RDONLY);
 			if (fd == -1)
-			{
-				perror("open");
-				exit(EXIT_FAILURE);
-			}
+				exit_custom("bash: %s: %s\n", redir->file, strerror(errno));
 		}
 		else if (redir->type == HEREDOC)
 			handle_heredoc(redir, &fd);
 		if (fd != -1)
 		{
 			if (dup2(fd, 0) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
+				exit_with_error("dup2");
 			close(fd);
 		}
 		redir = redir->next;
