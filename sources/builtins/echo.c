@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/12 15:54:45 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:31:02 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int     echo(char **args, char **env)
         printf("\n");
         return (EXIT_SUCCESS);
     }
-    if (strncmp(args[i], "-n", 2) == 0)
+    if (ft_strncmp(args[i], "-n", 2) == 0)
     {
         opt = 1;
         i++;
