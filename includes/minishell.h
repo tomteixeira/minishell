@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:57:34 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:05:11 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	expand_command_arguments(t_command *cmd, char **env);
 // FORK
 void handle_parent_process(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd);
 void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
+void	handle_pipe_redirection(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd);
+
 // PATH
 char	*find_command_in_path(const char *command);
 // REDIRECTION

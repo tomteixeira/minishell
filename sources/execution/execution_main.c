@@ -6,13 +6,42 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/24 02:25:13 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/26 14:00:41 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 int	g_signal = 0;
+
+static int	is_builtin(char *cmd)
+{
+	if (!cmd)
+		return (0);
+
+	// List of built-in commands
+	char *builtins[] = {
+		"echo",
+		"export",
+		"cd",
+		"env",
+		"exit",
+		"pwd",
+		"unset",
+		NULL  // End marker
+	};
+
+	int i = 0;
+	while (builtins[i])
+	{
+		if (strcmp(cmd, builtins[i]) == 0)
+			return (1);  // It's a built-in
+		i++;
+	}
+
+	return (0);  // Not a built-in
+}
+
 
 // Handle Piping
 static void	handle_piping(t_command *cmd, int *pipefd)
@@ -31,7 +60,6 @@ static void	handle_piping(t_command *cmd, int *pipefd)
 static pid_t	fork_and_execute(t_command_parser **current, pid_t pid,
 	int *pipefd, int *prev_pipe_read_fd, char **env)
 {
-	//pid_t	pid;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -116,10 +144,39 @@ int	execute_command(t_command_parser *first_command, char ***env)
 			continue ;
 		expand_command_arguments(current->command, *env);
 		handle_piping(current->command, pipefd);
-		if (execute_builtin(current->command, env))
+		if (current->command->command_args && is_builtin(current->command->command_args[0]))
 		{
+			int original_stdout = dup(STDOUT_FILENO);
+			int original_stdin = dup(STDIN_FILENO);
+			if (original_stdout == -1 || original_stdin == -1)
+			{
+				perror("dup");
+				exit(EXIT_FAILURE);
+			}
+			if (current->command->pipe_after)
+				dup2(pipefd[1], STDOUT_FILENO);
+			handle_redirection(current->command);
+			execute_builtin(current->command, env);
+			dup2(original_stdout, STDOUT_FILENO);
+			dup2(original_stdin, STDIN_FILENO);
+			close(original_stdout);
+			close(original_stdin);
+			if (!current->command->pipe_after && prev_pipe != -1)
+				close(prev_pipe);
+			if (current->command->pipe_after)
+			{
+				close(pipefd[1]);
+				prev_pipe = pipefd[0];
+			}
+			else
+			{
+				if (pipefd[0] != -1)
+					close(pipefd[0]);
+				if (pipefd[1] != -1)
+					close(pipefd[1]);
+			}
 			current = current->next;
-			continue ;
+			continue;
 		}
 		if (!current->command->command_args && current->command->in_redirection->type == HEREDOC)
 		{

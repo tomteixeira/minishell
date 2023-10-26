@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:55:21 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:26:41 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,19 @@
 // Utility function to check if there is an assignment
 int	is_assignment(const char *cmd)
 {
-	if (ft_strchr(cmd, '='))
-		return (1);
+	int in_single_quote = 0;
+	int in_double_quote = 0;
+
+	while (*cmd)
+	{
+		if (*cmd == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (*cmd == '\"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		else if (*cmd == '=' && !in_single_quote && !in_double_quote)
+			return (1);
+		cmd++;
+	}
 	return (0);
 }
 
@@ -60,7 +71,10 @@ int	execute_builtin(t_command *cmd, char ***env)
 	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
 		return (g_signal = pwd(cmd->command_args, *env), 1);
 	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
+	{
+		printf("export\n");
 		return (g_signal = export(cmd->command_args, env), 1);
+	}
 	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
 		return (g_signal = unset(cmd->command_args, env), 1);
 	else if (ft_strcmp(cmd->command_args[0], "env") == 0)

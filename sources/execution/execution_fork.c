@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:30:49 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:45:09 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	check_directory(const char *command)
 	}
 }
 
-static void	handle_pipe_redirection(t_command_parser *current,
+void	handle_pipe_redirection(t_command_parser *current,
 	int *pipefd, int *prev_pipe_read_fd)
 {
 	if (current->previous && current->previous->command->pipe_after
@@ -81,7 +81,7 @@ void	handle_child_process(t_command_parser *current,
 		ft_error("bash: %s: command not found\n",
 			current->command->command_args[0]);
 		free(full_path);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/24 02:25:48 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:10:37 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,77 @@ static char	*expand_variable(const char *arg, char **env)
 	return (strdup(arg));
 }
 
-void	expand_command_arguments(t_command *cmd, char **env)
+static char *remove_double_quotes(const char *str)
 {
-	int		i;
-	char	*expanded_arg;
+    char *new_str;
+    int i, j;
 
-	i = 0;
-	if (!cmd->command_args)
-		return ;
-	while (cmd->command_args[i])
-	{
-		expanded_arg = expand_variable(cmd->command_args[i], env);
-		free(cmd->command_args[i]);
-		cmd->command_args[i] = expanded_arg;
-		i++;
-	}
+    new_str = (char *)malloc(strlen(str) + 1);
+    if (!new_str)
+        return (NULL);
+
+    i = 0;
+    j = 0;
+    while (str[i])
+    {
+        if (str[i] != '\"')
+        {
+            new_str[j] = str[i];
+            j++;
+        }
+        i++;
+    }
+    new_str[j] = '\0';
+
+    return new_str;
 }
+
+static char *remove_single_quotes(const char *str)
+{
+    char *new_str;
+    int i, j;
+
+    new_str = (char *)malloc(strlen(str) + 1);
+    if (!new_str)
+        return (NULL);
+
+    i = 0;
+    j = 0;
+    while (str[i])
+    {
+        if (str[i] != '\'')
+        {
+            new_str[j] = str[i];
+            j++;
+        }
+        i++;
+    }
+    new_str[j] = '\0';
+
+    return new_str;
+}
+
+void expand_command_arguments(t_command *cmd, char **env)
+{
+    int i;
+    char *expanded_arg;
+    char *no_double_quotes_arg;
+    char *no_single_quotes_arg;
+
+    i = 0;
+    if (!cmd->command_args)
+        return;
+
+    while (cmd->command_args[i])
+    {
+        no_double_quotes_arg = remove_double_quotes(cmd->command_args[i]);
+        expanded_arg = expand_variable(no_double_quotes_arg, env);
+        free(no_double_quotes_arg);
+        no_single_quotes_arg = remove_single_quotes(expanded_arg);
+        free(expanded_arg);
+        free(cmd->command_args[i]);
+        cmd->command_args[i] = no_single_quotes_arg;
+        i++;
+    }
+}
+
