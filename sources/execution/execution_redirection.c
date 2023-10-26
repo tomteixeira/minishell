@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/26 09:53:42 by hebernar         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/25 17:03:18 by tomteixeira      ###   ########.fr       */
+>>>>>>> 33f863c1df8f450d4688b473aa064cf1098bf95f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +64,9 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 	while (1)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 9);  // Display the heredoc prompt
-		line = get_next_line(STDERR_FILENO);
+		line = get_next_line(STDERR_FILENO); // don't forget to secure memory leak
 		remove_null_char(line);
-		if (strcmp(line, delimiter) == 0)
+		if (strcmp(line, delimiter) == 0) // don't forget to change the function
 		{
 			free(line);
 			break ;

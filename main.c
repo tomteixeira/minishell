@@ -6,7 +6,11 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/26 09:29:25 by hebernar         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/26 15:44:07 by tomteixeira      ###   ########.fr       */
+>>>>>>> 33f863c1df8f450d4688b473aa064cf1098bf95f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +27,9 @@ char	*custom_prompt()
 	reset_color = "\033[0m";
 	getcwd(cwd, PATH_MAX);
 	printf("\033[0;33m\033[0m%s%s%s", cwd_color, cwd, reset_color);
-	printf("\e[32m\e[1m\n❯ \e[0m");
+	if (g_signal != 0)
+		printf("\033[31m - %d", g_signal);
+	printf("\e[32m\e[1m \n❯ \e[0m");
     return (readline(""));
 }
 

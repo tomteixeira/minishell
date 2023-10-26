@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/25 14:05:11 by hebernar         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/25 16:55:49 by tomteixeira      ###   ########.fr       */
+>>>>>>> 33f863c1df8f450d4688b473aa064cf1098bf95f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +57,7 @@ t_token	        *redirection_token(t_lexer **lexer);
 t_token         *create_token(t_tokentype type, const char *value, t_lexer **lexer);
 t_token         *heredoc_token(t_lexer **lexer);
 int		        ft_word_char(int c);
-int             check_parsing(t_tokenlist *token);
+int             check_parsing(t_tokenlist **t);
 int             ft_string_char(int c);
 //int		        check_parsing(t_token **token);
 

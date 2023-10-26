@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 15:07:43 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/10/25 15:43:15 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int    check_existant_var(char *var)
     if (!var_check)
         return (free(var_key), 0);
     free(var_key);
-    return (1);
-    
+    return (1); 
 }
 
 char    *set_var(char *arg)
