@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/06 11:40:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:45:08 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static char *expand_argument(const char *str, t_env_var *env_var) {
 			quotes = 1;
 		if (quotes == 0 && (tmp[i] == '\''))
 			quotes = 2;
-		if ((quotes == 0 || quotes == 1) && tmp[i] == '$' && tmp[i + 1] != '\0' && tmp[i + 1] != ' ' && tmp[i + 1] != '\"' && tmp[i + 1] != '\'')
+		if ((quotes == 0 || quotes == 1) && tmp[i] == '$' && tmp[i + 1] != '\0' && tmp[i + 1] != ' ' && tmp[i + 1] != '\"' && tmp[i + 1] != '\'' && tmp[i - 1] != '\\' && tmp[i + 1] != '=')
 		{
 			new_tmp = expand_variable(tmp, env_var, i);
 			free(tmp); // Free the old tmp before reassigning
