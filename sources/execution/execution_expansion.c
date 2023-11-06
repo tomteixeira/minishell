@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/06 11:45:08 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:18:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ static char *expand_variable(const char *str, t_env_var *env_var, int i)
 	return (tmp);
 }
 
-static char *expand_argument(const char *str, t_env_var *env_var) {
+static char *expand_argument(const char *str, t_env_var *env_var)
+{
 	int quotes = 0;
 	int i = 0;
 	char *tmp = strdup(str);
@@ -125,34 +126,29 @@ static char *expand_argument(const char *str, t_env_var *env_var) {
 		if ((quotes == 0 || quotes == 1) && tmp[i] == '$' && tmp[i + 1] != '\0' && tmp[i + 1] != ' ' && tmp[i + 1] != '\"' && tmp[i + 1] != '\'' && tmp[i - 1] != '\\' && tmp[i + 1] != '=')
 		{
 			new_tmp = expand_variable(tmp, env_var, i);
-			free(tmp); // Free the old tmp before reassigning
+			free(tmp);
 			tmp = new_tmp;
-			continue; // Start checking from the beginning of the new string
+			continue ;
 		}
 		i++;
 	}
 	if (quotes)
 	{
 		new_tmp = remove_quotes(tmp, quotes);
-		free(tmp); // Free the old tmp before reassigning
+		free(tmp);
 		tmp = new_tmp;
 	}
-	return tmp;
+	return (tmp);
 }
 
 void expand_command_arguments(t_command *cmd, t_env_var *env_var)
 {
 	int i;
 	char *expanded_arg;
+	t_redirection *redirection;
 
 	i = 0;
-	while (cmd->command_args[i] != NULL)
-	{
-		expanded_arg = expand_argument(cmd->command_args[i], env_var);
-		free(cmd->command_args[i]);
-		cmd->command_args[i] = expanded_arg;
-		i++;
-	}
+	redirection = cmd->in_redirection;
 	while(cmd->in_redirection)
 	{
 		expanded_arg = expand_argument(cmd->in_redirection->file, env_var);
@@ -160,11 +156,23 @@ void expand_command_arguments(t_command *cmd, t_env_var *env_var)
 		cmd->in_redirection->file = expanded_arg;
 		cmd->in_redirection = cmd->in_redirection->next;
 	}
+	cmd->in_redirection = redirection;
+	redirection = cmd->out_redirection;
 	while(cmd->out_redirection)
 	{
 		expanded_arg = expand_argument(cmd->out_redirection->file, env_var);
 		free(cmd->out_redirection->file);
 		cmd->out_redirection->file = expanded_arg;
 		cmd->out_redirection = cmd->out_redirection->next;
+	}
+	cmd->out_redirection = redirection;
+	if (!cmd->command_args)
+		return ;
+	while (cmd->command_args[i] != NULL)
+	{
+		expanded_arg = expand_argument(cmd->command_args[i], env_var);
+		free(cmd->command_args[i]);
+		cmd->command_args[i] = expanded_arg;
+		i++;
 	}
 }

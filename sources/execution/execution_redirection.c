@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 14:18:32 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:28:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ static void	handle_out_redirection(t_redirection *redir)
 		else if (redir->type == A_R_OUT)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			exit_custom("bash: %s: %s\n", redir->file, strerror(errno));
+		{
+			ft_error("bash: %s: %s\n", redir->file, strerror(errno));
+			exit(EXIT_FAILURE);
+		}
 		redir = redir->next;
 	}
 	if (fd != -1)
@@ -128,7 +131,10 @@ static void	handle_in_redirection(t_redirection *redir)
 		{
 			fd = open(redir->file, O_RDONLY);
 			if (fd == -1)
-				exit_custom("bash: %s: %s\n", redir->file, strerror(errno));
+			{
+				ft_error("bash: %s: %s\n", redir->file, strerror(errno));
+				exit(EXIT_FAILURE);
+			}
 		}
 		else if (redir->type == HEREDOC)
 			handle_heredoc(redir, &fd);
