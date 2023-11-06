@@ -6,22 +6,78 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/26 09:29:25 by hebernar         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/26 15:44:07 by tomteixeira      ###   ########.fr       */
->>>>>>> 33f863c1df8f450d4688b473aa064cf1098bf95f
+/*   Updated: 2023/11/05 12:36:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "includes/minishell.h"
+
+// Initialisation env var
+
+t_env_var *create_env_var(const char *env_str)
+{
+	char *key_value_pair;
+	char *delimiter;
+	t_env_var *var;
+
+	var = (NULL);
+	key_value_pair = ft_strdup(env_str);
+	delimiter = ft_strchr(key_value_pair, '=');
+	if (!delimiter)
+	{
+		free(key_value_pair);
+		return (NULL);
+	}
+
+	*delimiter = '\0';
+	var = malloc(sizeof(t_env_var));
+	if (!var)
+	{
+		free(key_value_pair);
+		return (NULL);
+	}
+	var->key = key_value_pair;
+	var->value = delimiter + 1;
+	var->next = NULL;
+	return (var);
+}
+
+void init_env_var(t_env_var **env_var, char **env)
+{
+	t_env_var	*current_var;
+	t_env_var	*previous_var;
+	int			i;
+
+	if (!env || !*env)
+	{
+		*env_var = NULL;
+		return;
+	}
+	i = 0;
+	current_var = NULL;
+	previous_var = NULL;
+	while (env[i] != NULL)
+	{
+		current_var = create_env_var(env[i]);
+		if (!current_var)
+			continue;
+		if (previous_var)
+			previous_var->next = current_var;
+		else
+			*env_var = current_var;
+		previous_var = current_var;
+		i++;
+	}
+}
+
+// Fin initialization
+
 
 char	*custom_prompt()
 {
-    char cwd[PATH_MAX];
-    char *cwd_color;
-    char *reset_color;
+	char	cwd[PATH_MAX];
+	char	*cwd_color;
+	char	*reset_color;
 
 	cwd_color = "\033[36m";
 	reset_color = "\033[0m";
@@ -30,10 +86,10 @@ char	*custom_prompt()
 	if (g_signal != 0)
 		printf("\033[31m - %d", g_signal);
 	printf("\e[32m\e[1m \n❯ \e[0m");
-    return (readline(""));
+	return (readline(""));
 }
 
-char *read_line(void)
+char	*read_line(void)
 {
 	char *line;
 
@@ -54,12 +110,15 @@ void	handle_sigint(int sig)
 	}
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char *line;
 	t_tokenlist *tokens;
 	t_command_parser  *first_command;
+	t_env_var *env_var;
 
+	env_var = NULL;
+	init_env_var(&env_var, env);
 	(void)argv;
 	(void)argc;
 //	(void)env;
@@ -67,7 +126,7 @@ int main(int argc, char **argv, char **env)
 	tokens = NULL;
 	first_command = NULL;
 	signal(SIGINT, handle_sigint);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	while (42)
 	{
 		line = read_line();
@@ -80,7 +139,7 @@ int main(int argc, char **argv, char **env)
 		if (first_command)
 		{
 //			print_parser(first_command);
-			execute_command(first_command, &env);
+			execute_command(first_command, &env, &env_var);
 		}
 		ft_free(&line, &tokens, &first_command);
 	}

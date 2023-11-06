@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/25 14:05:11 by hebernar         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/25 16:55:49 by tomteixeira      ###   ########.fr       */
->>>>>>> 33f863c1df8f450d4688b473aa064cf1098bf95f
+/*   Updated: 2023/11/05 17:37:53 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +68,13 @@ void    			print_parser(t_command_parser *head);
 
 /*Execution functions*/
 // MAIN
-int		execute_command(t_command_parser *first_command, char ***env);
+int		execute_command(t_command_parser *first_command, char ***env, t_env_var **env_var);
+// ASSIGNEMENTS
+int	handle_assignments(t_command_parser **current, char ***env, t_env_var **env_var);
 // ERROR
 void	ft_error(const char *str, ...);
 // EXPANSION
-void	expand_command_arguments(t_command *cmd, char **env);
+void	expand_command_arguments(t_command *cmd, t_env_var *env_var);
 // FORK
 void handle_parent_process(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd);
 void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
@@ -93,7 +91,7 @@ void	put_sig(int sig_code);
 int		is_assignment(const char *cmd);
 int		execute_builtin(t_command *cmd, char ***env);
 char	**remove_from_list(char **list, char *arg);
-void	init_execution_context(t_command_parser **current, int *prev_pipe_read_fd, t_command_parser *first_command);
+void	init_execution_context(t_command_parser **current, int *prev_pipe_read_fd, t_command_parser *first_command, int *pipefd);
 
 /*Free functions*/
 void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h);
