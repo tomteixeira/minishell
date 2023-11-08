@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 15:44:19 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:04:14 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	main(int argc, char **argv, char **env)
 	init_env_var(&env_var, env);
 	(void)argv;
 	(void)argc;
-//	(void)env;
 	line = NULL;
 	tokens = NULL;
 	first_command = NULL;
