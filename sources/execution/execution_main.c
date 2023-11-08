@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/07 20:57:30 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:21:25 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,66 @@ static void	handle_piping(t_command *cmd, int *pipefd)
 }
 
 // Function to handle the fork and execute logic
-static pid_t	fork_and_execute(t_command_parser **current, pid_t pid,
-	int *pipefd, int *prev_pipe_read_fd, char **env)
+static pid_t fork_and_execute(t_command_parser **current, pid_t pid,
+                              int *pipefd, int *prev_pipe_read_fd, char **env)
 {
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		if (!(*current)->command->pipe_after && pipefd[1] != -1)
-			close(pipefd[1]);
-		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
-	}
-	else if (pid > 0)
-	{
-		if ((*current)->command->pipe_after && pipefd[1] != -1)
-			close(pipefd[1]);
-		if (*prev_pipe_read_fd != -1)
-			close(*prev_pipe_read_fd);
-		handle_parent_process(*current, pipefd, prev_pipe_read_fd);
-	}
-	else
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
+    pid = fork();
+    if (pid == 0)  // Child process
+    {
+        // Child does not need to read from the previous pipe's read end.
+        if (*prev_pipe_read_fd != -1)
+        {
+            dup2(*prev_pipe_read_fd, STDIN_FILENO);
+            close(*prev_pipe_read_fd);
+        }
+
+        // If there is a command after the pipe, replace stdout with the write end of the pipe.
+        if ((*current)->command->pipe_after)
+        {
+            dup2(pipefd[1], STDOUT_FILENO);
+            close(pipefd[1]); // After dup2, close the file descriptor as it's no longer needed.
+            close(pipefd[0]); // Child will not read from this pipe.
+        }
+
+        // Execute the child process logic.
+        handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
+        exit(EXIT_FAILURE);  // In case handle_child_process returns, terminate child.
+    }
+    else if (pid > 0)  // Parent process
+    {
+        // Parent does not write to the pipe.
+        if ((*current)->command->pipe_after)
+        {
+            close(pipefd[1]);  // Close write end of the current pipe.
+        }
+
+        // Close the previous pipe read end as the parent doesn't need it anymore.
+        if (*prev_pipe_read_fd != -1)
+        {
+            close(*prev_pipe_read_fd);
+        }
+
+        // If there is a command after the pipe, save the read end for the next command.
+        if ((*current)->command->pipe_after)
+        {
+            *prev_pipe_read_fd = pipefd[0];
+        }
+        else
+        {
+            *prev_pipe_read_fd = -1; // No next command, so set it to -1.
+        }
+
+        // Parent will wait for the child process to complete.
+        handle_parent_process(*current, pipefd, prev_pipe_read_fd);
+    }
+    else
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+    return pid;
 }
+
 
 // Function to wait for signal
 static int	wait_for_children(pid_t pid)
@@ -91,7 +125,7 @@ static int	wait_for_children(pid_t pid)
 
 	if (pid == 0)
 		return (0);
-	while (waitpid(pid, &status, 0) != -1)
+	while (waitpid(pid, &status, 0) > 0)
 		;
 	if (WIFSIGNALED(status))
 	{
