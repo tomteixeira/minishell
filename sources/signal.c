@@ -6,18 +6,18 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:01:58 by tomteixeira       #+#    #+#             */
-/*   Updated: 2023/11/08 18:20:35 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:27:10 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    interrupt_exex_signal(int sig)
+void    interrupt_exec_signal(int sig)
 {
     if (sig == SIGINT)
     {
         g_signal = 130;
-        printf("^C\n");
+        printf("\n");
     }
 }
 
@@ -43,7 +43,7 @@ void	interrupt_signal(int sig)
 
 void    handle_exec_signal()
 {
-    signal(SIGINT, interrupt_exex_signal);
+    signal(SIGINT, interrupt_exec_signal);
     signal(SIGQUIT, quit_exec_signal);
 }
 
