@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 13:26:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:05:33 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ int	execute_builtin(t_command *cmd, char ***env)
 	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
 		return (g_signal = pwd(cmd->command_args, *env), 1);
 	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
-	{
-		printf("export\n");
 		return (g_signal = export(cmd->command_args, env), 1);
-	}
 	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
 		return (g_signal = unset(cmd->command_args, env), 1);
 	else if (ft_strcmp(cmd->command_args[0], "env") == 0)
@@ -86,8 +83,10 @@ int	execute_builtin(t_command *cmd, char ***env)
 
 // Initialize Execution Context
 void	init_execution_context(t_command_parser **current,
-	int *prev_pipe_read_fd, t_command_parser *first_command)
+	int *prev_pipe_read_fd, t_command_parser *first_command, int *pipefd)
 {
 	*current = first_command;
 	*prev_pipe_read_fd = -1;
+	pipefd[0] = -1;
+	pipefd[1] = -1;
 }

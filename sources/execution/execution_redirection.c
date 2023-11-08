@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 16:28:03 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 17:09:18 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "heredoc> ", 9);  // Display the heredoc prompt
+		write(STDERR_FILENO, "heredoc> ", 9);  // Display the heredoc prompt
 		line = get_next_line(STDERR_FILENO); // don't forget to secure memory leak
 		remove_null_char(line);
 		if (strcmp(line, delimiter) == 0) // don't forget to change the function
@@ -103,7 +103,10 @@ static void	handle_out_redirection(t_redirection *redir)
 		else if (redir->type == A_R_OUT)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			exit_custom("bash: %s: %s\n", redir->file, strerror(errno));
+		{
+			ft_error("bash: %s: %s\n", redir->file, strerror(errno));
+			exit(EXIT_FAILURE);
+		}
 		redir = redir->next;
 	}
 	if (fd != -1)
@@ -128,7 +131,10 @@ static void	handle_in_redirection(t_redirection *redir)
 		{
 			fd = open(redir->file, O_RDONLY);
 			if (fd == -1)
-				exit_custom("bash: %s: %s\n", redir->file, strerror(errno));
+			{
+				ft_error("bash: %s: %s\n", redir->file, strerror(errno));
+				exit(EXIT_FAILURE);
+			}
 		}
 		else if (redir->type == HEREDOC)
 			handle_heredoc(redir, &fd);

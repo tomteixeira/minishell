@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 14:00:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:57:30 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static pid_t	fork_and_execute(t_command_parser **current, pid_t pid,
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (!(*current)->command->pipe_after && pipefd[1] != -1)
 			close(pipefd[1]);
 		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
@@ -83,11 +84,13 @@ static pid_t	fork_and_execute(t_command_parser **current, pid_t pid,
 	return (pid);
 }
 
-// Function to wait for all child processes to complete
+// Function to wait for signal
 static int	wait_for_children(pid_t pid)
 {
 	int		status;
 
+	if (pid == 0)
+		return (0);
 	while (waitpid(pid, &status, 0) != -1)
 		;
 	if (WIFSIGNALED(status))
@@ -101,82 +104,67 @@ static int	wait_for_children(pid_t pid)
 	return (g_signal);
 }
 
-// Utility function to handle assignments $> a=b
-int	handle_assignments(t_command_parser **current, char ***env)
+static int execute_builtin_command(t_command_parser **current, char ***env, int *prev_pipe, int pipefd[2])
 {
-	char	*assignment_args[3];
-
-	if (!(*current)->command->command_args)
-		return (0);
-	if (is_assignment((*current)->command->command_args[0])
-		&& (*current)->command->command_args[1]
-		== NULL && (*current)->next == NULL)
+	int original_stdout = dup(STDOUT_FILENO);
+	int original_stdin = dup(STDIN_FILENO);
+	if (original_stdout == -1 || original_stdin == -1)
 	{
-		assignment_args[0] = "export";
-		assignment_args[1] = (*current)->command->command_args[0];
-		assignment_args[2] = NULL;
-		export(assignment_args, env);
-		*current = (*current)->next;
-		return (1);
+		perror("dup");
+		exit(EXIT_FAILURE);
 	}
-	else if (is_assignment((*current)->command->command_args[0]))
-		(*current)->command->command_args
-			= remove_from_list((*current)->command->command_args,
-				(*current)->command->command_args[0]);
-	return (0);
+
+	if ((*current)->command->pipe_after)
+		dup2(pipefd[1], STDOUT_FILENO);
+
+	handle_redirection((*current)->command);
+	execute_builtin((*current)->command, env);
+
+	dup2(original_stdout, STDOUT_FILENO);
+	dup2(original_stdin, STDIN_FILENO);
+	close(original_stdout);
+	close(original_stdin);
+
+	if (!(*current)->command->pipe_after && *prev_pipe != -1)
+		close(*prev_pipe);
+
+	if ((*current)->command->pipe_after) {
+		close(pipefd[1]);
+	} else {
+		if (pipefd[0] != -1)
+			close(pipefd[0]);
+		if (pipefd[1] != -1)
+			close(pipefd[1]);
+	}
+
+	*current = (*current)->next;
+	return 1;
 }
 
+
 // Utility function to execute a command
-int	execute_command(t_command_parser *first_command, char ***env)
+int	execute_command(t_command_parser *first_command, char ***env, t_env_var **env_var)
 {
 	t_command_parser	*current;
 	int					pipefd[2];
 	int					prev_pipe;
 	pid_t				pid;
 
-	pipefd[0] = -1;
-	pipefd[1] = -1;
-	pid = 0;
-	init_execution_context(&current, &prev_pipe, first_command);
+	init_execution_context(&current, &prev_pipe, first_command, pipefd);
 	while (current)
 	{
-		if (handle_assignments(&current, env))
-			continue ;
-		expand_command_arguments(current->command, *env);
+		pid = 0;
+		if (handle_assignments(&current, env, env_var) == 1)
+		{
+			g_signal = 0;
+			return (0);
+		}
+		expand_command_arguments(current->command, *env_var);
 		handle_piping(current->command, pipefd);
 		if (current->command->command_args && is_builtin(current->command->command_args[0]))
 		{
-			int original_stdout = dup(STDOUT_FILENO);
-			int original_stdin = dup(STDIN_FILENO);
-			if (original_stdout == -1 || original_stdin == -1)
-			{
-				perror("dup");
-				exit(EXIT_FAILURE);
-			}
-			if (current->command->pipe_after)
-				dup2(pipefd[1], STDOUT_FILENO);
-			handle_redirection(current->command);
-			execute_builtin(current->command, env);
-			dup2(original_stdout, STDOUT_FILENO);
-			dup2(original_stdin, STDIN_FILENO);
-			close(original_stdout);
-			close(original_stdin);
-			if (!current->command->pipe_after && prev_pipe != -1)
-				close(prev_pipe);
-			if (current->command->pipe_after)
-			{
-				close(pipefd[1]);
-				prev_pipe = pipefd[0];
-			}
-			else
-			{
-				if (pipefd[0] != -1)
-					close(pipefd[0]);
-				if (pipefd[1] != -1)
-					close(pipefd[1]);
-			}
-			current = current->next;
-			continue;
+			if (execute_builtin_command(&current, env, &prev_pipe, pipefd))
+				continue ;
 		}
 		if (!current->command->command_args && current->command->in_redirection->type == HEREDOC)
 		{

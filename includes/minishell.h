@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 16:27:39 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 17:08:34 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,13 @@ void    			print_parser(t_command_parser *head);
 
 /*Execution functions*/
 // MAIN
-int		execute_command(t_command_parser *first_command, char ***env);
+int		execute_command(t_command_parser *first_command, char ***env, t_env_var **env_var);
+// ASSIGNEMENTS
+int	handle_assignments(t_command_parser **current, char ***env, t_env_var **env_var);
 // ERROR
 void	ft_error(const char *str, ...);
 // EXPANSION
-void	expand_command_arguments(t_command *cmd, char **env);
+void	expand_command_arguments(t_command *cmd, t_env_var *env_var);
 // FORK
 void handle_parent_process(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd);
 void	handle_child_process(t_command_parser *current, int *pipefd, char **env, int *prev_pipe_read_fd);
@@ -89,7 +91,7 @@ void	put_sig(int sig_code);
 int		is_assignment(const char *cmd);
 int		execute_builtin(t_command *cmd, char ***env);
 char	**remove_from_list(char **list, char *arg);
-void	init_execution_context(t_command_parser **current, int *prev_pipe_read_fd, t_command_parser *first_command);
+void	init_execution_context(t_command_parser **current, int *prev_pipe_read_fd, t_command_parser *first_command, int *pipefd);
 
 /*Free functions*/
 void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h);

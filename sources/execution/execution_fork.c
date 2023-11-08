@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 13:45:09 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/07 12:04:18 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void	handle_child_process(t_command_parser *current,
 		check_directory(current->command->command_args[0]);
 		full_path = find_command_in_path(current->command->command_args[0]);
 	}
-	if (current->command->command_args && full_path && access(full_path, X_OK) != -1)
+	if (current->command->command_args && full_path && access(full_path, X_OK) != -1 && ft_strcmp(current->command->command_args[0],""))
 	{
 		execve(full_path, current->command->command_args, env);
 		free(full_path);
 	}
-	else if (current->command->command_args)
+	else if (current->command->command_args[0])
 	{
 		ft_error("bash: %s: command not found\n",
 			current->command->command_args[0]);
