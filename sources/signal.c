@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:01:58 by tomteixeira       #+#    #+#             */
-/*   Updated: 2023/11/08 18:12:36 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:20:35 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	interrupt_signal(int sig)
 	}
 }
 
-void    handle_exex_signal()
+void    handle_exec_signal()
 {
     signal(SIGINT, interrupt_exex_signal);
     signal(SIGQUIT, quit_exec_signal);

@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 18:16:43 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:20:25 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	wait_for_children(pid_t pid)
 	if (pid == 0)
 		return (0);
 	while (waitpid(pid, &status, 0) != -1)
-		handle_exex_signal();
+		handle_exec_signal();
 	if (WIFSIGNALED(status))
 	{
 		put_sig(WTERMSIG(status));

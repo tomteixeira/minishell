@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 18:05:40 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:20:40 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handle_redirection(t_command *cmd);
 void	handle_heredoc(t_redirection *heredoc, int *read_end);
 // SIGNALS
 void	put_sig(int sig_code);
-void    handle_exex_signal();
+void    handle_exec_signal();
 void    handle_input_signal();
 // UTILS
 int		is_assignment(const char *cmd);
