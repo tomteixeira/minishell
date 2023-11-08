@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 18:24:57 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:47:21 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	main(int argc, char **argv, char **env)
 			tokens = lexer(line);
 		if (tokens)
 			first_command = parse_tokens(tokens);
+		handle_exec_signal();
 		if (first_command)
 			execute_command(first_command, &env, &env_var);
 		ft_free(&line, &tokens, &first_command);
