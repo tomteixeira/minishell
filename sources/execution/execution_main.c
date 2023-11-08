@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 17:35:37 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:44:58 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ int	execute_command(t_command_parser *first_command, char ***env, t_env_var **en
 	pid_t				pid;
 
 	init_execution_context(&current, &prev_pipe, first_command, pipefd);
+	handle_exec_signal();
 	while (current)
 	{
 		pid = 0;
