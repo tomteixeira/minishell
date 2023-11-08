@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 17:51:22 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:52:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	main(int argc, char **argv, char **env)
 			tokens = lexer(line);
 		if (tokens)
 			first_command = parse_tokens(tokens);
+		handle_exec_signal();
 		if (first_command)
 			execute_command(first_command, &env, &env_var);
 		ft_free(&line, &tokens, &first_command);
