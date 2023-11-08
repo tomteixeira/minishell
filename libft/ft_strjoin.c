@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:29:55 by toteixei          #+#    #+#             */
-/*   Updated: 2023/03/22 14:06:48 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:36:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,5 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		j++;
 	}
 	res[i] = 0;
-	if (s1)
-		free((char *)s1);
 	return (res);
 }

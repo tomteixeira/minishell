@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/06 12:05:33 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:06:31 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ int	execute_builtin(t_command *cmd, char ***env)
 		return (g_signal = unset(cmd->command_args, env), 1);
 	else if (ft_strcmp(cmd->command_args[0], "env") == 0)
 		return (g_signal = ft_env(NULL, *env), 1);
-	// else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
-	// 	return (g_signal = exit(cmd->command_args), 1);
+	else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
+	{
+		ft_exit(cmd->command_args, *env);
+		return (g_signal);
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/07 21:28:44 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:33:05 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char *get_var_value(t_env_var *env_var, const char *var_name)
 	{
 		if (strcmp(env_var->key, var_name) == 0)
 		{
-			return strdup(env_var->value);
+			return ft_strdup(env_var->value);
 		}
 		env_var = env_var->next;
 	}
@@ -109,48 +109,58 @@ static char *expand_variable(const char *str, t_env_var *env_var, int i)
 	return (tmp);
 }
 
-static char *expand_argument(const char *str, t_env_var *env_var)
-{
-	int quotes = 0;
-	int i = 0;
-	char *tmp = ft_strdup(str);
-	char *new_tmp;
+static char *expand_argument(const char *str, t_env_var *env_var) {
+    int quotes = 0;
+    int i = 0;
+    char *tmp = ft_strdup(str);
+    char *new_tmp;
+    char *sub_tmp1;
+    char *sub_tmp2;
 
-	while (tmp[i])
-	{
-		if (quotes == 0 && (tmp[i] == '\"'))
-			quotes = 1;
-		if (quotes == 0 && (tmp[i] == '\''))
-			quotes = 2;
-		if ((quotes == 0 || quotes == 1) && tmp[i] == '$' && tmp[i + 1] != '\0' && tmp[i + 1] != ' ' && tmp[i + 1] != '\"' && tmp[i + 1] != '\'' && tmp[i - 1] != '\\' && tmp[i + 1] != '=')
-		{
-			new_tmp = expand_variable(tmp, env_var, i);
-			free(tmp);
-			tmp = ft_strdup(new_tmp);
-			free(new_tmp);
-			continue ;
-		}
-		if (tmp[i] == '\\' && tmp[i + 1] == '$')
-		{
-			// remove the backslash
-			new_tmp = ft_strjoin(ft_substr(tmp, 0, i), ft_substr(tmp, i + 1, strlen(tmp) - i - 1));
-			free(tmp);
-			tmp = ft_strdup(new_tmp);
-			free(new_tmp);
-			i++;
-			continue ;
-		}
-		i++;
-	}
-	if (quotes)
-	{
-		new_tmp = remove_quotes(tmp, quotes);
-		free(tmp);
-		tmp = ft_strdup(new_tmp);
-		free(new_tmp);
-	}
-	return (tmp);
+    if (!tmp) {
+        perror("malloc failed");
+        exit(EXIT_FAILURE);
+    }
+
+    while (tmp[i]) {
+        if (quotes == 0 && (tmp[i] == '\"'))
+            quotes = 1;
+        else if (quotes == 0 && (tmp[i] == '\''))
+            quotes = 2;
+        else if ((quotes == 0 || quotes == 1) && tmp[i] == '$' && tmp[i + 1] != '\0' && tmp[i + 1] != ' ' && tmp[i + 1] != '\"' && tmp[i + 1] != '\'' && (i == 0 || tmp[i - 1] != '\\') && tmp[i + 1] != '=') {
+            new_tmp = expand_variable(tmp, env_var, i);
+            if (new_tmp != tmp) { // Check if a new string was returned
+                free(tmp);
+                tmp = new_tmp;
+            }
+            i = -1;
+        } else if (tmp[i] == '\\' && tmp[i + 1] == '$') {
+            sub_tmp1 = ft_substr(tmp, 0, i);
+            sub_tmp2 = ft_substr(tmp, i + 1, ft_strlen(tmp) - i - 1);
+            new_tmp = ft_strjoin(sub_tmp1, sub_tmp2);
+            free(sub_tmp1);
+            free(sub_tmp2);
+            if (new_tmp != tmp) { // Check if a new string was returned
+                free(tmp);
+                tmp = new_tmp;
+            }
+            i++; // Move past the dollar sign
+        }
+        i++;
+    }
+
+    if (quotes) {
+        new_tmp = remove_quotes(tmp, quotes);
+        if (new_tmp != tmp) { // Check if a new string was returned
+            free(tmp);
+            tmp = new_tmp;
+        }
+    }
+
+    return tmp;
 }
+
+
 
 void expand_command_arguments(t_command *cmd, t_env_var *env_var)
 {
