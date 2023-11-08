@@ -6,7 +6,7 @@
 #    By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/08 17:09:02 by tomteixeira      ###   ########.fr        #
+#    Updated: 2023/11/08 18:05:55 by tomteixeira      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/builtins/echo.c \
 				sources/builtins/export.c \
 				sources/builtins/unset.c \
-				sources/builtins/env.c
+				sources/builtins/env.c \
+				sources/signal.c
 
 OBJ 		= 	$(SRCS:.c=.o)
 
