@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 16:04:14 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:23:31 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,6 @@ char	*read_line(void)
 	return (line);
 }
 
-void handle_sigint(int sig)
-{
-    if (sig == SIGINT)
-	{
-        g_signal = 130;
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
-}
-
-
 int	main(int argc, char **argv, char **env)
 {
 	char *line;
@@ -126,8 +114,7 @@ int	main(int argc, char **argv, char **env)
 	line = NULL;
 	tokens = NULL;
 	first_command = NULL;
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	handle_input_signal();
 	while (42)
 	{
 		line = read_line();
@@ -138,10 +125,7 @@ int	main(int argc, char **argv, char **env)
 		if (tokens)
 			first_command = parse_tokens(tokens);
 		if (first_command)
-		{
-//			print_parser(first_command);
 			execute_command(first_command, &env, &env_var);
-		}
 		ft_free(&line, &tokens, &first_command);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 16:08:27 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:24:43 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	handle_redirection(t_command *cmd);
 void	handle_heredoc(t_redirection *heredoc, int *read_end);
 // SIGNALS
 void	put_sig(int sig_code);
+void    handle_exec_signal();
+void    handle_input_signal();
 // UTILS
 int		is_assignment(const char *cmd);
 int		execute_builtin(t_command *cmd, char ***env);
