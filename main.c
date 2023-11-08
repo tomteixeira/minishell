@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 17:23:31 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:35:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ int	main(int argc, char **argv, char **env)
 	line = NULL;
 	tokens = NULL;
 	first_command = NULL;
-	handle_input_signal();
 	while (42)
 	{
+		handle_input_signal();
 		line = read_line();
 		if (!line)
 			exit(0);

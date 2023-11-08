@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 18:15:24 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:31:42 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	handle_child_process(t_command_parser *current,
 
 	handle_pipe_redirection(current, pipefd, prev_pipe_read_fd);
 	handle_redirection(current->command);
+	handle_exec_signal();
 	if (current->command->command_args)
 	{
 		check_directory(current->command->command_args[0]);
