@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:01:58 by tomteixeira       #+#    #+#             */
-/*   Updated: 2023/11/08 18:48:42 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 19:19:34 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    quit_exec_signal(int sig)
     if (sig == SIGQUIT)
     {
         g_signal = 131;
-        printf("minishell: quit process\n");
+        printf("Quit (core dumped)\n");
     }
 }
 
@@ -34,10 +34,11 @@ void	interrupt_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		g_signal = 130;
+        ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		g_signal = 130;
+        rl_redisplay();
 	}
 }
 

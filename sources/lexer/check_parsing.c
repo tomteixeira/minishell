@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 16:04:12 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 19:32:30 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ int	check_parsing(t_tokenlist **t)
 
 	cur = *t;
 	if (!cur)
-	{
-		g_signal = 0;
 		return (0);
-	}
 	if (cur->token && cur->token->type == T_PIP)
 		return (print_syntax_error(cur->token->value), 0);
 	while (cur)
