@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/06 14:18:38 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:57:30 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static pid_t	fork_and_execute(t_command_parser **current, pid_t pid,
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (!(*current)->command->pipe_after && pipefd[1] != -1)
 			close(pipefd[1]);
 		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
@@ -83,11 +84,13 @@ static pid_t	fork_and_execute(t_command_parser **current, pid_t pid,
 	return (pid);
 }
 
-// Function to wait for all child processes to complete
+// Function to wait for signal
 static int	wait_for_children(pid_t pid)
 {
 	int		status;
 
+	if (pid == 0)
+		return (0);
 	while (waitpid(pid, &status, 0) != -1)
 		;
 	if (WIFSIGNALED(status))
@@ -97,9 +100,7 @@ static int	wait_for_children(pid_t pid)
 		return (g_signal);
 	}
 	else if (WIFEXITED(status))
-	{
 		g_signal = WEXITSTATUS(status);
-	}
 	return (g_signal);
 }
 
@@ -107,7 +108,8 @@ static int execute_builtin_command(t_command_parser **current, char ***env, int 
 {
 	int original_stdout = dup(STDOUT_FILENO);
 	int original_stdin = dup(STDIN_FILENO);
-	if (original_stdout == -1 || original_stdin == -1) {
+	if (original_stdout == -1 || original_stdin == -1)
+	{
 		perror("dup");
 		exit(EXIT_FAILURE);
 	}
@@ -128,7 +130,6 @@ static int execute_builtin_command(t_command_parser **current, char ***env, int 
 
 	if ((*current)->command->pipe_after) {
 		close(pipefd[1]);
-		*prev_pipe = pipefd[0];
 	} else {
 		if (pipefd[0] != -1)
 			close(pipefd[0]);
@@ -149,10 +150,10 @@ int	execute_command(t_command_parser *first_command, char ***env, t_env_var **en
 	int					prev_pipe;
 	pid_t				pid;
 
-	pid = 0;
 	init_execution_context(&current, &prev_pipe, first_command, pipefd);
 	while (current)
 	{
+		pid = 0;
 		if (handle_assignments(&current, env, env_var) == 1)
 		{
 			g_signal = 0;

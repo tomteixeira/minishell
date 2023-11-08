@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/06 14:18:21 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:28:44 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ static char *expand_variable(const char *str, t_env_var *env_var, int i)
 		var_name = get_var_name(str, i + 1);
 		var_value = get_var_value(env_var, var_name);
 	}
-
 	tmp = replace_name(str, var_name, var_value, i);
 	free(var_name);
 	free(var_value);
@@ -114,7 +113,7 @@ static char *expand_argument(const char *str, t_env_var *env_var)
 {
 	int quotes = 0;
 	int i = 0;
-	char *tmp = strdup(str);
+	char *tmp = ft_strdup(str);
 	char *new_tmp;
 
 	while (tmp[i])
@@ -127,7 +126,18 @@ static char *expand_argument(const char *str, t_env_var *env_var)
 		{
 			new_tmp = expand_variable(tmp, env_var, i);
 			free(tmp);
-			tmp = new_tmp;
+			tmp = ft_strdup(new_tmp);
+			free(new_tmp);
+			continue ;
+		}
+		if (tmp[i] == '\\' && tmp[i + 1] == '$')
+		{
+			// remove the backslash
+			new_tmp = ft_strjoin(ft_substr(tmp, 0, i), ft_substr(tmp, i + 1, strlen(tmp) - i - 1));
+			free(tmp);
+			tmp = ft_strdup(new_tmp);
+			free(new_tmp);
+			i++;
 			continue ;
 		}
 		i++;
@@ -136,7 +146,8 @@ static char *expand_argument(const char *str, t_env_var *env_var)
 	{
 		new_tmp = remove_quotes(tmp, quotes);
 		free(tmp);
-		tmp = new_tmp;
+		tmp = ft_strdup(new_tmp);
+		free(new_tmp);
 	}
 	return (tmp);
 }
@@ -153,7 +164,8 @@ void expand_command_arguments(t_command *cmd, t_env_var *env_var)
 	{
 		expanded_arg = expand_argument(cmd->in_redirection->file, env_var);
 		free(cmd->in_redirection->file);
-		cmd->in_redirection->file = expanded_arg;
+		cmd->in_redirection->file = ft_strdup(expanded_arg);
+		free(expanded_arg);
 		cmd->in_redirection = cmd->in_redirection->next;
 	}
 	cmd->in_redirection = redirection;
@@ -162,7 +174,8 @@ void expand_command_arguments(t_command *cmd, t_env_var *env_var)
 	{
 		expanded_arg = expand_argument(cmd->out_redirection->file, env_var);
 		free(cmd->out_redirection->file);
-		cmd->out_redirection->file = expanded_arg;
+		cmd->out_redirection->file = ft_strdup(expanded_arg);
+		free(expanded_arg);
 		cmd->out_redirection = cmd->out_redirection->next;
 	}
 	cmd->out_redirection = redirection;
@@ -172,7 +185,8 @@ void expand_command_arguments(t_command *cmd, t_env_var *env_var)
 	{
 		expanded_arg = expand_argument(cmd->command_args[i], env_var);
 		free(cmd->command_args[i]);
-		cmd->command_args[i] = expanded_arg;
+		cmd->command_args[i] = ft_strdup(expanded_arg);
+		free(expanded_arg);
 		i++;
 	}
 }

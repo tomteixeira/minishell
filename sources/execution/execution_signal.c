@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/13 09:28:11 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/07 12:16:55 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	put_sig(int sig_code)
 		MS_SIGUSR2
 	};
 
-	if (sig_code != 13 && sig_code < 32)
+	if (sig_code != 13 && sig_code != 2 && sig_code < 32)
 	{
 		ft_error("%s: %d\n", siglist[sig_code], sig_code);
 	}
