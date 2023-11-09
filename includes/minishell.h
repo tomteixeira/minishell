@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:22:53 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:05:05 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # include <unistd.h>
 
 # define SIZE_PATH 4096
+
+extern int			g_signal;
 
 /*Prompt*/
 char				*read_line(void);
