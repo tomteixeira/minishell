@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:28:35 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:40:13 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init_variables(&env_var, &line, &tokens, &first_command);
-	init_env_var(env_var, env);
+	init_env_var(&env_var, env);
 	while (42)
 	{
 		handle_input_signal();
