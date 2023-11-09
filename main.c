@@ -6,11 +6,13 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 17:52:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/09 13:47:54 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int	g_signal = 0;
 
 // Initialisation env var
 

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 15:06:31 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/09 13:59:18 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 // Utility function to check if there is an assignment
 int	is_assignment(const char *cmd)
 {
-	int in_single_quote = 0;
-	int in_double_quote = 0;
+	int	in_single_quote;
+	int	in_double_quote;
 
+	in_single_quote = 0;
+	in_double_quote = 0;
 	while (*cmd)
 	{
 		if (*cmd == '\'' && !in_double_quote)
@@ -92,4 +94,30 @@ void	init_execution_context(t_command_parser **current,
 	*prev_pipe_read_fd = -1;
 	pipefd[0] = -1;
 	pipefd[1] = -1;
+}
+
+int	is_builtin(char *cmd)
+{
+	int					i;
+	static const char	*builtins[] = {
+		"echo",
+		"export",
+		"cd",
+		"env",
+		"exit",
+		"pwd",
+		"unset",
+		NULL
+	};
+
+	if (!cmd)
+		return (0);
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_strcmp(cmd, (char *)builtins[i]) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

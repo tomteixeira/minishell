@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/08 18:43:22 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/09 11:01:59 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,20 @@ void	handle_pipe_redirection(t_command_parser *current,
 }
 
 void	handle_child_process(t_command_parser *current,
-	int *pipefd, char **env, int *prev_pipe_read_fd)
+	int *pipefd, char **env, int *prev_pipe)
 {
 	char	*full_path;
 
-	handle_pipe_redirection(current, pipefd, prev_pipe_read_fd);
+	handle_pipe_redirection(current, pipefd, prev_pipe);
 	handle_redirection(current->command);
 	if (current->command->command_args)
 	{
 		check_directory(current->command->command_args[0]);
 		full_path = find_command_in_path(current->command->command_args[0]);
 	}
-	if (current->command->command_args && full_path && access(full_path, X_OK) != -1 && ft_strcmp(current->command->command_args[0],""))
+	if (current->command->command_args && full_path
+		&& access(full_path, X_OK) != -1
+		&& ft_strcmp(current->command->command_args[0], ""))
 	{
 		execve(full_path, current->command->command_args, env);
 		free(full_path);
@@ -86,7 +88,8 @@ void	handle_child_process(t_command_parser *current,
 }
 
 // Handle Parent Process
-void	handle_parent_process(t_command_parser *current, int *pipefd, int *prev_pipe_read_fd)
+void	handle_parent_process(t_command_parser *current,
+	int *pipefd, int *prev_pipe_read_fd)
 {
 	if (!current->command->pipe_after && *prev_pipe_read_fd != -1)
 		close(*prev_pipe_read_fd);

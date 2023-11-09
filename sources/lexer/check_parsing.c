@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/26 16:04:12 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/08 18:21:26 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

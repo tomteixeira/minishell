@@ -6,7 +6,7 @@
 #    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/08 17:26:04 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/09 13:17:53 by hebernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,19 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/env/env.c \
 				sources/handling_error/ft_free.c \
 				sources/execution/execution_main.c \
+				sources/execution/execution_builtins.c \
 				sources/execution/execution_assignment.c \
 				sources/execution/execution_error.c \
 				sources/execution/execution_redirection.c \
+				sources/execution/execution_heredoc.c \
 				sources/execution/execution_path.c \
 				sources/execution/execution_fork.c \
 				sources/execution/execution_signal.c \
 				sources/execution/execution_utils.c \
+				sources/execution/execution_utils_2.c \
 				sources/execution/execution_expansion.c \
+				sources/execution/execution_expansion_bis.c \
+				sources/execution/execution_expansion_ter.c \
 				sources/builtins/cd.c \
 				sources/builtins/pwd.c \
 				sources/builtins/echo.c \

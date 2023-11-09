@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:01:58 by tomteixeira       #+#    #+#             */
-/*   Updated: 2023/11/08 17:52:47 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/08 18:19:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,10 @@ void	interrupt_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_signal = 130;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-//        write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-//        rl_redisplay();
-		g_signal = 130;
 	}
 }
 
