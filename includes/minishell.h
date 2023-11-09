@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 14:01:20 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:43:50 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ void	replace_and_free(char **old_str, char *new_str);
 char	*get_var_name(const char *str, int i);
 int		is_builtin(char *cmd);
 char	*get_value_from_global_env(char **env, const char *key);
+pid_t	fork_and_execute(t_command_parser **current, int *pipefd, int *prev_pipe_read_fd, char **env);
+void	handle_piping(t_command *cmd, int *pipefd);
+
 
 /*Free functions*/
 void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h);
