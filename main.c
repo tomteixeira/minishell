@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 14:49:33 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:28:35 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	g_signal = 0;
+int			g_signal = 0;
 
-// Initialisation env var
-
-t_env_var *create_env_var(const char *env_str)
+t_env_var	*create_env_var(const char *env_str)
 {
-	char *key_value_pair;
-	char *delimiter;
-	t_env_var *var;
+	char		*key_value_pair;
+	char		*delimiter;
+	t_env_var	*var;
 
 	var = (NULL);
 	key_value_pair = ft_strdup(env_str);
@@ -30,7 +28,6 @@ t_env_var *create_env_var(const char *env_str)
 		free(key_value_pair);
 		return (NULL);
 	}
-
 	*delimiter = '\0';
 	var = malloc(sizeof(t_env_var));
 	if (!var)
@@ -44,7 +41,7 @@ t_env_var *create_env_var(const char *env_str)
 	return (var);
 }
 
-void init_env_var(t_env_var **env_var, char **env)
+void	init_env_var(t_env_var **env_var, char **env)
 {
 	t_env_var	*current_var;
 	t_env_var	*previous_var;
@@ -53,7 +50,7 @@ void init_env_var(t_env_var **env_var, char **env)
 	if (!env || !*env)
 	{
 		*env_var = NULL;
-		return;
+		return ;
 	}
 	i = 0;
 	current_var = NULL;
@@ -62,7 +59,7 @@ void init_env_var(t_env_var **env_var, char **env)
 	{
 		current_var = create_env_var(env[i]);
 		if (!current_var)
-			continue;
+			continue ;
 		if (previous_var)
 			previous_var->next = current_var;
 		else
@@ -72,50 +69,26 @@ void init_env_var(t_env_var **env_var, char **env)
 	}
 }
 
-// Fin initialization
-
-
-char	*custom_prompt()
+void	init_variables(t_env_var **env_var, char **line,
+		t_tokenlist **tokens, t_command_parser **first_command)
 {
-	char	cwd[PATH_MAX];
-	char	*cwd_color;
-	char	*reset_color;
-
-	cwd_color = "\033[36m";
-	reset_color = "\033[0m";
-	getcwd(cwd, PATH_MAX);
-	printf("\033[0;33m\033[0m%s%s%s", cwd_color, cwd, reset_color);
-	if (g_signal != 0)
-		printf("\033[31m - %d", g_signal);
-	printf("\e[32m\e[1m \n❯ \e[0m");
-	return (readline(""));
-}
-
-char	*read_line(void)
-{
-	char *line;
-
-	line = custom_prompt();
-	if (!line)
-		return (NULL);
-	add_history(line);
-	return (line);
+	*env_var = NULL;
+	*line = NULL;
+	*tokens = NULL;
+	*first_command = NULL;
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	char *line;
-	t_tokenlist *tokens;
-	t_command_parser  *first_command;
-	t_env_var *env_var;
+	char				*line;
+	t_tokenlist			*tokens;
+	t_command_parser	*first_command;
+	t_env_var			*env_var;
 
-	env_var = NULL;
-	init_env_var(&env_var, env);
 	(void)argv;
 	(void)argc;
-	line = NULL;
-	tokens = NULL;
-	first_command = NULL;
+	init_variables(&env_var, &line, &tokens, &first_command);
+	init_env_var(env_var, env);
 	while (42)
 	{
 		handle_input_signal();

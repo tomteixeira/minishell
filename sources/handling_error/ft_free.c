@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 10:13:38 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/09 17:16:03 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_tokenlist(t_tokenlist *h)
 
 void	free_redirection(t_redirection *h)
 {
-	t_redirection *cur;
+	t_redirection	*cur;
 
 	while (h)
 	{
@@ -44,7 +44,7 @@ void	free_redirection(t_redirection *h)
 
 void	free_cmdlist(t_command_parser *h)
 {
-	t_command_parser *cur;
+	t_command_parser	*cur;
 
 	while (h)
 	{

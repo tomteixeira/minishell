@@ -3,40 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 14:49:20 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:57:47 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_tokenlist(t_tokenlist *head)
+int	handle_unfinished_pipe(t_tokenlist **t)
 {
-	t_tokenlist *buffer;
-
-	buffer = head;
-	while (buffer)
-	{
-		printf("%s\n", buffer->token->value);
-		buffer = buffer->next;
-	}
-}
-
-void	merge_tokenlist(t_tokenlist **head_a, t_tokenlist **head_b)
-{
-	t_tokenlist	*lastnode_a;
-
-	lastnode_a = *head_a;
-	while (lastnode_a->next)
-		lastnode_a = lastnode_a->next;
-	lastnode_a->next = *head_b;
-}
-
-int		handle_unfinished_pipe(t_tokenlist **t)
-{
-	char	*line;
+	char		*line;
 	t_tokenlist	*new_tokens;
 
 	new_tokens = NULL;

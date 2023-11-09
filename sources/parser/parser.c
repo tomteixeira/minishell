@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 15:31:59 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/09 16:51:33 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ t_command_parser	*parse_tokens(t_tokenlist *token)
 	return (first_command);
 }
 
-void	print_parser(t_command_parser *head)
+/*void	print_parser(t_command_parser *head)
 {
-	t_command_parser	*buffer;
-	int					i;
+	t_command_parser*buffer;
+	int i;
 
 	buffer = head;
 	while (head)
@@ -146,4 +146,4 @@ void	print_parser(t_command_parser *head)
 		head = head->next;
 	}
 	head = buffer;
-}
+}*/

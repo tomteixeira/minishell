@@ -45,12 +45,14 @@ int	fill_redirection_bis(t_tokenlist **token, t_command **command)
 {
 	if ((*token)->token->value[0] == '>')
 	{
-		if (append_redirection(&(*command)->out_redirection, R_OUT, &(*token)) == 0)
+		if (append_redirection(&(*command)->out_redirection, R_OUT,
+				&(*token)) == 0)
 			return (0);
 	}
 	else if ((*token)->token->value[0] == '<')
 	{
-		if (append_redirection(&(*command)->in_redirection, R_IN, &(*token)) == 0)
+		if (append_redirection(&(*command)->in_redirection, R_IN,
+				&(*token)) == 0)
 			return (0);
 	}
 	return (1);
@@ -65,16 +67,19 @@ int	fill_redirection(t_tokenlist **token, t_command **command)
 	if ((*token)->token->value[0] == '>' && (*token)->token->value[1]
 		&& (*token)->token->value[1] == '>')
 	{
-		if (append_redirection(&(*command)->out_redirection, A_R_OUT, &(*token)) == 0)
+		if (append_redirection(&(*command)->out_redirection, A_R_OUT,
+				&(*token)) == 0)
 			return (0);
 	}
 	else if ((*token)->token->value[0] == '<' && (*token)->token->value[1]
 		&& (*token)->token->value[1] == '<')
 	{
-		if (append_redirection(&(*command)->in_redirection, HEREDOC, &(*token)) == 0)
+		if (append_redirection(&(*command)->in_redirection, HEREDOC,
+				&(*token)) == 0)
 			return (0);
 	}
-	else if ((*token)->token->value[0] == '<' || (*token)->token->value[0] == '>')
+	else if ((*token)->token->value[0] == '<'
+		|| (*token)->token->value[0] == '>')
 		return (fill_redirection_bis(token, command));
 	return (1);
 }

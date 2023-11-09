@@ -12,11 +12,11 @@
 
 #include "libft.h"
 #include <fcntl.h>
+#include <limits.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <limits.h>
 
 static void	ft_read(int fd, char *buffer, char **line)
 {

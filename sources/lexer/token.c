@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 10:48:56 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/09 16:55:30 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_token	*word_token_bis(t_lexer **lexer, t_token *token, int len)
 			while ((*lexer)->input_string[(*lexer)->position]
 				&& (*lexer)->input_string[(*lexer)->position] != quote
 				&& ft_string_char((*lexer)->input_string[(*lexer)->position]))
-					token->value[len++] = 
-						(*lexer)->input_string[(*lexer)->position++];
+				token->value[len++]
+					= (*lexer)->input_string[(*lexer)->position++];
 		}
 		if ((*lexer)->input_string[(*lexer)->position] == '\0')
 			return (token);

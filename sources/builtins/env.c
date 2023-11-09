@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:46:25 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:06:48 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_putstr(char *str)
 	ft_putstr_fd(str, STDOUT_FILENO);
 }
 
-int		ft_env(char **args, char **envp)
+int	ft_env(char **args, char **envp)
 {
 	(void)args;
 	while (*envp)

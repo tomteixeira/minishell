@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   len_fonctions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/18 10:28:59 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/09 17:02:30 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,30 @@ int	string_len(const char *cmdline, int *i)
 
 int	command_len(t_lexer **lexer)
 {
-	int		i;
-	int		count;
-	char	quote;
-	
-	i = (*lexer)->position - 1;
-	count = 0;
-	while ((*lexer)->input_string[++i] != '\0'
-		&& ft_word_char((*lexer)->input_string[i]))
+	t_command_len	p;
+
+	p.i = (*lexer)->position - 1;
+	p.count = 0;
+	while ((*lexer)->input_string[++p.i] != '\0'
+		&& ft_word_char((*lexer)->input_string[p.i]))
 	{
-		if ((*lexer)->input_string[i] == '\''
-			|| (*lexer)->input_string[i] == '\"')
+		if ((*lexer)->input_string[p.i] == '\''
+			|| (*lexer)->input_string[p.i] == '\"')
 		{
-			quote = (*lexer)->input_string[i++];
-			count++;
-			while ((*lexer)->input_string[i] && (*lexer)->input_string[i] != quote)
+			p.quote = (*lexer)->input_string[p.i++];
+			p.count++;
+			while ((*lexer)->input_string[p.i]
+				&& (*lexer)->input_string[p.i] != p.quote)
 			{
-				i++;
-				count++;
+				p.i++;
+				p.count++;
 			}
-			if ((*lexer)->input_string[i] == '\0')
-				return (count);
+			if ((*lexer)->input_string[p.i] == '\0')
+				return (p.count);
 		}
-		count++;
+		p.count++;
 	}
-	return (count);
+	return (p.count);
 }
 
 int	ft_string_char(int c)

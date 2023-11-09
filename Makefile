@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/09 14:43:39 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/09 17:23:15 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME 		= 	minishell
 SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/lexer/token.c sources/parser/parser.c sources/parser/node.c \
 				sources/parser/redirection.c sources/lexer/check_parsing.c \
-				sources/env/env.c \
 				sources/handling_error/ft_free.c \
+				sources/lexer/check_parsing_utils.c \
 				sources/execution/execution_main.c \
 				sources/execution/execution_builtins.c \
 				sources/execution/execution_assignment.c \
@@ -40,7 +40,8 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/builtins/unset.c \
 				sources/builtins/env.c \
 				sources/builtins/exit.c \
-				sources/signal.c
+				sources/signal.c \
+				sources/prompt.c
 
 OBJ 		= 	$(SRCS:.c=.o)
 
