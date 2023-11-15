@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 15:47:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:49:52 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	check_existant_var(char *var, char **env)
 			return (1);
 		i++;
 	}
+	free(var_key);
 	return (0);
 }
 

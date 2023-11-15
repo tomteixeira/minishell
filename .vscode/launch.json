@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/mnt/nfs/homes/toteixei/Documents/minishell/minishell_git",
-      "program": "/mnt/nfs/homes/toteixei/Documents/minishell/minishell_git/build/Debug/outDebug",
+      "cwd": "/mnt/nfs/homes/toteixei/Documents/minishell/rendu",
+      "program": "/mnt/nfs/homes/toteixei/Documents/minishell/rendu/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
