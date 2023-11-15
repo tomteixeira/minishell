@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 12:41:54 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:22:25 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,30 @@ static void	restore_std_fds(int original_stdout, int original_stdin)
 	close(original_stdin);
 }
 
-// Closing pipes as needed
-static void	close_pipes(t_command_parser *current,
-	int *prev_pipe, int pipefd[2])
-{
-	if (!current->command->pipe_after && *prev_pipe != -1)
-		close(*prev_pipe);
-	if (current->command->pipe_after)
-		close(pipefd[1]);
-	else
-	{
-		if (pipefd[0] != -1)
-			close(pipefd[0]);
-		if (pipefd[1] != -1)
-			close(pipefd[1]);
-	}
-}
-
 // The refactored execute_builtin_command function
 int	execute_builtin_command(t_command_parser **current,
 	char ***env, int *prev_pipe, int pipefd[2])
 {
-	int	original_stdout;
-	int	original_stdin;
+	int		original_stdout;
+	int		original_stdin;
 
 	duplicate_std_fds(&original_stdout, &original_stdin);
+	if (*prev_pipe != -1)
+	{
+		dup2(*prev_pipe, STDIN_FILENO);
+		close(*prev_pipe);
+	}
 	if ((*current)->command->pipe_after)
 		dup2(pipefd[1], STDOUT_FILENO);
 	execute_builtin_wrapper(*current, env);
 	restore_std_fds(original_stdout, original_stdin);
-	close_pipes(*current, prev_pipe, pipefd);
+	if ((*current)->command->pipe_after)
+	{
+		*prev_pipe = pipefd[0];
+		close(pipefd[1]);
+	}
+	else
+		*prev_pipe = -1;
 	*current = (*current)->next;
 	return (1);
 }
