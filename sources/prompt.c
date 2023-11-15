@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:20:56 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:21:24 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/15 19:05:43 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*custom_prompt(void)
 	printf("\033[0;33m\033[0m%s%s%s", cwd_color, cwd, reset_color);
 	if (g_signal != 0)
 		printf("\033[31m - %d", g_signal);
-	printf("\e[32m\e[1m \n❯ \e[0m");
+	printf("\e[32m\e[1m ❯ \e[0m");
 	return (readline(""));
 }
 
