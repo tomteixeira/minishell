@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 16:43:17 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:28:08 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	modify_existant_var(char *var, char ***env, int i)
 		if (ft_strncmp((*env)[i], var_key, key_len) == 0 &&
 			(*env)[i][key_len] == '=')
 		{
-			free((*env)[i]);
 			(*env)[i] = ft_strdup(var);
 			free(var_key);
 			if ((*env)[i])
@@ -84,6 +83,8 @@ char	*set_var(char *arg)
 		}
 		i++;
 	}
+	if (equal == 0)
+		return (NULL);
 	return (arg);
 }
 

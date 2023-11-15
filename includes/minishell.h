@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 16:28:24 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:43:24 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
+int					set_flag(t_command_parser **first_command);
 
 /*Free functions*/
 void				ft_free(char **l, t_tokenlist **token_h,
