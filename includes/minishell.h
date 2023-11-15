@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 13:47:54 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:38:20 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,13 @@ char				*get_value_from_global_env(char **env, const char *key);
 pid_t				fork_and_execute(t_command_parser **current, int *pipefd,
 						int *prev_pipe_read_fd, char **env);
 void				handle_piping(t_command *cmd, int *pipefd);
-void				add_missing_keys(t_env_var **local_env_var, char **global_env);
+void				add_missing_keys(t_env_var **local_env_var,
+						char **global_env);
 void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
+int					set_flag(t_command_parser **first_command);
 
 /*Free functions*/
 void				ft_free(char **l, t_tokenlist **token_h,

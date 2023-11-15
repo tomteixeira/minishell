@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 14:56:54 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:56:56 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**set_new_env(char *var, char **env)
 	env_count = 0;
 	while (env[env_count])
 		env_count++;
-	new_env = malloc((env_count + 1) * sizeof(char *));
+	new_env = malloc((env_count + 2) * sizeof(char *));
 	if (!new_env)
 		return (NULL);
 	i = -1;
