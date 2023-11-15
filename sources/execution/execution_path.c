@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/24 02:26:17 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/13 22:59:20 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static char	*join_with_slash(const char *s1, const char *s2)
 	result = malloc(len1 + len2 + 2);
 	if (!result)
 		return (NULL);
-	strcpy(result, s1);
+	ft_strcpy(result, s1);
 	result[len1] = '/';
-	strcpy(result + len1 + 1, s2);
+	ft_strcpy(result + len1 + 1, s2);
 	return (result);
 }
 
@@ -81,7 +81,7 @@ static char	*try_paths(const char *command, char *path_copy)
 	return (NULL);
 }
 
-char	*find_command_in_path(const char *command)
+char	*find_command_in_path(const char *command, char **env)
 {
 	char	*direct_access_result;
 	char	*path;
@@ -90,7 +90,7 @@ char	*find_command_in_path(const char *command)
 	direct_access_result = check_direct_command_access(command);
 	if (direct_access_result)
 		return (direct_access_result);
-	path = getenv("PATH");
+	path = get_value_from_global_env(env, "PATH");
 	if (!path)
 		return (NULL);
 	path_copy = ft_strdup(path);

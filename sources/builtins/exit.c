@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:04:40 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:00:05 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	ft_exit_args(char **args)
 void	ft_exit(char **args, char **env)
 {
 	(void)env;
-	printf("exit\n");
 	if (!args[1])
 	{
 		g_signal = 0;
@@ -63,6 +62,6 @@ void	ft_exit(char **args, char **env)
 			return ;
 		}
 		exit_print_err(args[1]);
-		exit(g_signal);
 	}
+	exit(g_signal);
 }

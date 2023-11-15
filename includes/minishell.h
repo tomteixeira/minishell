@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 18:05:05 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/15 12:22:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				handle_pipe_redirection(t_command_parser *current,
 // HEREDOC
 int					handle_heredoc(t_redirection *heredoc, int *read_end);
 // PATH
-char				*find_command_in_path(const char *command);
+char				*find_command_in_path(const char *command, char **env);
 // REDIRECTION
 void				handle_redirection(t_command *cmd);
 void				exit_with_error(const char *error_msg);
@@ -117,7 +117,7 @@ void				handle_input_signal(void);
 // UTILS
 int					is_assignment(const char *cmd);
 int					execute_builtin(t_command *cmd, char ***env);
-char				**remove_from_list(char **list, char *arg);
+char				**remove_from_list(char **list, char *arg, int i);
 void				init_execution_context(t_command_parser **current,
 						int *prev_pipe_read_fd, t_command_parser *first_command,
 						int *pipefd);
@@ -131,6 +131,11 @@ char				*get_value_from_global_env(char **env, const char *key);
 pid_t				fork_and_execute(t_command_parser **current, int *pipefd,
 						int *prev_pipe_read_fd, char **env);
 void				handle_piping(t_command *cmd, int *pipefd);
+void				add_missing_keys(t_env_var **local_env_var, char **global_env);
+void				update_existing_env_var(char ***env,
+						const char *key, const char *value, int i);
+void				add_new_env_var(char ***env, const char *key,
+						const char *value, int i);
 
 /*Free functions*/
 void				ft_free(char **l, t_tokenlist **token_h,

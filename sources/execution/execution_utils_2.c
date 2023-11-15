@@ -6,13 +6,11 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 14:01:10 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:18:54 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// ADD STRNDUP TO LIBFT
 
 void	replace_and_free(char **old_str, char *new_str)
 {
@@ -41,7 +39,7 @@ void	split_assignment(const char *assignment, char **key, char **value)
 		*value = NULL;
 		return ;
 	}
-	*key = strndup(assignment, equal_sign - assignment);
+	*key = ft_strndup(assignment, equal_sign - assignment);
 	*value = ft_strdup(equal_sign + 1);
 }
 
@@ -53,7 +51,7 @@ char	*get_var_name(const char *str, int i)
 	len = 0;
 	while (ft_isalnum(str[i + len]) || str[i + len] == '_')
 		len++;
-	return (strndup(str + i, len));
+	return (ft_strndup(str + i, len));
 }
 
 // This function retrieves a value for a key from the global environment array
@@ -63,7 +61,7 @@ char	*get_value_from_global_env(char **env, const char *key)
 	int		i;
 
 	i = 0;
-	key_len = strlen(key);
+	key_len = ft_strlen(key);
 	while (env[i] != NULL)
 	{
 		if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 12:39:02 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/10 08:39:13 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*expand_variable(const char *str, t_env_var *env_var, int i)
 
 	if (str[i + 1] == '?')
 	{
-		var_name = strdup("?");
+		var_name = ft_strdup("?");
 		var_value = ft_itoa(g_signal);
 	}
 	else
@@ -74,17 +74,17 @@ char	*replace_name(const char *str,
 
 	value_len = ft_strlen(var_value);
 	name_len = ft_strlen(var_name);
-	str_len = strlen(str);
+	str_len = ft_strlen(str);
 	new_str = malloc(str_len - name_len + value_len + 1);
 	if (!new_str)
 	{
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
-	strncpy(new_str, str, i);
+	ft_strncpy(new_str, str, i);
 	new_str[i] = '\0';
-	strcat(new_str, var_value);
-	strcat(new_str, str + i + name_len + 1);
+	ft_strcat(new_str, var_value);
+	ft_strcat(new_str, str + i + name_len + 1);
 	return (new_str);
 }
 

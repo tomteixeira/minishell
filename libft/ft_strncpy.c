@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_exec.c                                   :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 10:21:27 by hebernar         ###   ########.fr       */
+/*   Created: 2022/10/27 18:30:53 by toteixei          #+#    #+#             */
+/*   Updated: 2023/11/10 08:39:20 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-pid_t	fork_and_execute(t_command_parser **current,
-	int *pipefd, int *prev_pipe_read_fd, char **env)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	pid_t	pid;
+	size_t	i;
 
-	pid = fork();
-	if (pid == 0)
-		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
-	else if (pid > 0)
-		handle_parent_process(*current, pipefd, prev_pipe_read_fd);
-	else
-		exit_with_error("fork");
-	return (pid);
+	i = 0;
+	while (i < n && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

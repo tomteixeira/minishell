@@ -6,11 +6,9 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 11:09:17 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:51:45 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// ADD SNPRINTF EQUIVALENT TO LIBFT
 
 #include "../../includes/minishell.h"
 
@@ -33,29 +31,55 @@ static int	key_in_env(char **env, char *key)
 static void	update_env(char ***env, char *key, char *value)
 {
 	size_t	key_len;
-	size_t	new_size;
 	int		i;
 
-	i = 0;
 	key_len = ft_strlen(key);
+	i = 0;
 	while ((*env)[i] != NULL)
 	{
-		if (ft_strncmp((*env)[i], key, key_len) == 0
-			&& (*env)[i][key_len] == '=')
+		if (ft_strncmp((*env)[i], key, key_len) == 0 &&
+			(*env)[i][key_len] == '=')
 		{
-			free((*env)[i]);
-			new_size = key_len + strlen(value) + 2;
-			(*env)[i] = malloc(new_size);
-			snprintf((*env)[i], new_size, "%s=%s", key, value);
+			update_existing_env_var(env, key, value, i);
 			return ;
 		}
 		i++;
 	}
-	new_size = key_len + ft_strlen(value) + 2;
-	(*env)[i] = malloc(new_size);
-	snprintf((*env)[i], new_size, "%s=%s", key, value);
-	(*env)[i + 1] = NULL;
+	add_new_env_var(env, key, value, i);
 }
+
+/*
+static void	update_env(char ***env, char *key, char *value, int i)
+{
+	size_t	key_len;
+	size_t	value_len;
+
+	key_len = ft_strlen(key);
+	value_len = ft_strlen(value);
+	while ((*env)[i] != NULL)
+	{
+		if (ft_strncmp((*env)[i], key,
+			key_len) == 0 && (*env)[i][key_len] == '=')
+		{
+			free((*env)[i]);
+			(*env)[i] = malloc(key_len + value_len + 2);
+			if (!(*env)[i])
+				exit(EXIT_FAILURE);
+			ft_strcpy((*env)[i], key);
+			(*env)[i][key_len] = '=';
+			ft_strcpy((*env)[i] + key_len + 1, value);
+			return ;
+		}
+		i++;
+	}
+	(*env)[i] = malloc(key_len + value_len + 2);
+	if (!(*env)[i])
+		exit(EXIT_FAILURE);
+	ft_strcpy((*env)[i], key);
+	(*env)[i][key_len] = '=';
+	ft_strcpy((*env)[i] + key_len + 1, value);
+	(*env)[i + 1] = NULL;
+}*/
 
 static void	update_local_env(t_env_var **env_var, char *key, char *value)
 {
@@ -121,6 +145,6 @@ int	handle_assignments(t_command_parser **current,
 	else if (is_assignment((*current)->command->command_args[0]))
 		(*current)->command->command_args
 			= remove_from_list((*current)->command->command_args,
-				(*current)->command->command_args[0]);
+				(*current)->command->command_args[0], 0);
 	return (0);
 }

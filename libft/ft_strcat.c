@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_exec.c                                   :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 10:21:27 by hebernar         ###   ########.fr       */
+/*   Created: 2022/10/27 18:30:53 by toteixei          #+#    #+#             */
+/*   Updated: 2023/11/10 08:34:47 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-pid_t	fork_and_execute(t_command_parser **current,
-	int *pipefd, int *prev_pipe_read_fd, char **env)
+char	*ft_strcat(char *dest, const char *src)
 {
-	pid_t	pid;
+	char	*dest_original;
 
-	pid = fork();
-	if (pid == 0)
-		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
-	else if (pid > 0)
-		handle_parent_process(*current, pipefd, prev_pipe_read_fd);
-	else
-		exit_with_error("fork");
-	return (pid);
+	dest_original = dest;
+	while (*dest != '\0')
+		dest++;
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+	return (dest_original);
 }

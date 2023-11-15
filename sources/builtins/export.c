@@ -3,50 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:08:00 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:56:54 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	modify_existant_var(char *var, char ***env)
+int	check_existant_var(char *var, char **env)
 {
 	char	*var_key;
+	size_t	key_len;
 	int		i;
 
 	i = 0;
 	var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
 	if (!var_key)
 		return (0);
-	while ((*env)[i])
+	key_len = ft_strlen(var_key);
+	while (env[i])
 	{
-		if (ft_strncmp(var_key, (*env)[i], ft_strlen(var_key)) == 0)
-		{
-			(*env)[i] = ft_strdup(var);
-			if (!(*env)[i])
-				return (0);
-		}
+		if (ft_strncmp(env[i], var_key, key_len) == 0 && env[i][key_len] == '=')
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
-int	check_existant_var(char *var)
+int	modify_existant_var(char *var, char ***env, int i)
 {
 	char	*var_key;
-	char	*var_check;
+	size_t	key_len;
 
 	var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
 	if (!var_key)
 		return (0);
-	var_check = getenv(var_key);
-	if (!var_check)
-		return (free(var_key), 0);
+	key_len = ft_strlen(var_key);
+	while ((*env)[i])
+	{
+		if (ft_strncmp((*env)[i], var_key, key_len) == 0 &&
+			(*env)[i][key_len] == '=')
+		{
+			free((*env)[i]);
+			(*env)[i] = ft_strdup(var);
+			free(var_key);
+			if ((*env)[i])
+				return (1);
+			else
+				return (0);
+		}
+		i++;
+	}
 	free(var_key);
-	return (1);
+	return (0);
 }
 
 char	*set_var(char *arg)
@@ -114,9 +125,9 @@ int	export(char **args, char ***env)
 	{
 		var = NULL;
 		var = set_var(args[i]);
-		if (var && check_existant_var(var))
+		if (var && check_existant_var(var, *env))
 		{
-			modify_existant_var(var, env);
+			modify_existant_var(var, env, 0);
 			if (!*env)
 				return (EXIT_FAILURE);
 		}

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 13:59:18 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:51:58 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,28 @@ int	is_assignment(const char *cmd)
 }
 
 // Utility to remove an element from a char **
-char	**remove_from_list(char **list, char *arg)
+char	**remove_from_list(char **list, char *arg, int i)
 {
-	int		i;
-	int		j;
 	int		count;
 	char	**new_list;
+	int		j;
 
 	count = 0;
-	while (list[count])
+	if (!list || !arg)
+		return (list);
+	while (list[count] != NULL)
 		count++;
-	new_list = malloc((count + 1) * sizeof(char *));
+	new_list = malloc(sizeof(char *) * count);
 	if (!new_list)
 		return (NULL);
 	j = 0;
-	i = j;
 	while (i < count)
 	{
-		if (ft_strcmp(list[i], arg) != 0)
-			new_list[j++] = list[i++];
+		if (ft_strcmp(list[i], arg) == 0)
+			free(list[i]);
 		else
-			free(list[i++]);
+			new_list[j++] = list[i];
+		i++;
 	}
 	new_list[j] = NULL;
 	free(list);

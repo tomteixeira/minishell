@@ -6,13 +6,11 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 12:28:30 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/10 08:45:48 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// ADD STRCAT AND AND STRNCPY TO LIBFT
 
 static char	*expand_variables(char *str,
 	t_env_var *env_var, int *index, int quotes)

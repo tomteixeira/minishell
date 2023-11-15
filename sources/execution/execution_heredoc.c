@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 13:59:53 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 02:46:38 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 		write(STDERR_FILENO, "heredoc> ", 9);
 		line = get_next_line(STDERR_FILENO);
 		remove_null_char(line);
-		if (strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, (char *) delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		if (write(pipefd[1], line, strlen(line)) == -1
+		if (write(pipefd[1], line, ft_strlen(line)) == -1
 			|| write(pipefd[1], "\n", 1) == -1)
 		{
 			perror("write");
