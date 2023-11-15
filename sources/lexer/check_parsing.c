@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 10:56:05 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:30:32 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,6 @@ int	handle_unfinished_pipe(t_tokenlist **t)
 	}
 	return (1);
 }
-/*
-void	check_exit(char *token)
-{
-	if (ft_strncmp(token, "exit", ft_strlen(token)) == 0)
-	{
-		exit(0);
-	}
-	return ;
-}*/
 
 void	print_syntax_error(char *token)
 {
@@ -83,8 +74,6 @@ int	check_parsing(t_tokenlist **t)
 			return (handle_unfinished_pipe(t));
 		if (!n && (cur->token->type == T_RED))
 			return (print_syntax_error("newline"), 0);
-//		if (cur->token->type == T_WORD && !n)
-//			check_exit(cur->token->value);
 		if (n)
 			if (!check_parsing_bis(cur))
 				return (0);

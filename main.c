@@ -12,22 +12,20 @@
 
 #include "includes/minishell.h"
 
-t_env_var *create_env_var(const char *env_str)
+t_env_var	*create_env_var(const char *env_str)
 {
-	t_env_var *var;
-	char *key_value_pair;
-	char *delimiter;
+	t_env_var	*var;
+	char		*key_value_pair;
+	char		*delimiter;
 
 	if (!(key_value_pair = ft_strdup(env_str)))
 		return (NULL);
-
 	delimiter = ft_strchr(key_value_pair, '=');
 	if (!delimiter)
 	{
 		free(key_value_pair);
 		return (NULL);
 	}
-
 	*delimiter = '\0';
 	var = malloc(sizeof(t_env_var));
 	if (!var)
@@ -35,7 +33,6 @@ t_env_var *create_env_var(const char *env_str)
 		free(key_value_pair);
 		return (NULL);
 	}
-
 	var->key = key_value_pair;
 	var->value = ft_strdup(delimiter + 1);
 	if (!var->value)
@@ -48,35 +45,31 @@ t_env_var *create_env_var(const char *env_str)
 	return (var);
 }
 
-void init_env_var(t_env_var **env_var, char **env)
+void	init_env_var(t_env_var **env_var, char **env)
 {
-	t_env_var *current_var;
-	t_env_var *previous_var;
-	int i;
+	t_env_var	*current_var;
+	t_env_var	*previous_var;
+	int			i;
 
 	*env_var = NULL;
 	if (!env || !*env)
-		return;
-
+		return ;
 	previous_var = NULL;
 	for (i = 0; env[i] != NULL; i++)
 	{
 		current_var = create_env_var(env[i]);
 		if (!current_var)
-			continue;
-
+			continue ;
 		if (previous_var)
 			previous_var->next = current_var;
 		else
 			*env_var = current_var;
-
 		previous_var = current_var;
 	}
 }
 
-
-void	init_variables(t_env_var **env_var, char **line,
-		t_tokenlist **tokens, t_command_parser **first_command)
+void	init_variables(t_env_var **env_var, char **line, t_tokenlist **tokens,
+		t_command_parser **first_command)
 {
 	*env_var = NULL;
 	*line = NULL;

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:14:23 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:17:48 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**unset_var(char *var, char **e)
 	p.env_count = 0;
 	while (e[p.env_count])
 		p.env_count++;
-	p.new_env = malloc((p.env_count - 1) * sizeof(char *));
+	p.new_env = malloc((p.env_count) * sizeof(char *));
 	if (!p.new_env)
 		return (NULL);
 	p.i = 0;

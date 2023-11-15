@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 13:47:54 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:28:24 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int					ft_word_char(int c);
 int					check_parsing(t_tokenlist **t);
 int					ft_string_char(int c);
 void				merge_tokenlist(t_tokenlist **head_a, t_tokenlist **head_b);
-// int			     check_parsing(t_token **token);
+// int					check_parsing(t_token **token);
 
 /*Parser functions*/
 t_command_parser	*new_node(t_token **token);
@@ -99,8 +99,8 @@ char				*expand_variable(const char *str, t_env_var *env_var,
 // FORK
 void				handle_parent_process(t_command_parser *current,
 						int *pipefd, int *prev_pipe_read_fd);
-void				handle_child_process(t_command_parser *current, int *pipefd,
-						char **env, int *prev_pipe_read_fd);
+void				handle_child_process(t_command_parser *current,
+						int *pipefd, char **env, int *prev_pipe_read_fd);
 void				handle_pipe_redirection(t_command_parser *current,
 						int *pipefd, int *prev_pipe_read_fd);
 // HEREDOC
@@ -131,7 +131,8 @@ char				*get_value_from_global_env(char **env, const char *key);
 pid_t				fork_and_execute(t_command_parser **current, int *pipefd,
 						int *prev_pipe_read_fd, char **env);
 void				handle_piping(t_command *cmd, int *pipefd);
-void				add_missing_keys(t_env_var **local_env_var, char **global_env);
+void				add_missing_keys(t_env_var **local_env_var,
+						char **global_env);
 void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
