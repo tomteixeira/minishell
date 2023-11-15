@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   len_fonctions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:02:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/13 23:48:02 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	command_len(t_lexer **lexer)
 int	ft_string_char(int c)
 {
 	if (c == '|' || c == '>' || c == '<')
-		return (0);
+		return (1);
 	if ((c >= 32 && c < 127) || c == '\t' || c == '\n')
 		return (1);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 16:55:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/13 23:46:42 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_token	*redirection_token(t_lexer **lexer)
 	{
 		value[0] = (*lexer)->input_string[(*lexer)->position];
 		value[1] = '\0';
-		return (redirection_token_bis(strdup(value), lexer));
+		return (redirection_token_bis(ft_strdup(value), lexer));
 	}
 	return (NULL);
 }
