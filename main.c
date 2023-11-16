@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 17:13:59 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 16:19:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ int	main(int argc, char **argv, char **env)
 		if (m->tokens)
 			m->first_command = parse_tokens(m->tokens);
 		handle_exec_signal();
-		//if (m->first_command)
-		//	(execute_command(&m, &env));
+		if (m->first_command)
+			(execute_command(&m, &env));
 		ft_free(&m);
 		free(m);
 	}
