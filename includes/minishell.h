@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:11:44 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 15:47:46 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ void				print_parser(t_command_parser *head);
 
 /*Execution functions*/
 // MAIN
-int					execute_command(t_command_parser *first_command,
-						char ***env, t_env_var **env_var);
+int					execute_command(t_minishell **m, char ***env);
 // ASSIGNEMENTS
 int					handle_assignments(t_command_parser **current, char ***env,
 						t_env_var **env_var);
