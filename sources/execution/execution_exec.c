@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 15:33:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:09:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ int	set_flag(t_command_parser **first_command)
 	return (flag_last);
 }
 
-pid_t	fork_and_execute(t_command_parser **current,
+pid_t	fork_and_execute(t_minishell **current,
 	int *pipefd, int *prev_pipe_read_fd, char **env)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
-		handle_child_process(*current, pipefd, env, prev_pipe_read_fd);
+		handle_child_process(&current, pipefd, env, prev_pipe_read_fd);
 	else if (pid > 0)
-		handle_parent_process(*current, pipefd, prev_pipe_read_fd);
+		handle_parent_process(&current, pipefd, prev_pipe_read_fd);
 	else
 		exit_with_error("fork");
 	*current = (*current)->next;

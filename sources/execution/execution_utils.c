@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 10:51:58 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:59:25 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	execute_builtin(t_command *cmd, char ***env)
 }
 
 // Initialize Execution Context
-void	init_execution_context(t_command_parser **current,
-	int *prev_pipe_read_fd, t_command_parser *first_command, int *pipefd)
+void	init_execution_context(t_minishell **current,
+	int *prev_pipe_read_fd, t_minishell *first_command, int *pipefd)
 {
 	*current = first_command;
 	*prev_pipe_read_fd = -1;

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 14:55:09 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:08:39 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static int	process_command(t_command_parser *current,
 	return (0);
 }
 
-static pid_t	execute_command_loop(t_command_parser **cur,
-	char ***env, t_env_var **env_var, int *pipefd)
+static pid_t	execute_command_loop(t_minishell **cur,
+	char ***env,  int *pipefd)
 {
 	int		p_pipe;
 	pid_t	pid;
@@ -81,19 +81,19 @@ static pid_t	execute_command_loop(t_command_parser **cur,
 	p_pipe = -1;
 	while (*cur)
 	{
-		if (process_command(*cur, env, env_var, pipefd) == 1)
+		if (process_command((*cur)->first_command, env, (*cur)->env_var, pipefd) == 1)
 			break ;
-		if ((*cur)->command->command_args
-			&& is_builtin((*cur)->command->command_args[0]))
+		if ((*cur)->first_command->command->command_args
+			&& is_builtin((*cur)->first_command->command->command_args[0]))
 		{
 			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
 		}
-		if (!(*cur)->command->command_args
-			&& (*cur)->command->in_redirection->type == HEREDOC)
-			handle_heredoc((*cur)->command->in_redirection, &p_pipe);
+		if (!(*cur)->first_command->command->command_args
+			&& (*cur)->first_command->command->in_redirection->type == HEREDOC)
+			handle_heredoc((*cur)->first_command->command->in_redirection, &p_pipe);
 		else
-			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
+			pid = fork_and_execute(&cur, pipefd, &p_pipe, *env);
 	}
 	return (pid);
 }
@@ -106,9 +106,9 @@ int	execute_command(t_minishell **m, char ***env)
 	pid_t				pid;
 	int					flag_last;
 
-	flag_last = set_flag(&first_command);
-	init_execution_context(&current, &prev_pipe, first_command, pipefd);
-	update_local_env_with_global(env_var, *env);
-	pid = execute_command_loop(&current, env, env_var, pipefd);
+	flag_last = set_flag((*m)->first_command);
+	init_execution_context(&current, &prev_pipe, m, pipefd);
+	update_local_env_with_global((*m)->env_var, *env);
+	pid = execute_command_loop(&m, env, pipefd);
 	return (wait_for_children(pid, flag_last));
 }

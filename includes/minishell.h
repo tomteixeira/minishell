@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:47:46 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 15:08:48 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ void				handle_input_signal(void);
 int					is_assignment(const char *cmd);
 int					execute_builtin(t_command *cmd, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
-void				init_execution_context(t_command_parser **current,
-						int *prev_pipe_read_fd, t_command_parser *first_command,
-						int *pipefd);
+void				init_execution_context(t_minishell **current,
+					int *prev_pipe_read_fd, t_minishell *first_command,
+					int *pipefd);
 void				ft_error_exit(const char *format, const char *filename);
 void				split_assignment(const char *assignment, char **key,
 						char **value);
@@ -127,7 +127,7 @@ void				replace_and_free(char **old_str, char *new_str);
 char				*get_var_name(const char *str, int i);
 int					is_builtin(char *cmd);
 char				*get_value_from_global_env(char **env, const char *key);
-pid_t				fork_and_execute(t_command_parser **current, int *pipefd,
+pid_t				fork_and_execute(t_minishell **current, int *pipefd,
 						int *prev_pipe_read_fd, char **env);
 void				handle_piping(t_command *cmd, int *pipefd);
 void				add_missing_keys(t_env_var **local_env_var,
