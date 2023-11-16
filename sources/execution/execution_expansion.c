@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 09:51:08 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:31:12 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	expand_command_args(char **command_args, t_env_var *env_var)
 	char	*expanded_arg;
 
 	i = 0;
+	expanded_arg = NULL;
 	while (command_args[i] != NULL)
 	{
 		expanded_arg = expand_argument(command_args[i], env_var);
