@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:17:39 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:26:36 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ void				handle_input_signal(void);
 int					is_assignment(const char *cmd);
 int					execute_builtin(t_command *cmd, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
-void				init_execution_context(t_minishell **current,
-					int *prev_pipe_read_fd, t_minishell *first_command,
-					int *pipefd);
+void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
 void				ft_error_exit(const char *format, const char *filename);
 void				split_assignment(const char *assignment, char **key,
 						char **value);
