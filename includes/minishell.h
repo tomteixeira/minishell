@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:26:36 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:02:59 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int					execute_command(t_minishell **m, char ***env);
 int					handle_assignments(t_command_parser **current, char ***env,
 						t_env_var **env_var);
 // BUILTINS
-int					execute_builtin_command(t_command_parser **current,
+int					execute_builtin_command(t_minishell **current,
 						char ***env, int *prev_pipe, int pipefd[2]);
 // ERROR
 void				ft_error(const char *str, ...);
@@ -115,7 +115,7 @@ void				handle_exec_signal(void);
 void				handle_input_signal(void);
 // UTILS
 int					is_assignment(const char *cmd);
-int					execute_builtin(t_command *cmd, char ***env);
+int					execute_builtin(t_minishell **cur, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
 void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
 void				ft_error_exit(const char *format, const char *filename);
@@ -134,7 +134,7 @@ void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
-int					set_flag(t_minishell **first_command);
+int					set_flag(t_command_parser **first_command);
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell);
@@ -148,7 +148,7 @@ int					cd(char **args, char **env);
 int					export(char **args, char ***env);
 int					unset(char **args, char ***env);
 int					ft_env(char **args, char **envp);
-void				ft_exit(char **args, char **env);
+void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);
 
 #endif

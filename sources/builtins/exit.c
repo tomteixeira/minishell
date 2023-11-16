@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 15:00:05 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:09:50 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_exit_args(char **args)
 	return (g_signal);
 }
 
-void	ft_exit(char **args, char **env)
+void	ft_exit(t_minishell **cur, char **args, char **env)
 {
 	(void)env;
 	if (!args[1])
@@ -63,5 +63,6 @@ void	ft_exit(char **args, char **env)
 		}
 		exit_print_err(args[1]);
 	}
+	ft_free(cur);
 	exit(g_signal);
 }

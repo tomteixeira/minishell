@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:39:59 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:11:35 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ static pid_t	execute_command_loop(t_minishell **cur,
 
 	pid = 0;
 	p_pipe = -1;
-	printf("Executing command: %s\n", (*cur)->first_command->command->command_args[0]);
 	while ((*cur)->first_command)
 	{
 		if (process_command((*cur)->first_command, env, &(*cur)->env_var, pipefd) == 1)
@@ -87,7 +86,7 @@ static pid_t	execute_command_loop(t_minishell **cur,
 		if ((*cur)->first_command->command->command_args
 			&& is_builtin((*cur)->first_command->command->command_args[0]))
 		{
-			if (execute_builtin_command(&(*cur)->first_command, env, &p_pipe, pipefd))
+			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
 		}
 		if (!(*cur)->first_command->command->command_args
@@ -106,7 +105,7 @@ int	execute_command(t_minishell **m, char ***env)
 	pid_t				pid;
 	int					flag_last;
 
-	flag_last = set_flag(m);
+	flag_last = set_flag(&(*m)->first_command);
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);
 	pid = execute_command_loop(m, env, pipefd);

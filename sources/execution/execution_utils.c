@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:22:34 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:10:16 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,25 @@ char	**remove_from_list(char **list, char *arg, int i)
 }
 
 // Utility function to execute builtins
-int	execute_builtin(t_command *cmd, char ***env)
+int	execute_builtin(t_minishell **cur, char ***env)
 {
-	if (!cmd->command_args)
+	if (!(*cur)->first_command->command->command_args)
 		return (0);
-	if (ft_strcmp(cmd->command_args[0], "echo") == 0)
-		return (g_signal = echo(cmd->command_args, *env), 1);
-	else if (ft_strcmp(cmd->command_args[0], "cd") == 0)
-		return (g_signal = cd(cmd->command_args, *env), 1);
-	else if (ft_strcmp(cmd->command_args[0], "pwd") == 0)
-		return (g_signal = pwd(cmd->command_args, *env), 1);
-	else if (ft_strcmp(cmd->command_args[0], "export") == 0)
-		return (g_signal = export(cmd->command_args, env), 1);
-	else if (ft_strcmp(cmd->command_args[0], "unset") == 0)
-		return (g_signal = unset(cmd->command_args, env), 1);
-	else if (ft_strcmp(cmd->command_args[0], "env") == 0)
+	if (ft_strcmp((*cur)->first_command->command->command_args[0], "echo") == 0)
+		return (g_signal = echo((*cur)->first_command->command->command_args, *env), 1);
+	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "cd") == 0)
+		return (g_signal = cd((*cur)->first_command->command->command_args, *env), 1);
+	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "pwd") == 0)
+		return (g_signal = pwd((*cur)->first_command->command->command_args, *env), 1);
+	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "export") == 0)
+		return (g_signal = export((*cur)->first_command->command->command_args, env), 1);
+	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "unset") == 0)
+		return (g_signal = unset((*cur)->first_command->command->command_args, env), 1);
+	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "env") == 0)
 		return (g_signal = ft_env(NULL, *env), 1);
-	else if (ft_strcmp(cmd->command_args[0], "exit") == 0)
+	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "exit") == 0)
 	{
-		ft_exit(cmd->command_args, *env);
+		ft_exit(cur, (*cur)->first_command->command->command_args, *env);
 		return (g_signal);
 	}
 	return (0);
