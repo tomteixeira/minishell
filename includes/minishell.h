@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:12:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:17:39 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ int					handle_quotes(char current_char, int quotes);
 char				*expand_variable(const char *str, t_env_var *env_var,
 						int i);
 // FORK
-void				handle_parent_process(t_command_parser *current,
+void				handle_parent_process(t_minishell **current,
 						int *pipefd, int *prev_pipe_read_fd);
-void				handle_child_process(t_command_parser *current,
+void				handle_child_process(t_minishell **current,
 						int *pipefd, char **env, int *prev_pipe_read_fd);
 void				handle_pipe_redirection(t_command_parser *current,
 						int *pipefd, int *prev_pipe_read_fd);
@@ -136,7 +136,7 @@ void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
-int					set_flag(t_command_parser **first_command);
+int					set_flag(t_minishell **first_command);
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell);

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:08:39 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:18:15 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	execute_command(t_minishell **m, char ***env)
 	pid_t				pid;
 	int					flag_last;
 
-	flag_last = set_flag((*m)->first_command);
+	flag_last = set_flag(&m);
 	init_execution_context(&current, &prev_pipe, m, pipefd);
 	update_local_env_with_global((*m)->env_var, *env);
 	pid = execute_command_loop(&m, env, pipefd);

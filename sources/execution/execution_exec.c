@@ -6,26 +6,26 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:09:51 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:17:09 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Check if the last command piped is a builtin
-int	set_flag(t_command_parser **first_command)
+int	set_flag(t_minishell **first_command)
 {
-	t_command_parser	*current;
+	t_minishell			*current;
 	int					flag_last;
 
 	current = *first_command;
 	flag_last = 0;
-	while (current)
+	while (current->first_command)
 	{
-		if (current->command->pipe_after == 0
-			&& is_builtin(current->command->command_args[0]))
+		if (current->first_command->command->pipe_after == 0
+			&& is_builtin(current->first_command->command->command_args[0]))
 			flag_last = 1;
-		current = current->next;
+		current->first_command = current->first_command->next;
 	}
 	return (flag_last);
 }
