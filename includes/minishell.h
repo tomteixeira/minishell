@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 16:43:24 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:11:44 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int					set_flag(t_command_parser **first_command);
 
 /*Free functions*/
 void				ft_free(char **l, t_tokenlist **token_h,
-						t_command_parser **cmd_h);
+						t_command_parser **cmd_h, t_env_var **env_var);
 void				free_tokenlist(t_tokenlist *h);
 void				free_cmdlist(t_command_parser *h);
 

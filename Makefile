@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/14 19:31:32 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/16 14:57:11 by tomteixeira      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
