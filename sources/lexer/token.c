@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:07:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 17:06:27 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 17:41:02 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ t_token	*word_token(t_lexer **lexer)
 		return (NULL);
 	len = command_len(lexer);
 	if (len == -1)
-		return (NULL);
+		return (free(token), NULL);
 	token->value = malloc((len + 1) * sizeof(char));
 	if (!token->value)
-	{
-		free(token);
-		return (NULL);
-	}
+		return (free(token), NULL);
 	token->type = T_WORD;
 	len = 0;
 	return (word_token_bis(lexer, token, len));
