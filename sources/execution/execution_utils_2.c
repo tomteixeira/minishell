@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/12 15:18:54 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:10:13 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,18 @@ char	*get_value_from_global_env(char **env, const char *key)
 {
 	size_t	key_len;
 	int		i;
+	char	*value;
 
 	i = 0;
 	key_len = ft_strlen(key);
+	value = NULL;
 	while (env[i] != NULL)
 	{
 		if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
-			return (ft_strdup(env[i] + key_len + 1));
+		{
+			value = ft_strdup(env[i] + key_len + 1);
+			return (value);
+		}
 		i++;
 	}
 	return (NULL);

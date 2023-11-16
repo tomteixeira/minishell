@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 15:49:52 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:57:18 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*set_var(char *arg)
 		}
 		i++;
 	}
+	if (equal == 0)
+		return (NULL);
 	return (arg);
 }
 

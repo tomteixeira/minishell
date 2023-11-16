@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 15:06:44 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:12:50 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,10 @@ void	handle_child_process(t_command_parser *current,
 	}
 	else if (current->command->command_args[0])
 	{
+		if (f_p != NULL)
+			free(f_p);
 		ft_error("bash: %s: command not found\n",
 			current->command->command_args[0]);
-		free(f_p);
 		exit(127);
 	}
 }

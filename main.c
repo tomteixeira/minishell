@@ -6,41 +6,53 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 13:47:25 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:25:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-t_env_var	*create_env_var(const char *env_str)
-{
-	t_env_var	*var;
-	char		*key_value_pair;
-	char		*delimiter;
+int	g_signal = 0;
 
-	if (!(key_value_pair = ft_strdup(env_str)))
-		return (NULL);
+// Function to parse key-value pair from environment string
+static int	parse_key_value_pair(const char *env_str, char **key, char **value)
+{
+	char	*key_value_pair;
+	char	*delimiter;
+
+	key_value_pair = ft_strdup(env_str);
+	if (!key_value_pair)
+		return (0);
 	delimiter = ft_strchr(key_value_pair, '=');
 	if (!delimiter)
 	{
 		free(key_value_pair);
-		return (NULL);
+		return (0);
 	}
 	*delimiter = '\0';
+	*key = key_value_pair;
+	*value = ft_strdup(delimiter + 1);
+	return (*value != NULL);
+}
+
+// Function to create a new environment variable
+t_env_var	*create_env_var(const char *env_str)
+{
+	t_env_var	*var;
+	char		*key;
+	char		*value;
+
+	if (!parse_key_value_pair(env_str, &key, &value))
+		return (NULL);
 	var = malloc(sizeof(t_env_var));
 	if (!var)
 	{
-		free(key_value_pair);
+		free(key);
+		free(value);
 		return (NULL);
 	}
-	var->key = key_value_pair;
-	var->value = ft_strdup(delimiter + 1);
-	if (!var->value)
-	{
-		free(var->key);
-		free(var);
-		return (NULL);
-	}
+	var->key = key;
+	var->value = value;
 	var->next = NULL;
 	return (var);
 }
@@ -54,8 +66,9 @@ void	init_env_var(t_env_var **env_var, char **env)
 	*env_var = NULL;
 	if (!env || !*env)
 		return ;
+	i = 0;
 	previous_var = NULL;
-	for (i = 0; env[i] != NULL; i++)
+	while (env[i] != NULL)
 	{
 		current_var = create_env_var(env[i]);
 		if (!current_var)
@@ -65,11 +78,12 @@ void	init_env_var(t_env_var **env_var, char **env)
 		else
 			*env_var = current_var;
 		previous_var = current_var;
+		i++;
 	}
 }
 
-void	init_variables(t_env_var **env_var, char **line, t_tokenlist **tokens,
-		t_command_parser **first_command)
+void	init_variables(t_env_var **env_var, char **line,
+		t_tokenlist **tokens, t_command_parser **first_command)
 {
 	*env_var = NULL;
 	*line = NULL;
