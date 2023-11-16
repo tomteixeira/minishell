@@ -6,7 +6,7 @@
 #    By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/16 17:06:47 by tomteixeira      ###   ########.fr        #
+#    Updated: 2023/11/16 17:14:47 by tomteixeira      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/parser/redirection.c sources/lexer/check_parsing.c \
 				sources/handling_error/ft_free.c \
 				sources/lexer/check_parsing_utils.c \
+				sources/execution/execution_main.c \
 				sources/execution/execution_builtins.c \
 				sources/execution/execution_assignment.c \
 				sources/execution/execution_assignment_utils.c \
