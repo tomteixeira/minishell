@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:19:17 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:20:03 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int	main(int argc, char **argv, char **env)
 		if (m->first_command)
 			(execute_command(&m, &env));
 		ft_free(&m);
-		free(m);
 	}
 	return (0);
 }
