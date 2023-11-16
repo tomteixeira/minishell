@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:54:18 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 17:17:35 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ void	ft_free(t_minishell **m)
 		free_env_var((*m)->env_var);
 		(*m)->env_var = NULL;
 	}
+	free(*m);
 }
