@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:04:14 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 16:18:40 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,18 @@ void	init_env_var(t_env_var **env_var, char **env)
 	}
 }
 
-void	init_variables(t_minishell **m)
+t_minishell	*init_variables(void)
 {
-	(*m)->env_var = NULL;
-	(*m)->line = NULL;
-	(*m)->tokens = NULL;
-	(*m)->first_command = NULL;
+	t_minishell *m;
+
+	m = malloc(sizeof(t_minishell));
+	if (!m)
+		exit(0);
+	m->line = NULL;
+	m->env_var = NULL;
+	m->first_command = NULL;
+	m->tokens = NULL;
+	return (m);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -96,10 +102,9 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	m = NULL;
-	init_variables(&m);
 	while (42)
 	{
+		m = init_variables();
 		handle_input_signal();
 		m->line = read_line();
 		if (!m->line)
@@ -110,8 +115,8 @@ int	main(int argc, char **argv, char **env)
 		if (m->tokens)
 			m->first_command = parse_tokens(m->tokens);
 		handle_exec_signal();
-		//if (m->first_command)
-		//	(execute_command(&m, &env));
+		if (m->first_command)
+			(execute_command(&m, &env));
 		ft_free(&m);
 	}
 	return (0);
