@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:15:37 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 16:08:16 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,26 @@ void	free_cmdlist(t_command_parser *h)
 	}
 }
 
-void	ft_free(char **l, t_tokenlist **token_h,
-			t_command_parser **cmd_h, t_env_var **env_var)
+void	ft_free(t_minishell **m)
 {
-	if (l)
+	if ((*m)->line)
 	{
-		free(*l);
-		*l = NULL;
+		free((*m)->line);
+		(*m)->line = NULL;
 	}
-	if (token_h)
+	if ((*m)->tokens)
 	{
-		free_tokenlist(*token_h);
-		*token_h = NULL;
+		free_tokenlist((*m)->tokens);
+		(*m)->tokens = NULL;
 	}
-	if (cmd_h)
+	if ((*m)->first_command)
 	{
-		free_cmdlist(*cmd_h);
-		*cmd_h = NULL;
+		free_cmdlist((*m)->first_command);
+		(*m)->first_command = NULL;
 	}
-	if (env_var)
+	if ((*m)->env_var)
 	{
-		free_env_var(*env_var);
-		*env_var = NULL;
+		free_env_var((*m)->env_var);
+		(*m)->env_var = NULL;
 	}
 }

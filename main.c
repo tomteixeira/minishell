@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 14:53:20 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:11:50 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,12 @@ void	init_env_var(t_env_var **env_var, char **env)
 	}
 }
 
-void	init_variables(t_env_var **env_var, char **line,
-		t_tokenlist **tokens, t_command_parser **first_command)
+void	init_variables(t_minishell **m)
 {
-	*env_var = NULL;
-	*line = NULL;
-	*tokens = NULL;
-	*first_command = NULL;
+	(*m)->env_var = NULL;
+	(*m)->line = NULL;
+	(*m)->tokens = NULL;
+	(*m)->first_command = NULL;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -97,7 +96,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	init_variables(&m->env_var, &m->line, &m->tokens, &m->first_command);
+	m = NULL;
+	init_variables(&m);
 	while (42)
 	{
 		handle_input_signal();
@@ -110,9 +110,9 @@ int	main(int argc, char **argv, char **env)
 		if (m->tokens)
 			m->first_command = parse_tokens(m->tokens);
 		handle_exec_signal();
-		if (m->first_command)
-			(execute_command(&m, &env));
-		ft_free(&m->line, &m->tokens, &m->first_command, &m->env_var);
+		//if (m->first_command)
+		//	(execute_command(&m, &env));
+		ft_free(&m);
 	}
 	return (0);
 }
