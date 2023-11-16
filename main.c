@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:18:40 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 17:06:55 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ t_minishell	*init_variables(void)
 	m = malloc(sizeof(t_minishell));
 	if (!m)
 		exit(0);
-	m->line = NULL;
 	m->env_var = NULL;
 	m->first_command = NULL;
 	m->tokens = NULL;
@@ -99,25 +98,29 @@ t_minishell	*init_variables(void)
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*m;
+	char		*line;
 
 	(void)argv;
 	(void)argc;
 	while (42)
 	{
-		m = init_variables();
+		line = NULL;
 		handle_input_signal();
-		m->line = read_line();
-		if (!m->line)
+		line = read_line();
+		if (!line)
 			exit(0);
+		m = init_variables();
 		init_env_var(&m->env_var, env);
-		if (m->line)
-			m->tokens = lexer(m->line);
+		if (line)
+			m->tokens = lexer(line);
+		free(line);
 		if (m->tokens)
 			m->first_command = parse_tokens(m->tokens);
 		handle_exec_signal();
-		if (m->first_command)
-			(execute_command(&m, &env));
+		//if (m->first_command)
+		//	(execute_command(&m, &env));
 		ft_free(&m);
+		free(m);
 	}
 	return (0);
 }

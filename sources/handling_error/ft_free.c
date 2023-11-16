@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:08:16 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 16:54:18 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,6 @@ void	free_cmdlist(t_command_parser *h)
 
 void	ft_free(t_minishell **m)
 {
-	if ((*m)->line)
-	{
-		free((*m)->line);
-		(*m)->line = NULL;
-	}
 	if ((*m)->tokens)
 	{
 		free_tokenlist((*m)->tokens);

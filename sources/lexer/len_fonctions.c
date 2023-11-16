@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 15:03:19 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 23:48:02 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 17:05:53 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	command_len(t_lexer **lexer)
 				p.i++;
 				p.count++;
 			}
-			if ((*lexer)->input_string[p.i] == '\0')
-				return (p.count);
+			if ((*lexer)->input_string[p.i] && (*lexer)->input_string[p.i] == '\0')
+				return (ft_putstr_fd("bash: unclosed quote\n", 2), -1);
 		}
 		p.count++;
 	}

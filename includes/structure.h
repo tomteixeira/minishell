@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:56:51 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 16:54:05 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ typedef struct s_command_parser
 
 typedef struct s_minishell
 {
-	char					*line;
 	t_tokenlist				*tokens;
 	t_command_parser		*first_command;
 	t_env_var				*env_var;
