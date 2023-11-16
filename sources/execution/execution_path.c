@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 22:59:20 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:14:02 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static char	*try_paths(const char *command, char *path_copy)
 		}
 		free(possible_command);
 	}
-	free(path_copy);
 	return (NULL);
 }
 
@@ -86,6 +85,7 @@ char	*find_command_in_path(const char *command, char **env)
 	char	*direct_access_result;
 	char	*path;
 	char	*path_copy;
+	char	*result;
 
 	direct_access_result = check_direct_command_access(command);
 	if (direct_access_result)
@@ -94,7 +94,11 @@ char	*find_command_in_path(const char *command, char **env)
 	if (!path)
 		return (NULL);
 	path_copy = ft_strdup(path);
+	free(path);
 	if (!path_copy)
 		return (NULL);
-	return (try_paths(command, path_copy));
+	result = try_paths(command, path_copy);
+	if (!result)
+		free(path_copy);
+	return (result);
 }

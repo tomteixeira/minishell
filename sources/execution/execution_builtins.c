@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 15:22:25 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:58:12 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	duplicate_std_fds(int *original_stdout, int *original_stdin)
 }
 
 // Executing the built-in command
-static void	execute_builtin_wrapper(t_command_parser *current, char ***env)
+static void	execute_builtin_wrapper(t_minishell **current, char ***env)
 {
-	handle_redirection(current->command);
-	execute_builtin(current->command, env);
+	handle_redirection((*current)->first_command->command);
+	execute_builtin(current, env);
 }
 
 // Restoring the original standard file descriptors
@@ -38,7 +38,7 @@ static void	restore_std_fds(int original_stdout, int original_stdin)
 }
 
 // The refactored execute_builtin_command function
-int	execute_builtin_command(t_command_parser **current,
+int	execute_builtin_command(t_minishell **current,
 	char ***env, int *prev_pipe, int pipefd[2])
 {
 	int		original_stdout;
@@ -50,17 +50,17 @@ int	execute_builtin_command(t_command_parser **current,
 		dup2(*prev_pipe, STDIN_FILENO);
 		close(*prev_pipe);
 	}
-	if ((*current)->command->pipe_after)
+	if ((*current)->first_command->command->pipe_after)
 		dup2(pipefd[1], STDOUT_FILENO);
-	execute_builtin_wrapper(*current, env);
+	execute_builtin_wrapper(current, env);
 	restore_std_fds(original_stdout, original_stdin);
-	if ((*current)->command->pipe_after)
+	if ((*current)->first_command->command->pipe_after)
 	{
 		*prev_pipe = pipefd[0];
 		close(pipefd[1]);
 	}
 	else
 		*prev_pipe = -1;
-	*current = (*current)->next;
+	(*current)->first_command = (*current)->first_command->next;
 	return (1);
 }

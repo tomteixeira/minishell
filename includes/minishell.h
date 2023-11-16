@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:04:29 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/16 16:02:59 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int					execute_command(t_minishell **m, char ***env);
 int					handle_assignments(t_command_parser **current, char ***env,
 						t_env_var **env_var);
 // BUILTINS
-int					execute_builtin_command(t_command_parser **current,
+int					execute_builtin_command(t_minishell **current,
 						char ***env, int *prev_pipe, int pipefd[2]);
 // ERROR
 void				ft_error(const char *str, ...);
@@ -96,9 +96,9 @@ int					handle_quotes(char current_char, int quotes);
 char				*expand_variable(const char *str, t_env_var *env_var,
 						int i);
 // FORK
-void				handle_parent_process(t_command_parser *current,
+void				handle_parent_process(t_minishell **current,
 						int *pipefd, int *prev_pipe_read_fd);
-void				handle_child_process(t_command_parser *current,
+void				handle_child_process(t_minishell **current,
 						int *pipefd, char **env, int *prev_pipe_read_fd);
 void				handle_pipe_redirection(t_command_parser *current,
 						int *pipefd, int *prev_pipe_read_fd);
@@ -115,11 +115,9 @@ void				handle_exec_signal(void);
 void				handle_input_signal(void);
 // UTILS
 int					is_assignment(const char *cmd);
-int					execute_builtin(t_command *cmd, char ***env);
+int					execute_builtin(t_minishell **cur, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
-void				init_execution_context(t_command_parser **current,
-						int *prev_pipe_read_fd, t_command_parser *first_command,
-						int *pipefd);
+void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
 void				ft_error_exit(const char *format, const char *filename);
 void				split_assignment(const char *assignment, char **key,
 						char **value);
@@ -127,7 +125,7 @@ void				replace_and_free(char **old_str, char *new_str);
 char				*get_var_name(const char *str, int i);
 int					is_builtin(char *cmd);
 char				*get_value_from_global_env(char **env, const char *key);
-pid_t				fork_and_execute(t_command_parser **current, int *pipefd,
+pid_t				fork_and_execute(t_minishell **current, int *pipefd,
 						int *prev_pipe_read_fd, char **env);
 void				handle_piping(t_command *cmd, int *pipefd);
 void				add_missing_keys(t_env_var **local_env_var,
@@ -150,7 +148,7 @@ int					cd(char **args, char **env);
 int					export(char **args, char ***env);
 int					unset(char **args, char ***env);
 int					ft_env(char **args, char **envp);
-void				ft_exit(char **args, char **env);
+void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);
 
 #endif
