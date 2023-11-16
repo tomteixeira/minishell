@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 17:16:03 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:15:37 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	free_env_var(t_env_var *env_var)
+{
+	t_env_var	*cur;
+
+	while (env_var)
+	{
+		cur = env_var;
+		env_var = env_var->next;
+		if (cur->key)
+			free(cur->key);
+		if (cur->value)
+			free(cur->value);
+		free(cur);
+	}
+}
 
 void	free_tokenlist(t_tokenlist *h)
 {
@@ -61,7 +77,8 @@ void	free_cmdlist(t_command_parser *h)
 	}
 }
 
-void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h)
+void	ft_free(char **l, t_tokenlist **token_h,
+			t_command_parser **cmd_h, t_env_var **env_var)
 {
 	if (l)
 	{
@@ -77,5 +94,10 @@ void	ft_free(char **l, t_tokenlist **token_h, t_command_parser **cmd_h)
 	{
 		free_cmdlist(*cmd_h);
 		*cmd_h = NULL;
+	}
+	if (env_var)
+	{
+		free_env_var(*env_var);
+		*env_var = NULL;
 	}
 }
