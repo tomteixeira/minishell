@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/10 09:48:51 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:42:04 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ typedef enum t_redirection_type
 	A_R_OUT,
 	HEREDOC,
 }							t_redirection_type;
+
+typedef struct s_minishell
+{
+	char					*line;
+	t_tokenlist				*tokens;
+	t_command_parser		*first_command;
+	t_env_var				*env_var;
+}							t_minishell;
 
 typedef struct s_env
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 15:32:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:48:30 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,7 @@ static pid_t	execute_command_loop(t_command_parser **cur,
 	return (pid);
 }
 
-int	execute_command(t_command_parser *first_command,
-	char ***env, t_env_var **env_var)
+int	execute_command(t_minishell **m, char ***env)
 {
 	t_command_parser	*current;
 	int					pipefd[2];
