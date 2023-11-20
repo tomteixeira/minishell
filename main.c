@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 12:17:32 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/20 14:56:04 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,28 @@ void	init_env_var(t_env_var **env_var, char **env)
 	}
 }
 
-t_minishell	*init_variables(void)
+// char	**ft_fill_env(char **env)
+// {
+// 	char	**n_env;
+// 	int		env_len;
+// 	int		i;
+
+// 	env_len = 0;
+// 	i = 0;
+// }
+
+t_minishell	*init_variables(char **env)
 {
 	t_minishell *m;
 
+	(void)env;
 	m = malloc(sizeof(t_minishell));
 	if (!m)
 		exit(0);
 	m->env_var = NULL;
 	m->first_command = NULL;
 	m->tokens = NULL;
+	//m->env = ft_fill_env(env);
 	return (m);
 }
 
@@ -109,7 +121,7 @@ int	main(int argc, char **argv, char **env)
 		line = read_line();
 		if (!line)
 			exit(0);
-		m = init_variables();
+		m = init_variables(env);
 		init_env_var(&m->env_var, env);
 		if (line)
 			m->tokens = lexer(line);
