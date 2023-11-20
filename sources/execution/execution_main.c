@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 15:38:48 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:32:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,6 @@ static pid_t	execute_command_loop(t_minishell **cur,
 	(*cur)->env_var = env_buffer;
 	return (pid);
 }
-
-void print_local_env(t_env_var *env_var)
-{
-    t_env_var *current = env_var;
-	t_env_var *buffer = env_var;
-
-    while (current != NULL) {
-        printf("Key: %s, Value: %s\n", current->key, current->value);
-        current = current->next;
-    }
-	env_var = buffer;
-}
-
 
 int	execute_command(t_minishell **m, char ***env)
 {

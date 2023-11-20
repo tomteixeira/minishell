@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 15:03:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:33:10 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void	free_cmdlist(t_command_parser *h)
 {
 	t_command_parser	*cur;
 
+    while (h && h->previous) {
+        h = h->previous;
+    }
 	while (h)
 	{
 		cur = h;

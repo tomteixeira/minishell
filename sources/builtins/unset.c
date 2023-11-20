@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 15:02:22 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:49:12 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,37 +82,12 @@ char	**unset_var(char *var, char **e)
 	return (p.new_env);
 }
 
-#include "../../includes/minishell.h"
-
-// Existing code...
-
-// Function to remove a variable from the linked list
-void remove_env_var(t_env_var **env_var, char *var) {
-	t_env_var *temp = *env_var;
-	t_env_var *prev = NULL;
-
-	while (temp) {
-		if (strcmp(temp->key, var) == 0) {
-			if (prev == NULL) {
-				*env_var = temp->next;
-			} else {
-				prev->next = temp->next;
-			}
-			free(temp->key);
-			free(temp->value);
-			free(temp);
-			return;
-		}
-		prev = temp;
-		temp = temp->next;
-	}
-}
-
 int	unset(char **args, char ***env, t_minishell	**minishell)
 {
 	int		i;
 	char	**n_env;
 
+	(void) minishell;
 	i = 1;
 	if (!args[i])
 		return (EXIT_SUCCESS);
@@ -125,7 +100,6 @@ int	unset(char **args, char ***env, t_minishell	**minishell)
 			*env = n_env;
 			if (!*env)
 				return (EXIT_FAILURE);
-			remove_env_var(&(*minishell)->env_var, args[i]);
 		}
 		i++;
 	}

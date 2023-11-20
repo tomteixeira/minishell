@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/19 17:51:20 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:31:43 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ pid_t	fork_and_execute(t_minishell **current,
 		handle_child_process(current, pipefd, env, prev_pipe_read_fd);
 	else if (pid < 0)
 		exit_with_error("fork");
+	else if (pid > 0)
+		handle_parent_process(current, pipefd, prev_pipe_read_fd);
 	(*current)->first_command = (*current)->first_command->next;
 	return (pid);
 }
