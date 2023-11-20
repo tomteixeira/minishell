@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 10:56:33 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:57:48 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,19 @@ void	ft_free(t_minishell **m)
 {
 	if ((*m)->tokens)
 	{
-		printf("free tokenlist\n");
 		free_tokenlist((*m)->tokens);
 		(*m)->tokens = NULL;
 	}
 	if ((*m)->first_command)
 	{
-		printf("free cmd\n");
 		free_cmdlist((*m)->first_command);
 		(*m)->first_command = NULL;
 	}
-	if ((*m)->env_var)
-	{
-		printf("free env\n");
-		free_env_var((*m)->env_var);
-		(*m)->env_var = NULL;
-	}
-	free(*m);
-	m = NULL;
+//	if ((*m)->env_var)
+//	{
+//		free_env_var((*m)->env_var);
+//		(*m)->env_var = NULL;
+//	}
+//	free(*m);
+//	m = NULL;
 }

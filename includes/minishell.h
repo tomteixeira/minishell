@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/19 16:13:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:57:59 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int					pwd(char **args, char **envp);
 int					echo(char **args, char **env);
 int					cd(char **args, char **env);
 int					export(char **args, char ***env);
-int					unset(char **args, char ***env);
+int					unset(char **args, char ***env, t_minishell **minishell);
 int					ft_env(char **args, char **envp);
 void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);

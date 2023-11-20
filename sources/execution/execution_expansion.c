@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 10:53:56 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:20:20 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,16 @@ static char	*expand_argument(const char *str, t_env_var *env_var)
 		quotes = handle_quotes(tmp[i], quotes);
 		new_tmp = expand_variables(tmp, env_var, &i, quotes);
 		if (new_tmp != tmp)
-		{
 			replace_and_free(&tmp, new_tmp);
-			i = 0;
-		}
-		if (tmp[i] == '\\')
+		if (tmp[i + 1] == '\0')
 			new_tmp = remove_backslashes(tmp, &i);
 		if (new_tmp != tmp)
-		{
 			replace_and_free(&tmp, new_tmp);
-			i = 0;
-		}
 		i++;
 	}
 	new_tmp = apply_quotes_removal(tmp, quotes);
 	if (new_tmp != tmp)
-	{
-		tmp = ft_strdup(new_tmp);
-		free(new_tmp);
-	}
-	else
-		free (new_tmp);
+		replace_and_free(&tmp, new_tmp);
 	return (tmp);
 }
 
@@ -88,11 +77,14 @@ void	expand_redirections(t_redirection *redirection, t_env_var *env_var)
 	redirection = tmp;
 }
 
-void expand_command_args(char **command_args, t_env_var *env_var) {
-	int i = 0;
-	char *expanded_arg;
+void	expand_command_args(char **command_args, t_env_var *env_var)
+{
+	int		i;
+	char	*expanded_arg;
 
-	while (command_args[i] != NULL) {
+	i = 0;
+	while (command_args[i] != NULL)
+	{
 		expanded_arg = expand_argument(command_args[i], env_var);
 		if (!expanded_arg)
 			return ;
@@ -104,7 +96,6 @@ void expand_command_args(char **command_args, t_env_var *env_var) {
 		i++;
 	}
 }
-
 
 void	expand_command_arguments(t_command *cmd, t_env_var *env_var)
 {

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/11/20 10:49:21 by hebernar         ###   ########.fr       */
-=======
-/*   Updated: 2023/11/20 11:49:22 by tomteixeira      ###   ########.fr       */
->>>>>>> 9a33596e20c3575b359c4d7d96d235d1b2774d26
+/*   Updated: 2023/11/20 15:00:00 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +38,10 @@ void	update_local_env_with_global(t_env_var **local_env_var,
 	char **global_env)
 {
 	t_env_var	*current_var;
+	t_env_var	*tmp;
 	char		*global_value;
 
+	tmp = *local_env_var;
 	current_var = *local_env_var;
 	while (current_var != NULL)
 	{
@@ -59,6 +57,7 @@ void	update_local_env_with_global(t_env_var **local_env_var,
 			free(global_value);
 		current_var = current_var->next;
 	}
+	*local_env_var = tmp;
 	add_missing_keys(local_env_var, global_env);
 }
 
@@ -70,7 +69,7 @@ static int	process_command(t_command_parser *current,
 		g_signal = 0;
 		return (1);
 	}
-//	expand_command_arguments(current->command, *env_var);
+	expand_command_arguments(current->command, *env_var);
 	handle_piping(current->command, pipefd);
 	return (0);
 }
@@ -80,13 +79,8 @@ static pid_t	execute_command_loop(t_minishell **cur,
 {
 	int		p_pipe;
 	pid_t	pid;
-<<<<<<< HEAD
-	t_minishell	**tmp;
-=======
 	t_command_parser *buffer;
->>>>>>> 9a33596e20c3575b359c4d7d96d235d1b2774d26
 
-	tmp = cur;
 	pid = 0;
 	p_pipe = -1;
 	buffer = (*cur)->first_command;
@@ -106,13 +100,22 @@ static pid_t	execute_command_loop(t_minishell **cur,
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
-<<<<<<< HEAD
-	cur = tmp;
-=======
 	(*cur)->first_command = buffer;
->>>>>>> 9a33596e20c3575b359c4d7d96d235d1b2774d26
 	return (pid);
 }
+
+void print_local_env(t_env_var *env_var)
+{
+    t_env_var *current = env_var;
+	t_env_var *buffer = env_var;
+
+    while (current != NULL) {
+        printf("Key: %s, Value: %s\n", current->key, current->value);
+        current = current->next;
+    }
+	env_var = buffer;
+}
+
 
 int	execute_command(t_minishell **m, char ***env)
 {

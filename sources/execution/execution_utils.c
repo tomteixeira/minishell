@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/19 15:43:03 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:57:46 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	execute_builtin(t_minishell **cur, char ***env)
 	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "export") == 0)
 		return (g_signal = export((*cur)->first_command->command->command_args, env), 1);
 	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "unset") == 0)
-		return (g_signal = unset((*cur)->first_command->command->command_args, env), 1);
+		return (g_signal = unset((*cur)->first_command->command->command_args, env, cur), 1);
 	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "env") == 0)
 		return (g_signal = ft_env(NULL, *env), 1);
 	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "exit") == 0)

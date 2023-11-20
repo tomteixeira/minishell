@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 10:53:10 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:59:05 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_minishell	*init_variables(void)
 	m = malloc(sizeof(t_minishell));
 	if (!m)
 		exit(0);
-	m->env_var = NULL;
+//	m->env_var = NULL;
 	m->first_command = NULL;
 	m->tokens = NULL;
 	return (m);
@@ -99,6 +99,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*m;
 	char		*line;
+	int l = 0;
 
 	(void)argv;
 	(void)argc;
@@ -109,8 +110,13 @@ int	main(int argc, char **argv, char **env)
 		line = read_line();
 		if (!line)
 			exit(0);
-		m = init_variables();
-		init_env_var(&m->env_var, env);
+		if (l == 0)
+		{
+			m = init_variables();
+			m->env_var = NULL;
+			init_env_var(&m->env_var, env);
+			l++;
+		}
 		if (line)
 			m->tokens = lexer(line);
 		free(line);
