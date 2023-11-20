@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/10 08:39:13 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:23:58 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,24 @@ int	handle_quotes(char current_char, int quotes)
 	return (quotes);
 }
 
-char	*remove_backslashes(char *str, int *index)
-{
-	char	*new_str;
-	char	*sub_str1;
-	char	*sub_str2;
+char *remove_backslashes(char *str, int *index) {
+    if (str == NULL || *index < 0 || *index >= (int)ft_strlen(str)) {
+        return NULL;
+    }
 
-	if (str[*index] == '\\' && str[*index + 1] == '$')
-	{
-		sub_str1 = ft_substr(str, 0, *index);
-		sub_str2 = ft_substr(str, *index + 1, ft_strlen(str) - *index - 1);
-		new_str = ft_strjoin(sub_str1, sub_str2);
-		free(sub_str1);
-		free(sub_str2);
-		(*index)++;
-	}
-	else
-		new_str = str;
-	return (new_str);
+    if (str[*index] == '\\' && str[*index + 1] != '\0') {
+        char *sub_str1 = ft_substr(str, 0, *index);
+        char *sub_str2 = ft_substr(str, *index + 1, ft_strlen(str) - *index - 1);
+        char *new_str = ft_strjoin(sub_str1, sub_str2);
+        free(sub_str1);
+        free(sub_str2);
+        (*index)++;
+        return new_str;
+    }
+
+    return str;
 }
+
 
 // Function to replace the variable name in the string with its value.
 char	*replace_name(const char *str,
@@ -75,16 +74,15 @@ char	*replace_name(const char *str,
 	value_len = ft_strlen(var_value);
 	name_len = ft_strlen(var_name);
 	str_len = ft_strlen(str);
-	new_str = malloc(str_len - name_len + value_len + 1);
+	new_str = malloc(str_len - name_len + value_len);
 	if (!new_str)
 	{
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
 	ft_strncpy(new_str, str, i);
-	new_str[i] = '\0';
 	ft_strcat(new_str, var_value);
-	ft_strcat(new_str, str + i + name_len + 1);
+	ft_strcat(new_str, str + i + name_len);
 	return (new_str);
 }
 

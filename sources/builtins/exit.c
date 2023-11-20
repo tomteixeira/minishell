@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:09:50 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/19 15:56:55 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,9 @@ void	ft_exit(t_minishell **cur, char **args, char **env)
 {
 	(void)env;
 	if (!args[1])
-	{
 		g_signal = 0;
-	}
 	else if (!args[2])
-	{
 		g_signal = ft_exit_args(args);
-	}
 	else
 	{
 		if (ft_isdigit(args[1][0]) || (args[1][0] == '-'

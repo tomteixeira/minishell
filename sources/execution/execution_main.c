@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:11:35 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:49:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	process_command(t_command_parser *current,
 		g_signal = 0;
 		return (1);
 	}
-	expand_command_arguments(current->command, *env_var);
+//	expand_command_arguments(current->command, *env_var);
 	handle_piping(current->command, pipefd);
 	return (0);
 }
@@ -76,7 +76,9 @@ static pid_t	execute_command_loop(t_minishell **cur,
 {
 	int		p_pipe;
 	pid_t	pid;
+	t_minishell	**tmp;
 
+	tmp = cur;
 	pid = 0;
 	p_pipe = -1;
 	while ((*cur)->first_command)
@@ -95,6 +97,7 @@ static pid_t	execute_command_loop(t_minishell **cur,
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
+	cur = tmp;
 	return (pid);
 }
 

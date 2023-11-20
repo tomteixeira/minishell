@@ -6,13 +6,13 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:47:24 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:51:32 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	is_directory(const char *path)
+int	is_directory(const char *path)
 {
 	DIR	*dir;
 
@@ -25,7 +25,7 @@ static int	is_directory(const char *path)
 	return (0);
 }
 
-static void	check_directory(const char *command)
+void	check_directory(const char *command)
 {
 	if (ft_strchr(command, '/'))
 	{
@@ -67,6 +67,7 @@ void	handle_child_process(t_minishell **cur,
 {
 	char	*f_p;
 
+	f_p = NULL;
 	handle_pipe_redirection((*cur)->first_command, pipefd, prev_pipe);
 	handle_redirection((*cur)->first_command->command);
 	if ((*cur)->first_command->command->command_args)
@@ -77,10 +78,7 @@ void	handle_child_process(t_minishell **cur,
 	if ((*cur)->first_command->command->command_args && f_p
 		&& access(f_p, X_OK) != -1
 		&& ft_strcmp((*cur)->first_command->command->command_args[0], ""))
-	{
 		execve(f_p, (*cur)->first_command->command->command_args, env);
-		free(f_p);
-	}
 	else if ((*cur)->first_command->command->command_args[0])
 	{
 		if (f_p != NULL)

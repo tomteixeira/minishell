@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 17:17:35 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/20 10:42:44 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	free_cmdlist(t_command_parser *h)
 	{
 		cur = h;
 		h = h->next;
+		if (cur->command)
 		ft_free_arrays_i(cur->command->command_args, cur->command->nb_args);
 		if (cur->command->in_redirection != NULL)
 			free_redirection(cur->command->in_redirection);
@@ -81,16 +82,19 @@ void	ft_free(t_minishell **m)
 {
 	if ((*m)->tokens)
 	{
+		printf("free tokenlist\n");
 		free_tokenlist((*m)->tokens);
 		(*m)->tokens = NULL;
 	}
 	if ((*m)->first_command)
 	{
+		printf("free cmd\n");
 		free_cmdlist((*m)->first_command);
 		(*m)->first_command = NULL;
 	}
 	if ((*m)->env_var)
 	{
+		printf("free env\n");
 		free_env_var((*m)->env_var);
 		(*m)->env_var = NULL;
 	}

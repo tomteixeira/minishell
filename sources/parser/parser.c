@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/13 23:50:11 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/19 16:49:49 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ char	**fill_args(t_token *token, t_command **command)
 t_command	*fill_command(t_tokenlist **token)
 {
 	t_command	*command;
+	t_tokenlist	**tmp;
 
+	tmp = token;
 	command = init_command();
 	if (!command)
 		return (NULL);
@@ -80,6 +82,7 @@ t_command	*fill_command(t_tokenlist **token)
 		}
 		*token = (*token)->next;
 	}
+	token = tmp;
 	return (command);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/09 12:29:08 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:12:18 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ char	*apply_quotes_removal(char *str, int quotes)
 {
 	char	*new_str;
 
+	new_str = NULL;
 	if (quotes)
 	{
 		new_str = remove_quotes(str, quotes);
 		return (new_str);
 	}
-	return (str);
+	new_str = ft_strdup(str);
+	return (new_str);
 }
