@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 17:57:18 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:11:53 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	export(char **args, char ***env)
 {
 	int		i;
 	char	*var;
+	char	**new_env;
 
 	if (!args[1])
 		return (export_no_args(*env), EXIT_SUCCESS);
@@ -135,7 +136,9 @@ int	export(char **args, char ***env)
 		}
 		else if (var)
 		{
-			*env = set_new_env(var, *env);
+			new_env = set_new_env(var, *env);
+			ft_free_arrays_i(*env, -1);
+			*env = new_env;
 			if (!*env)
 				return (EXIT_FAILURE);
 		}
