@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 15:01:14 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:03:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ t_minishell	*init_variables(char **env)
 	m = malloc(sizeof(t_minishell));
 	if (!m)
 		exit(0);
-//	m->env_var = NULL;
 	m->first_command = NULL;
 	m->tokens = NULL;
 	m->env = ft_fill_env(env);
@@ -129,7 +128,6 @@ int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*m;
 	char		*line;
-	int l = 0;
 
 	(void)argv;
 	(void)argc;

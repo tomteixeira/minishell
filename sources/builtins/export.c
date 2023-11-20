@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 15:59:18 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:31:16 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,18 @@ int	check_existant_var(char *var, char **env)
 	int		i;
 
 	i = 0;
-	var_key = ft_substr(var, 0, (ft_strlenchr(var, '=') - 1));
+	var_key = ft_substr(var, 0, (ft_strlenchr(var, '=')));
 	if (!var_key)
 		return (0);
-	key_len = ft_strlen(var_key);
+	key_len = ft_strlenchr(var, '=');
+	printf("key_len = %zu\n", key_len);
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], var_key, key_len) == 0 && env[i][key_len] == '=')
+		if (ft_strncmp(env[i], var, key_len) == 0 && env[i][key_len] == '=')
+		{
+			printf("return 1");
 			return (1);
+		}
 		i++;
 	}
 	free(var_key);

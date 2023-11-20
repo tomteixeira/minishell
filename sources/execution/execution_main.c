@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 15:00:00 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:38:48 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ static pid_t	execute_command_loop(t_minishell **cur,
 	int		p_pipe;
 	pid_t	pid;
 	t_command_parser *buffer;
+	t_env_var *env_buffer;
 
+	env_buffer = (*cur)->env_var;
 	pid = 0;
 	p_pipe = -1;
 	buffer = (*cur)->first_command;
@@ -101,6 +103,7 @@ static pid_t	execute_command_loop(t_minishell **cur,
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
 	(*cur)->first_command = buffer;
+	(*cur)->env_var = env_buffer;
 	return (pid);
 }
 
