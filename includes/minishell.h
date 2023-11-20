@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:02:59 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:45:21 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void				add_new_env_var(char ***env, const char *key,
 int					set_flag(t_command_parser **first_command);
 
 /*Free functions*/
-void				ft_free(t_minishell **minishell);
+void				ft_free(t_minishell **minishell, int exit_flag);
 void				free_tokenlist(t_tokenlist *h);
 void				free_cmdlist(t_command_parser *h);
 

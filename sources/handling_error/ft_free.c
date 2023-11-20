@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 11:39:26 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/20 15:49:23 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	free_cmdlist(t_command_parser *h)
 	}
 }
 
-void	ft_free(t_minishell **m)
+void	ft_free(t_minishell **m, int exit_flag)
 {
 	if ((*m)->tokens)
 	{
@@ -89,11 +89,14 @@ void	ft_free(t_minishell **m)
 		free_cmdlist((*m)->first_command);
 		(*m)->first_command = NULL;
 	}
-	if ((*m)->env_var)
+	if ((*m)->env_var && exit_flag == 1)
 	{
 		free_env_var((*m)->env_var);
 		(*m)->env_var = NULL;
 	}
-	free(*m);
-	m = NULL;
+	if (exit_flag == 1)
+	{
+		ft_free_arrays_i((*m)->env, -1);
+		free(*m);
+	}
 }

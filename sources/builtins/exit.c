@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 11:14:07 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/20 15:46:26 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ void	ft_exit(t_minishell **cur, char **args, char **env)
 		}
 		exit_print_err(args[1]);
 	}
-	ft_free(cur);
+	ft_free(cur, 1);
 	exit(g_signal);
 }
