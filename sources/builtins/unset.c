@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 16:44:52 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:54:19 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ char	**unset_var(char *var, char **e)
 
 int	unset(char **args, char ***env)
 {
-	int	i;
+	int		i;
+	char	**n_env;
 
 	i = 1;
 	if (!args[i])
@@ -93,7 +94,9 @@ int	unset(char **args, char ***env)
 	{
 		if (check_var(args[i], *env) == 1)
 		{
-			*env = unset_var(args[i], *env);
+			n_env = unset_var(args[i], *env);
+			ft_free_arrays_i(*env, -1);
+			*env = n_env;
 			if (!*env)
 				return (EXIT_FAILURE);
 		}
