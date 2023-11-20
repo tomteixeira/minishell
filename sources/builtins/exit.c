@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 15:22:57 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 10:53:26 by hebernar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/20 15:02:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -59,6 +60,6 @@ void	ft_exit(t_minishell **cur, char **args, char **env)
 		}
 		exit_print_err(args[1]);
 	}
-	ft_free(cur);
+	ft_free(cur, 1);
 	exit(g_signal);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/19 17:51:32 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:02:37 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	handle_child_process(t_minishell **cur,
 			free(f_p);
 		ft_error("bash: %s: command not found\n",
 			(*cur)->first_command->command->command_args[0]);
-		ft_free(cur);
+		ft_free(cur, 0);
 		exit(127);
 	}
 }

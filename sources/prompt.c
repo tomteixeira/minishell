@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:20:56 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 13:52:38 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:01:52 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 
 char	*custom_prompt(void)
 {
-//	char	cwd[PATH_MAX];
-//	char	*cwd_color;
-//	char	*reset_color;
-	char var[10] = "prompt $ ";
-//	cwd_color = "\033[36m";
-//	reset_color = "\033[0m";
-//	getcwd(cwd, PATH_MAX);
-//	printf("\033[0;33m\033[0m%s%s%s", cwd_color, cwd, reset_color);
-//	if (g_signal != 0)
-//		printf("\033[31m - %d", g_signal);
-//	printf("\e[32m\e[1m $ \e[0m");
-	return (readline(var));
+	char	cwd[PATH_MAX];
+	char	*prompt;
+	char	*line;
+	char	*buffer;
+
+	getcwd(cwd, PATH_MAX);
+	prompt = ft_strjoin("\033[36m", cwd);
+	buffer = ft_strdup(prompt);
+	free(prompt);
+	prompt = ft_strjoin(buffer, "\033[0m\e[32m\e[1m ❯ \e[0m");
+	line = readline(prompt);
+	free(prompt);
+	free(buffer);
+	return (line);
 }
 
 char	*read_line(void)

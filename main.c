@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/01 16:24:46 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 14:59:05 by hebernar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/20 15:01:14 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "includes/minishell.h"
 
@@ -82,7 +83,30 @@ void	init_env_var(t_env_var **env_var, char **env)
 	}
 }
 
-t_minishell	*init_variables(void)
+char	**ft_fill_env(char **env)
+{
+	char	**n_env;
+	int		env_len;
+	int		i;
+
+	env_len = 0;
+	i = -1;
+	while(env[env_len])
+		env_len++;
+	n_env = malloc((env_len + 1) * sizeof(char *));
+	if (!n_env)
+		return (NULL);
+	while (++i < env_len)
+	{
+		n_env[i] = ft_strdup(env[i]);
+		if (!n_env[i])
+			return (ft_free_arrays_i(n_env, i), NULL);
+	}
+	n_env[env_len] = NULL;
+	return (n_env);
+}
+
+t_minishell	*init_variables(char **env)
 {
 	t_minishell *m;
 
@@ -92,6 +116,12 @@ t_minishell	*init_variables(void)
 //	m->env_var = NULL;
 	m->first_command = NULL;
 	m->tokens = NULL;
+	m->env = ft_fill_env(env);
+	if (!m->env)
+	{
+		free(m);
+		exit(0);
+	}
 	return (m);
 }
 
@@ -103,6 +133,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
+	m = init_variables(env);
+	init_env_var(&m->env_var, env);
 	while (42)
 	{
 		line = NULL;
@@ -110,13 +142,6 @@ int	main(int argc, char **argv, char **env)
 		line = read_line();
 		if (!line)
 			exit(0);
-		if (l == 0)
-		{
-			m = init_variables();
-			m->env_var = NULL;
-			init_env_var(&m->env_var, env);
-			l++;
-		}
 		if (line)
 			m->tokens = lexer(line);
 		free(line);
@@ -124,8 +149,8 @@ int	main(int argc, char **argv, char **env)
 			m->first_command = parse_tokens(m->tokens);
 		handle_exec_signal();
 		if (m->first_command)
-			(execute_command(&m, &env));
-		ft_free(&m);
+			(execute_command(&m, &m->env));
+		ft_free(&m, 0);
 	}
 	return (0);
 }

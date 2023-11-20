@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 17:57:18 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:59:18 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_existant_var(char *var, char **env)
 	int		i;
 
 	i = 0;
-	var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
+	var_key = ft_substr(var, 0, (ft_strlenchr(var, '=') - 1));
 	if (!var_key)
 		return (0);
 	key_len = ft_strlen(var_key);
@@ -47,6 +47,7 @@ int	modify_existant_var(char *var, char ***env, int i)
 		if (ft_strncmp((*env)[i], var_key, key_len) == 0 &&
 			(*env)[i][key_len] == '=')
 		{
+			free((*env)[i]);
 			(*env)[i] = ft_strdup(var);
 			free(var_key);
 			if ((*env)[i])
@@ -119,11 +120,12 @@ int	export(char **args, char ***env)
 {
 	int		i;
 	char	*var;
+	char	**new_env;
 
 	if (!args[1])
 		return (export_no_args(*env), EXIT_SUCCESS);
-	i = 1;
-	while (args[i])
+	i = 0;
+	while (args[++i])
 	{
 		var = NULL;
 		var = set_var(args[i]);
@@ -135,11 +137,12 @@ int	export(char **args, char ***env)
 		}
 		else if (var)
 		{
-			*env = set_new_env(var, *env);
+			new_env = set_new_env(var, *env);
+			ft_free_arrays_i(*env, -1);
+			*env = new_env;
 			if (!*env)
 				return (EXIT_FAILURE);
 		}
-		i++;
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 13:57:15 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:02:22 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void remove_env_var(t_env_var **env_var, char *var) {
 
 int	unset(char **args, char ***env, t_minishell	**minishell)
 {
-	int	i;
+	int		i;
+	char	**n_env;
 
 	i = 1;
 	if (!args[i])
@@ -119,7 +120,9 @@ int	unset(char **args, char ***env, t_minishell	**minishell)
 	{
 		if (check_var(args[i], *env) == 1)
 		{
-			*env = unset_var(args[i], *env);
+			n_env = unset_var(args[i], *env);
+			ft_free_arrays_i(*env, -1);
+			*env = n_env;
 			if (!*env)
 				return (EXIT_FAILURE);
 			remove_env_var(&(*minishell)->env_var, args[i]);
