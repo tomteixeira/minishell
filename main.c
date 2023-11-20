@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 15:03:51 by hebernar         ###   ########.fr       */
+/*   Created: 2023/11/20 18:35:48 by toteixei          #+#    #+#             */
+/*   Updated: 2023/11/20 18:35:54 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "includes/minishell.h"
 
@@ -139,7 +138,7 @@ int	main(int argc, char **argv, char **env)
 		handle_input_signal();
 		line = read_line();
 		if (!line)
-			exit(0);
+			(ft_free(&m, 1), exit(0));
 		if (line)
 			m->tokens = lexer(line);
 		free(line);

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:38:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/03/22 12:20:39 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:47:47 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		return (NULL);
 	ret = malloc(sizeof(char) * (len + 1));
 	if (!ret)
-		return (0);
+		return (NULL);
 	tmp = (char *)s + start;
 	i = 0;
 	while (*tmp && i < len)
 		ret[i++] = *tmp++;
-	ret[i] = 0;
+	ret[i] = '\0';
 	return (ret);
 }
