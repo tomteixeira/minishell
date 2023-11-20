@@ -6,7 +6,7 @@
 /*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 11:47:58 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/20 11:49:22 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static pid_t	execute_command_loop(t_minishell **cur,
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
 	(*cur)->first_command = buffer;
-	if ((*cur)->first_command)
 	return (pid);
 }
 
