@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:20:56 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 15:01:52 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 18:18:33 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*read_line(void)
 	line = custom_prompt();
 	if (!line)
 		return (NULL);
-	add_history(line);
+	if (line[0] != '\0')
+		add_history(line);
 	return (line);
 }
