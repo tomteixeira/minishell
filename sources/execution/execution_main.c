@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/11/20 10:49:21 by hebernar         ###   ########.fr       */
+=======
+/*   Updated: 2023/11/20 11:49:22 by tomteixeira      ###   ########.fr       */
+>>>>>>> 9a33596e20c3575b359c4d7d96d235d1b2774d26
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +80,16 @@ static pid_t	execute_command_loop(t_minishell **cur,
 {
 	int		p_pipe;
 	pid_t	pid;
+<<<<<<< HEAD
 	t_minishell	**tmp;
+=======
+	t_command_parser *buffer;
+>>>>>>> 9a33596e20c3575b359c4d7d96d235d1b2774d26
 
 	tmp = cur;
 	pid = 0;
 	p_pipe = -1;
+	buffer = (*cur)->first_command;
 	while ((*cur)->first_command)
 	{
 		if (process_command((*cur)->first_command, env, &(*cur)->env_var, pipefd) == 1)
@@ -97,7 +106,11 @@ static pid_t	execute_command_loop(t_minishell **cur,
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
+<<<<<<< HEAD
 	cur = tmp;
+=======
+	(*cur)->first_command = buffer;
+>>>>>>> 9a33596e20c3575b359c4d7d96d235d1b2774d26
 	return (pid);
 }
 

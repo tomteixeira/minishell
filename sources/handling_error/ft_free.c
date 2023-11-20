@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:43:36 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 10:42:44 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:56:33 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,5 @@ void	ft_free(t_minishell **m)
 		(*m)->env_var = NULL;
 	}
 	free(*m);
+	m = NULL;
 }

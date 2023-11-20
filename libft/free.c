@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:38:37 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:36:57 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:53:20 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void	ft_free_arrays_i(char **arrays, int index)
 			free(arrays[i]);
 		i++;
 	}
-	free(arrays);
+	if (arrays)
+		free(arrays);
 }
