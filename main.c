@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 18:31:10 by toteixei         ###   ########.fr       */
+/*   Created: 2023/11/20 18:35:48 by toteixei          #+#    #+#             */
+/*   Updated: 2023/11/20 18:35:54 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "includes/minishell.h"
 
