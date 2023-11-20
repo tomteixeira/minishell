@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_expansion.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 09:51:08 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:57:01 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*expand_argument(const char *str, t_env_var *env_var)
 	tmp = ft_strdup(str);
 	quotes = 0;
 	if (!tmp)
-		exit_with_error("malloc failed");
+		exit_with_error("malloc failed"); //attention le reste de la memoire n'est pas liberee
 	while (tmp[i])
 	{
 		quotes = handle_quotes(tmp[i], quotes);
@@ -85,8 +85,12 @@ void	expand_command_args(char **command_args, t_env_var *env_var)
 	while (command_args[i] != NULL)
 	{
 		expanded_arg = expand_argument(command_args[i], env_var);
+		if (!expanded_arg)
+			return ;
 		free(command_args[i]);
 		command_args[i] = ft_strdup(expanded_arg);
+		if (!command_args[i])
+			return ;
 		free(expanded_arg);
 		i++;
 	}

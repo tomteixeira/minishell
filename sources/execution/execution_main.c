@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 16:11:35 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:47:58 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,11 @@ static pid_t	execute_command_loop(t_minishell **cur,
 {
 	int		p_pipe;
 	pid_t	pid;
+	t_command_parser *buffer;
 
 	pid = 0;
 	p_pipe = -1;
+	buffer = (*cur)->first_command;
 	while ((*cur)->first_command)
 	{
 		if (process_command((*cur)->first_command, env, &(*cur)->env_var, pipefd) == 1)
@@ -95,6 +97,8 @@ static pid_t	execute_command_loop(t_minishell **cur,
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
+	(*cur)->first_command = buffer;
+	if ((*cur)->first_command)
 	return (pid);
 }
 
