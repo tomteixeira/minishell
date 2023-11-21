@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 12:47:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:13:07 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void				handle_pipe_redirection(t_command_parser *current,
 						int *pipefd, int *prev_pipe_read_fd);
 // HEREDOC
 int					handle_heredoc(t_redirection *heredoc, int *read_end);
+void				remove_null_char(char *str);
 // PATH
 char				*find_command_in_path(const char *command, char **env);
 // REDIRECTION
