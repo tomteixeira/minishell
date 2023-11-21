@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 14:43:59 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/17 15:42:25 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	fill_redirection_bis(t_tokenlist **token, t_command **command)
 {
 	if ((*token)->token->value[0] == '>')
 	{
-		if (append_redirection(&(*command)->out_redirection, R_OUT,
+		if (append_redirection(&(*command)->out_r, R_OUT,
 				&(*token)) == 0)
 			return (0);
 	}
 	else if ((*token)->token->value[0] == '<')
 	{
-		if (append_redirection(&(*command)->in_redirection, R_IN,
+		if (append_redirection(&(*command)->in_r, R_IN,
 				&(*token)) == 0)
 			return (0);
 	}
@@ -67,14 +67,14 @@ int	fill_redirection(t_tokenlist **token, t_command **command)
 	if ((*token)->token->value[0] == '>' && (*token)->token->value[1]
 		&& (*token)->token->value[1] == '>')
 	{
-		if (append_redirection(&(*command)->out_redirection, A_R_OUT,
+		if (append_redirection(&(*command)->out_r, A_R_OUT,
 				&(*token)) == 0)
 			return (0);
 	}
 	else if ((*token)->token->value[0] == '<' && (*token)->token->value[1]
 		&& (*token)->token->value[1] == '<')
 	{
-		if (append_redirection(&(*command)->in_redirection, HEREDOC,
+		if (append_redirection(&(*command)->in_r, HEREDOC,
 				&(*token)) == 0)
 			return (0);
 	}

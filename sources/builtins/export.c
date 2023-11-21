@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:56:36 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:06:07 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	modify_existant_var(char *var, char ***env, int i)
 	key_len = ft_strlen(var_key);
 	while ((*env)[i])
 	{
-		if (ft_strncmp((*env)[i], var_key, key_len ) == 0
+		if (ft_strncmp((*env)[i], var_key, key_len) == 0
 		&& (*env)[i][key_len] == '=')
 		{
 			free((*env)[i]);
@@ -120,7 +120,6 @@ int	export(char **args, char ***env)
 {
 	int		i;
 	char	*var;
-	char	**new_env;
 
 	if (!args[1])
 		return (export_no_args(*env), EXIT_SUCCESS);
@@ -136,13 +135,7 @@ int	export(char **args, char ***env)
 				return (EXIT_FAILURE);
 		}
 		else if (var)
-		{
-			new_env = set_new_env(var, *env);
-			ft_free_arrays_i(*env, -1);
-			*env = new_env;
-			if (!*env)
-				return (EXIT_FAILURE);
-		}
+			set_and_update_new_env(var, env);
 	}
 	return (EXIT_SUCCESS);
 }

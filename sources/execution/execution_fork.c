@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:30:48 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,20 @@ int	is_directory(const char *path)
 	return (0);
 }
 
-void	check_directory(const char *command)
+void	check_directory(const char *command, t_minishell **cur)
 {
 	if (ft_strchr(command, '/'))
 	{
 		if (access(command, F_OK) == -1)
 		{
 			ft_error("bash: %s: No such file or directory\n", command);
+			ft_free(cur, 2);
 			exit(127);
 		}
 		else if (is_directory(command))
 		{
 			ft_error("bash: %s: Is a directory\n", command);
+			ft_free(cur, 2);
 			exit(126);
 		}
 	}
@@ -69,10 +71,10 @@ void	handle_child_process(t_minishell **cur,
 
 	f_p = NULL;
 	handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
-	handle_redirection((*cur)->f_c->command);
+	handle_redirection(cur);
 	if ((*cur)->f_c->command->cargs)
 	{
-		check_directory((*cur)->f_c->command->cargs[0]);
+		check_directory((*cur)->f_c->command->cargs[0], cur);
 		f_p = find_command_in_path((*cur)
 				->f_c->command->cargs[0], env);
 	}

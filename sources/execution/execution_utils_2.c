@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:23:31 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:28:57 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ void	replace_and_free(char **old_str, char *new_str)
 		free(new_str);
 }
 
-void	ft_error_exit(const char *format, const char *filename)
+void	ft_error_exit(const char *format, const char *filename,
+	t_minishell **cur)
 {
 	ft_error(format, filename, strerror(errno));
+	ft_free(cur, 2);
 	exit(EXIT_FAILURE);
 }
 

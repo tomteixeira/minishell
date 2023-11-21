@@ -6,11 +6,21 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:51:02 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	free_line_and_handle_signal(char **line)
+{
+	if (line && *line)
+	{
+		free(*line);
+		*line = NULL;
+	}
+	handle_exec_signal();
+}
 
 void	create_file(t_redirection *out)
 {
@@ -33,8 +43,8 @@ void	create_file(t_redirection *out)
 void	handle_redirections_and_continue(t_command_parser **command,
 	int *pipefd, int *p_pipe)
 {
-	heredoc_read_and_write_bis((*command)->command->in_redirection);
-	create_file((*command)->command->out_redirection);
+	heredoc_read_and_write_bis((*command)->command->in_r);
+	create_file((*command)->command->out_r);
 	if ((*command)->command->pipe_after)
 	{
 		if (pipefd[1] != -1)

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 17:02:13 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:39:31 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void				remove_null_char(char *str);
 // PATH
 char				*find_command_in_path(const char *command, char **env);
 // REDIRECTION
-void				handle_redirection(t_command *cmd);
+void				handle_redirection(t_minishell **m);
 void				exit_with_error(const char *error_msg);
 // SIGNALS
 void				put_sig(int sig_code);
@@ -122,7 +122,8 @@ int					is_assignment(const char *cmd);
 int					execute_builtin(t_minishell **cur, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
 void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
-void				ft_error_exit(const char *format, const char *filename);
+void				ft_error_exit(const char *format, const char *filename,
+						t_minishell **cur);
 void				split_assignment(const char *assignment, char **key,
 						char **value);
 void				replace_and_free(char **old_str, char *new_str);
@@ -142,6 +143,7 @@ int					set_flag(t_command_parser **f_c);
 void				heredoc_read_and_write_bis(t_redirection *redir);
 void				handle_redirections_and_continue(t_command_parser **command,
 						int *pipefd, int *p_pipe);
+void				free_line_and_handle_signal(char **line);
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell, int exit_flag);
@@ -165,5 +167,7 @@ int					check_local(char *var, t_minishell **minishell);
 char				**ft_fill_env(char **env);
 void				init_env_var(t_env_var **env_var, char **env);
 t_env_var			*create_env_var(const char *env_str);
+int					set_and_update_new_env(char *var, char ***env);
+char				**set_new_env(char *var, char **env);
 
 #endif

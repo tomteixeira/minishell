@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,22 +125,22 @@ t_command_parser	*parse_tokens(t_tokenlist *token)
 			printf("Argument %d : %s\n", i, head->command->cargs[i]);
 			i++;
 		}
-		if (head->command->in_redirection != NULL)
+		if (head->command->in_r != NULL)
 		{
-			while (head->command->in_redirection)
+			while (head->command->in_r)
 			{
 				printf("Infile redirection : %s\n",
-					head->command->in_redirection->file);
-				head->command->in_redirection = head->command->in_redirection->next;
+					head->command->in_r->file);
+				head->command->in_r = head->command->in_r->next;
 			}
 		}
-		if (head->command->out_redirection != NULL)
+		if (head->command->out_r != NULL)
 		{
-			while (head->command->out_redirection)
+			while (head->command->out_r)
 			{
 				printf("Outfile redirection : %s\n",
-					head->command->out_redirection->file);
-				head->command->out_redirection = head->command->out_redirection->next;
+					head->command->out_r->file);
+				head->command->out_r = head->command->out_r->next;
 			}
 		}
 		if (head->command->pipe_after == 1)

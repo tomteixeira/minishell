@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:50:55 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ static pid_t	execute_command_loop(t_minishell **cur,
 			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
 		if (!(*cur)->f_c->command->cargs
-			&& ((*cur)->f_c->command->in_redirection
-				|| (*cur)->f_c->command->out_redirection))
+			&& ((*cur)->f_c->command->in_r
+				|| (*cur)->f_c->command->out_r))
 			handle_redirections_and_continue(&(*cur)->f_c, pipefd, &p_pipe);
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);

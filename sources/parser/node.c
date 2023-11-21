@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_command	*init_command(void)
 	command->cargs = NULL;
 	command->pipe_after = 0;
 	command->nb_args = 0;
-	command->in_redirection = NULL;
-	command->out_redirection = NULL;
+	command->in_r = NULL;
+	command->out_r = NULL;
 	return (command);
 }
