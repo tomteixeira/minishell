@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 17:00:35 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:02:13 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ int					ft_env(char **args, char **envp);
 void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);
 int					check_local(char *var, t_minishell **minishell);
-
 
 /*Environment*/
 char				**ft_fill_env(char **env);
