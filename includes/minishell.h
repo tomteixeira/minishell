@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:25:53 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:58:47 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,10 @@ int					unset(char **args, char ***env, t_minishell **minishell);
 int					ft_env(char **args, char **envp);
 void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);
+
+/*Environment*/
+char				**ft_fill_env(char **env);
+void				init_env_var(t_env_var **env_var, char **env);
+t_env_var			*create_env_var(const char *env_str);
 
 #endif

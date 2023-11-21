@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
+/*   Created: 2023/11/21 16:43:48 by toteixei          #+#    #+#             */
+/*   Updated: 2023/11/21 16:43:52 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -63,15 +62,16 @@ void	free_cmdlist(t_command_parser *h)
 {
 	t_command_parser	*cur;
 
-    while (h && h->previous) {
-        h = h->previous;
-    }
+	while (h && h->previous)
+	{
+		h = h->previous;
+	}
 	while (h)
 	{
 		cur = h;
 		h = h->next;
 		if (cur->command)
-		ft_free_arrays_i(cur->command->cargs, cur->command->nb_args);
+			ft_free_arrays_i(cur->command->cargs, cur->command->nb_args);
 		if (cur->command->in_redirection != NULL)
 			free_redirection(cur->command->in_redirection);
 		if (cur->command->out_redirection != NULL)
