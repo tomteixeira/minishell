@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 19:39:44 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:40:49 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,7 @@ static pid_t	execute_command_loop(t_minishell **cur,
 	int		p_pipe;
 	pid_t	pid;
 	t_command_parser *buffer;
-	t_env_var *env_buffer;
 
-	env_buffer = (*cur)->env_var;
 	pid = 0;
 	p_pipe = -1;
 	buffer = (*cur)->first_command;
@@ -98,14 +96,27 @@ static pid_t	execute_command_loop(t_minishell **cur,
 		}
 		if (!(*cur)->first_command->command->command_args
 			&& (*cur)->first_command->command->in_redirection->type == HEREDOC)
+		{
 			handle_heredoc((*cur)->first_command->command->in_redirection, &p_pipe);
+			(*cur)->first_command = (*cur)->first_command->next;
+		}
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
 	(*cur)->first_command = buffer;
-	(*cur)->env_var = env_buffer;
 	return (pid);
 }
+
+void print_local_env(t_env_var *env_var) {
+    t_env_var *current = env_var;
+
+    while (env_var != NULL) {
+        printf("Key: %s, Value: %s\n", env_var->key, env_var->value);
+        env_var = env_var->next;
+    }
+	env_var = current;
+}
+
 
 int	execute_command(t_minishell **m, char ***env)
 {
@@ -118,5 +129,6 @@ int	execute_command(t_minishell **m, char ***env)
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);
 	pid = execute_command_loop(m, env, pipefd);
+//	print_local_env((*m)->env_var);
 	return (wait_for_children(pid, flag_last));
 }

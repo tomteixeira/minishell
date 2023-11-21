@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 16:15:52 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:27:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	ft_exit(t_minishell **cur, char **args, char **env)
 		}
 		exit_print_err(args[1]);
 	}
-	ft_free(cur, 1);
+	ft_free(cur, 2);
 	exit(g_signal);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 17:33:10 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:27:51 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ void	ft_free(t_minishell **m, int exit_flag)
 		free_cmdlist((*m)->first_command);
 		(*m)->first_command = NULL;
 	}
-	if ((*m)->env_var && exit_flag == 1)
+	if ((*m)->env_var && exit_flag == 2)
 	{
 		free_env_var((*m)->env_var);
 		(*m)->env_var = NULL;
 	}
-	if (exit_flag == 1)
+	if (exit_flag > 0)
 	{
 		ft_free_arrays_i((*m)->env, -1);
 		free(*m);

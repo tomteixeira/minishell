@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 17:31:43 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:32:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	set_flag(t_command_parser **first_command)
 
 	current = *first_command;
 	flag_last = 0;
+	if (!current->command->command_args)
+		return (0);
 	while (current)
 	{
 		if (current->command->pipe_after == 0

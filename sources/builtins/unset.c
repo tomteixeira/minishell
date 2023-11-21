@@ -6,11 +6,50 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:23:21 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 19:39:21 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:59:08 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_local(char *var, t_minishell **minishell)
+{
+	t_env_var	*cur;
+
+	cur = (*minishell)->env_var;
+	while (cur)
+	{
+		if (ft_strncmp(var, cur->key, ft_strlenchr(cur->key, '=')) == 0)
+			return (1);
+		cur = cur->next;
+	}
+	return (0);
+}
+
+void	remove_local_var(char *var, t_minishell **minishell)
+{
+	t_env_var	*cur;
+	t_env_var	*prev;
+
+	cur = (*minishell)->env_var;
+	prev = NULL;
+	while (cur)
+	{
+		if (ft_strncmp(var, cur->key, ft_strlenchr(cur->key, '=')) == 0)
+		{
+			if (prev)
+				prev->next = cur->next;
+			else
+				(*minishell)->env_var = cur->next;
+			free(cur->key);
+			free(cur->value);
+			free(cur);
+			return ;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+}
 
 void	export_no_args(char **env)
 {
@@ -87,7 +126,6 @@ int	unset(char **args, char ***env, t_minishell	**minishell)
 	int		i;
 	char	**n_env;
 
-	(void) minishell;
 	i = 1;
 	if (!args[i])
 		return (EXIT_SUCCESS);
@@ -101,6 +139,8 @@ int	unset(char **args, char ***env, t_minishell	**minishell)
 			if (!*env)
 				return (EXIT_FAILURE);
 		}
+		if (check_local(args[i], minishell))
+			remove_local_var(args[i], minishell);
 		i++;
 	}
 	return (EXIT_SUCCESS);
