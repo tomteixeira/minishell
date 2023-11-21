@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:35:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 18:35:54 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:37:05 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	main(int argc, char **argv, char **env)
 		handle_input_signal();
 		line = read_line();
 		if (!line)
-			(ft_free(&m, 1), exit(0));
+			(ft_free(&m, 2), exit(0));
 		if (line)
 			m->tokens = lexer(line);
 		free(line);

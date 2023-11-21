@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 10:24:28 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 11:13:49 by hebernar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/21 13:11:34 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "libft.h"
 #include <fcntl.h>
@@ -42,7 +43,7 @@ static void	ft_read(int fd, char *buffer, char **line)
 		}
 	}
 	free(buffer);
-	buffer = 0;
+	buffer = NULL;
 }
 
 static char	*get_line(char **line, int fd)

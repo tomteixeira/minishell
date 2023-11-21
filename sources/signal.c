@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:01:58 by tomteixeira       #+#    #+#             */
-/*   Updated: 2023/11/09 17:03:43 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 11:41:50 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	interrupt_signal(int sig)
 	if (sig == SIGINT)
 	{
 		g_signal = 130;
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();

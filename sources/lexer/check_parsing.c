@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/15 16:30:32 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 11:26:18 by tomteixeira      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	heredoc_ctrlc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_signal = 130;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		//rl_redisplay();
+	}
+}
+
+void	handle_heredoc_signal(void)
+{
+	signal(SIGINT, heredoc_ctrlc);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 int	handle_unfinished_pipe(t_tokenlist **t)
 {
@@ -20,21 +38,22 @@ int	handle_unfinished_pipe(t_tokenlist **t)
 	new_tokens = NULL;
 	while (1)
 	{
-		write(STDOUT_FILENO, "pipe> ", 6);
-		line = get_next_line(STDERR_FILENO);
+		//handle_heredoc_signal();
+		write(STDIN_FILENO, "pipe> ", 6);
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			return (0);
+			return (write(2, "\n", 1), 0);
 		if (line[0] && line[0] != '\n')
 		{
 			new_tokens = lexer(line);
 			if (!new_tokens)
-				return (0);
+				return (free(line), 0);
 			merge_tokenlist(t, &new_tokens);
 			if (check_parsing(t) == 1)
-				return (1);
+				return (free(line), 1);
 		}
 	}
-	return (1);
+	return (free(line), 1);
 }
 
 void	print_syntax_error(char *token)
