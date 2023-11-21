@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 23:27:51 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	free_cmdlist(t_command_parser *h)
 		cur = h;
 		h = h->next;
 		if (cur->command)
-		ft_free_arrays_i(cur->command->command_args, cur->command->nb_args);
+		ft_free_arrays_i(cur->command->cargs, cur->command->nb_args);
 		if (cur->command->in_redirection != NULL)
 			free_redirection(cur->command->in_redirection);
 		if (cur->command->out_redirection != NULL)

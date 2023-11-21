@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 23:53:55 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:15:02 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*remove_backslashes(char *str, int *index)
 	if (*index == -1)
 		return (str);
 	if (str[*index] == '\0')
-			return (ft_strdup(str));
+		return (ft_strdup(str));
 	else if (str[*index] == '\\' && str[*index + 1] == '$')
 	{
 		sub_str1 = ft_substr(str, 0, *index);

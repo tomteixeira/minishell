@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 23:54:53 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:15:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,22 @@ void	handle_child_process(t_minishell **cur,
 	f_p = NULL;
 	handle_pipe_redirection((*cur)->first_command, pipefd, prev_pipe);
 	handle_redirection((*cur)->first_command->command);
-	if ((*cur)->first_command->command->command_args)
+	if ((*cur)->first_command->command->cargs)
 	{
-		check_directory((*cur)->first_command->command->command_args[0]);
-		f_p = find_command_in_path((*cur)->first_command->command->command_args[0], env);
+		check_directory((*cur)->first_command->command->cargs[0]);
+		f_p = find_command_in_path((*cur)
+				->first_command->command->cargs[0], env);
 	}
-	if ((*cur)->first_command->command->command_args && f_p
+	if ((*cur)->first_command->command->cargs && f_p
 		&& access(f_p, X_OK) != -1
-		&& ft_strcmp((*cur)->first_command->command->command_args[0], ""))
-		execve(f_p, (*cur)->first_command->command->command_args, env);
-	else if ((*cur)->first_command->command->command_args[0])
+		&& ft_strcmp((*cur)->first_command->command->cargs[0], ""))
+		execve(f_p, (*cur)->first_command->command->cargs, env);
+	else if ((*cur)->first_command->command->cargs[0])
 	{
 		if (f_p != NULL)
 			free(f_p);
 		ft_error("bash: %s: command not found\n",
-			(*cur)->first_command->command->command_args[0]);
+			(*cur)->first_command->command->cargs[0]);
 		ft_free(cur, 2);
 		exit(127);
 	}

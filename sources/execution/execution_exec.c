@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 23:32:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	set_flag(t_command_parser **first_command)
 
 	current = *first_command;
 	flag_last = 0;
-	if (!current->command->command_args)
+	if (!current->command->cargs)
 		return (0);
 	while (current)
 	{
 		if (current->command->pipe_after == 0
-			&& is_builtin(current->command->command_args[0]))
+			&& is_builtin(current->command->cargs[0]))
 			flag_last = 1;
 		current = current->next;
 	}

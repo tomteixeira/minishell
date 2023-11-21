@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 22:02:12 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,13 @@ int	handle_assignments(t_command_parser **current,
 
 	key = NULL;
 	value = NULL;
-	if (!(*current)->command->command_args)
+	if (!(*current)->command->cargs)
 		return (0);
-	if (is_assignment((*current)->command->command_args[0])
-		&& (*current)->command->command_args[1]
+	if (is_assignment((*current)->command->cargs[0])
+		&& (*current)->command->cargs[1]
 		== NULL && (*current)->next == NULL)
 	{
-		split_assignment((*current)->command->command_args[0], &key, &value);
+		split_assignment((*current)->command->cargs[0], &key, &value);
 		if (update_global_env(env, env_var, key, value))
 			;
 		else
@@ -142,9 +142,9 @@ int	handle_assignments(t_command_parser **current,
 		free(value);
 		return (1);
 	}
-	else if (is_assignment((*current)->command->command_args[0]))
-		(*current)->command->command_args
-			= remove_from_list((*current)->command->command_args,
-				(*current)->command->command_args[0], 0);
+	else if (is_assignment((*current)->command->cargs[0]))
+		(*current)->command->cargs
+			= remove_from_list((*current)->command->cargs,
+				(*current)->command->cargs[0], 0);
 	return (0);
 }

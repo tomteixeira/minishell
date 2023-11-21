@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 13:57:46 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:14:35 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,26 @@ char	**remove_from_list(char **list, char *arg, int i)
 }
 
 // Utility function to execute builtins
-int	execute_builtin(t_minishell **cur, char ***env)
+int	execute_builtin(t_minishell **c, char ***env)
 {
-	if (!(*cur)->first_command->command->command_args)
+	if (!(*c)->first_command->command->cargs)
 		return (0);
-	if (ft_strcmp((*cur)->first_command->command->command_args[0], "echo") == 0)
-		return (g_signal = echo((*cur)->first_command->command->command_args, *env), 1);
-	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "cd") == 0)
-		return (g_signal = cd((*cur)->first_command->command->command_args, *env), 1);
-	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "pwd") == 0)
-		return (g_signal = pwd((*cur)->first_command->command->command_args, *env), 1);
-	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "export") == 0)
-		return (g_signal = export((*cur)->first_command->command->command_args, env), 1);
-	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "unset") == 0)
-		return (g_signal = unset((*cur)->first_command->command->command_args, env, cur), 1);
-	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "env") == 0)
+	if (ft_strcmp((*c)->first_command->command->cargs[0], "echo") == 0)
+		return (g_signal = echo((*c)->first_command->command->cargs, *env), 1);
+	else if (ft_strcmp((*c)->first_command->command->cargs[0], "cd") == 0)
+		return (g_signal = cd((*c)->first_command->command->cargs, *env), 1);
+	else if (ft_strcmp((*c)->first_command->command->cargs[0], "pwd") == 0)
+		return (g_signal = pwd((*c)->first_command->command->cargs, *env), 1);
+	else if (ft_strcmp((*c)->first_command->command->cargs[0], "export") == 0)
+		return (g_signal = export((*c)->first_command->command->cargs, env), 1);
+	else if (ft_strcmp((*c)->first_command->command->cargs[0], "unset") == 0)
+		return (g_signal = unset((*c)
+				->first_command->command->cargs, env, c), 1);
+	else if (ft_strcmp((*c)->first_command->command->cargs[0], "env") == 0)
 		return (g_signal = ft_env(NULL, *env), 1);
-	else if (ft_strcmp((*cur)->first_command->command->command_args[0], "exit") == 0)
+	else if (ft_strcmp((*c)->first_command->command->cargs[0], "exit") == 0)
 	{
-		ft_exit(cur, (*cur)->first_command->command->command_args, *env);
+		ft_exit(c, (*c)->first_command->command->cargs, *env);
 		return (g_signal);
 	}
 	return (0);

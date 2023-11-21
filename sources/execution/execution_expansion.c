@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 23:30:56 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:18:26 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static char	*expand_argument(const char *str, t_env_var *env_var)
 	i = 0;
 	tmp = ft_strdup(str);
 	quotes = 0;
-	if (!tmp)
-		exit_with_error("malloc failed"); //attention le reste de la memoire n'est pas liberee
 	while (tmp[i])
 	{
 		quotes = handle_quotes(tmp[i], quotes);
@@ -77,20 +75,20 @@ void	expand_redirections(t_redirection *redirection, t_env_var *env_var)
 	redirection = tmp;
 }
 
-void	expand_command_args(char **command_args, t_env_var *env_var)
+void	expand_cargs(char **cargs, t_env_var *env_var)
 {
 	int		i;
 	char	*expanded_arg;
 
 	i = 0;
-	while (command_args[i] != NULL)
+	while (cargs[i] != NULL)
 	{
-		expanded_arg = expand_argument(command_args[i], env_var);
+		expanded_arg = expand_argument(cargs[i], env_var);
 		if (!expanded_arg)
 			return ;
-		free(command_args[i]);
-		command_args[i] = ft_strdup(expanded_arg);
-		if (!command_args[i])
+		free(cargs[i]);
+		cargs[i] = ft_strdup(expanded_arg);
+		if (!cargs[i])
 			return ;
 		free(expanded_arg);
 		i++;
@@ -101,6 +99,6 @@ void	expand_command_arguments(t_command *cmd, t_env_var *env_var)
 {
 	expand_redirections(cmd->in_redirection, env_var);
 	expand_redirections(cmd->out_redirection, env_var);
-	if (cmd->command_args)
-		expand_command_args(cmd->command_args, env_var);
+	if (cmd->cargs)
+		expand_cargs(cmd->cargs, env_var);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 23:40:49 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:47:26 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static int	process_command(t_command_parser *current,
 	return (0);
 }
 
+// Utility function to read and write lines for heredoc
 static pid_t	execute_command_loop(t_minishell **cur,
 	char ***env,  int *pipefd)
 {
@@ -88,16 +89,23 @@ static pid_t	execute_command_loop(t_minishell **cur,
 	{
 		if (process_command((*cur)->first_command, env, &(*cur)->env_var, pipefd) == 1)
 			break ;
-		if ((*cur)->first_command->command->command_args
-			&& is_builtin((*cur)->first_command->command->command_args[0]))
+		if ((*cur)->first_command->command->cargs
+			&& is_builtin((*cur)->first_command->command->cargs[0]))
 		{
 			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
 		}
-		if (!(*cur)->first_command->command->command_args
-			&& (*cur)->first_command->command->in_redirection->type == HEREDOC)
+		if (!(*cur)->first_command->command->cargs
+			&& ((*cur)->first_command->command->in_redirection
+			|| (*cur)->first_command->command->out_redirection))
 		{
-			handle_heredoc((*cur)->first_command->command->in_redirection, &p_pipe);
+			heredoc_read_and_write_bis((*cur)-> first_command->command->in_redirection);
+			if ((*cur)->first_command->command->pipe_after)
+			{
+				if (pipefd[1] != -1)
+					close(pipefd[1]);
+				p_pipe = pipefd[0];
+			}
 			(*cur)->first_command = (*cur)->first_command->next;
 		}
 		else
@@ -129,6 +137,5 @@ int	execute_command(t_minishell **m, char ***env)
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);
 	pid = execute_command_loop(m, env, pipefd);
-//	print_local_env((*m)->env_var);
 	return (wait_for_children(pid, flag_last));
 }

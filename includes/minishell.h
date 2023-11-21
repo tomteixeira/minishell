@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 15:01:22 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:47:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int					execute_builtin_command(t_minishell **current,
 						char ***env, int *prev_pipe, int pipefd[2]);
 // ERROR
 void				ft_error(const char *str, ...);
-void	free_env_var(t_env_var *env_var);
+void				free_env_var(t_env_var *env_var);
 
 // EXPANSION
 void				expand_command_arguments(t_command *cmd,
@@ -137,6 +137,7 @@ void				update_existing_env_var(char ***env,
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
 int					set_flag(t_command_parser **first_command);
+void				heredoc_read_and_write_bis(t_redirection *redir);
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell, int exit_flag);
@@ -144,7 +145,6 @@ void				free_tokenlist(t_tokenlist *h);
 void				free_cmdlist(t_command_parser *h);
 void				free_redirection(t_redirection *h);
 void				ft_free_arrays_i(char **arrays, int index);
-
 
 /*Builtins*/
 int					pwd(char **args, char **envp);

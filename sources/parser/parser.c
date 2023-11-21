@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/19 16:49:49 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**first_arg(t_token *token, t_command **command)
 		return (ft_free_arrays_i(args, 0), NULL);
 	args[1] = NULL;
 	(*command)->nb_args = 2;
-	(*command)->command_args = args;
+	(*command)->cargs = args;
 	return (args);
 }
 
@@ -35,7 +35,7 @@ char	**fill_args(t_token *token, t_command **command)
 	char	**args;
 	int		j;
 
-	if (!(*command)->command_args)
+	if (!(*command)->cargs)
 		return (first_arg(token, command));
 	args = malloc(((*command)->nb_args + 1) * sizeof(char *));
 	if (!args)
@@ -43,7 +43,7 @@ char	**fill_args(t_token *token, t_command **command)
 	j = 0;
 	while (j < (*command)->nb_args - 1)
 	{
-		args[j] = ft_strdup((*command)->command_args[j]);
+		args[j] = ft_strdup((*command)->cargs[j]);
 		if (!args[j])
 			return (ft_free_arrays_i(args, j), NULL);
 		j++;
@@ -52,7 +52,7 @@ char	**fill_args(t_token *token, t_command **command)
 	if (!args[j])
 		return (ft_free_arrays_i(args, j), NULL);
 	args[j + 1] = NULL;
-	ft_free_arrays_i((*command)->command_args, (*command)->nb_args);
+	ft_free_arrays_i((*command)->cargs, (*command)->nb_args);
 	(*command)->nb_args++;
 	return (args);
 }
@@ -70,8 +70,8 @@ t_command	*fill_command(t_tokenlist **token)
 	{
 		if ((*token)->token->type == T_WORD)
 		{
-			command->command_args = fill_args((*token)->token, &command);
-			if (!command->command_args)
+			command->cargs = fill_args((*token)->token, &command);
+			if (!command->cargs)
 				return (free(command), NULL);
 		}
 		if ((*token)->token->type == T_RED)
@@ -122,7 +122,7 @@ t_command_parser	*parse_tokens(t_tokenlist *token)
 		i = 0;
 		while (i < head->command->nb_args - 1)
 		{
-			printf("Argument %d : %s\n", i, head->command->command_args[i]);
+			printf("Argument %d : %s\n", i, head->command->cargs[i]);
 			i++;
 		}
 		if (head->command->in_redirection != NULL)

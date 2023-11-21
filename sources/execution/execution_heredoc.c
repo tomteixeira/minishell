@@ -6,14 +6,14 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 23:41:03 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:47:12 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Utility function to remove /0 from char*
-static void	remove_null_char(char *str)
+void	remove_null_char(char *str)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ static void	remove_null_char(char *str)
 }
 
 // Utility function to setup the heredoc pipe
-static void	setup_heredoc_pipe(int pipefd[2])
+void	setup_heredoc_pipe(int pipefd[2])
 {
 	if (pipe(pipefd) == -1)
 	{
@@ -36,8 +36,37 @@ static void	setup_heredoc_pipe(int pipefd[2])
 	}
 }
 
+void	heredoc_read_and_write_bis(t_redirection *redir)
+{
+	char	*line;
+	while (redir)
+	{
+		if(redir->type == HEREDOC)
+		{
+			while (1)
+			{
+				write(STDERR_FILENO, "heredoc> ", 9);
+				line = get_next_line(STDERR_FILENO);
+				if (line == NULL)
+				{
+					printf("\n");
+					return ;
+				}
+				remove_null_char(line);
+				if (ft_strcmp(line, (char *) redir->file) == 0)
+				{
+					free(line);
+					break ;
+				}
+				free(line);
+			}
+			redir = redir->next;
+		}
+	}
+}
+
 // Utility function to read and write lines for heredoc
-static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
+void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 {
 	char	*line;
 
@@ -45,6 +74,11 @@ static void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 	{
 		write(STDERR_FILENO, "heredoc> ", 9);
 		line = get_next_line(STDERR_FILENO);
+		if (line == NULL)
+		{
+			printf("\n");
+			return ;
+		}
 		remove_null_char(line);
 		if (ft_strcmp(line, (char *) delimiter) == 0)
 		{

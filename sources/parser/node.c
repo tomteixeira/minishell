@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 14:38:34 by toteixei          #+#    #+#             */
-/*   Updated: 2023/10/10 16:50:37 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_command	*init_command(void)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
-	command->command_args = NULL;
+	command->cargs = NULL;
 	command->pipe_after = 0;
 	command->nb_args = 0;
 	command->in_redirection = NULL;
