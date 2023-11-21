@@ -6,11 +6,18 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 17:54:30 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:59:00 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	duplicate_and_close_fd(int old_fd, int new_fd)
+{
+	if (dup2(old_fd, new_fd) == -1)
+		exit_with_error("dup2");
+	close(old_fd);
+}
 
 void	exit_with_error(const char *error_msg)
 {
@@ -21,8 +28,10 @@ void	exit_with_error(const char *error_msg)
 // Handle output redirections
 static void	handle_out_r(t_minishell **m)
 {
-	int	fd;
+	int				fd;
+	t_redirection	*tmp;
 
+	tmp = (*m)->f_c->command->out_r;
 	fd = -1;
 	while ((*m)->f_c->command->out_r)
 	{
@@ -35,22 +44,23 @@ static void	handle_out_r(t_minishell **m)
 			fd = open((*m)->f_c->command->out_r->file,
 					O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
+		{
+			(*m)->f_c->command->out_r = tmp;
 			ft_error_exit("bash: %s: %s\n", (*m)->f_c->command->out_r->file, m);
+		}
 		(*m)->f_c->command->out_r = (*m)->f_c->command->out_r->next;
 	}
 	if (fd != -1)
-	{
-		if (dup2(fd, 1) == -1)
-			exit_with_error("dup2");
-		close(fd);
-	}
+		duplicate_and_close_fd(fd, 1);
 }
 
 // Handle input redirections
 static void	handle_in_r(t_minishell **c)
 {
-	int	fd;
+	int				fd;
+	t_redirection	*tmp;
 
+	tmp = (*c)->f_c->command->in_r;
 	fd = -1;
 	while ((*c)->f_c->command->in_r)
 	{
@@ -60,17 +70,16 @@ static void	handle_in_r(t_minishell **c)
 		{
 			fd = open((*c)->f_c->command->in_r->file, O_RDONLY);
 			if (fd == -1)
+			{
+				(*c)->f_c->command->in_r = tmp;
 				ft_error_exit("bash: %s: %s\n",
 					(*c)->f_c->command->in_r->file, c);
+			}
 		}
 		else if ((*c)->f_c->command->in_r->type == HEREDOC)
 			handle_heredoc((*c)->f_c->command->in_r, &fd);
 		if (fd != -1)
-		{
-			if (dup2(fd, 0) == -1)
-				exit_with_error("dup2");
-			close(fd);
-		}
+			duplicate_and_close_fd(fd, 0);
 		(*c)->f_c->command->in_r = (*c)->f_c->command->in_r->next;
 	}
 }
