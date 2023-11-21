@@ -6,7 +6,7 @@
 #    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/21 16:46:33 by toteixei         ###   ########.fr        #
+#    Updated: 2023/11/21 17:00:43 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,13 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/execution/execution_expansion.c \
 				sources/execution/execution_expansion_bis.c \
 				sources/execution/execution_expansion_ter.c \
+				sources/execution/execution_norminette.c \
 				sources/builtins/cd.c \
 				sources/builtins/pwd.c \
 				sources/builtins/echo.c \
 				sources/builtins/export.c \
 				sources/builtins/unset.c \
+				sources/builtins/unset_bis.c \
 				sources/builtins/env.c \
 				sources/builtins/exit.c \
 				sources/signal.c \

@@ -6,19 +6,19 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Check if the last command piped is a builtin
-int	set_flag(t_command_parser **first_command)
+int	set_flag(t_command_parser **f_c)
 {
 	t_command_parser	*current;
 	int					flag_last;
 
-	current = *first_command;
+	current = *f_c;
 	flag_last = 0;
 	if (!current->command->cargs)
 		return (0);
@@ -44,6 +44,6 @@ pid_t	fork_and_execute(t_minishell **current,
 		exit_with_error("fork");
 	else if (pid > 0)
 		handle_parent_process(current, pipefd, prev_pipe_read_fd);
-	(*current)->first_command = (*current)->first_command->next;
+	(*current)->f_c = (*current)->f_c->next;
 	return (pid);
 }

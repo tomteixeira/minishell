@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:21:14 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,27 +88,27 @@ t_command	*fill_command(t_tokenlist **token)
 
 t_command_parser	*parse_tokens(t_tokenlist *token)
 {
-	t_command_parser	*first_command;
+	t_command_parser	*f_c;
 
 	if (token == NULL)
 		return (NULL);
-	first_command = NULL;
-	append(&first_command, &token, 0);
-	if (!first_command)
-		return (free_cmdlist(first_command), NULL);
+	f_c = NULL;
+	append(&f_c, &token, 0);
+	if (!f_c)
+		return (free_cmdlist(f_c), NULL);
 	while (token != NULL)
 	{
 		if (token->token->type == T_PIP && token->next)
 		{
 			token = token->next;
-			append(&first_command, &token, 1);
+			append(&f_c, &token, 1);
 			if (token == NULL)
 				break ;
 		}
 	}
 	if (token != NULL)
-		return (free_cmdlist(first_command), NULL);
-	return (first_command);
+		return (free_cmdlist(f_c), NULL);
+	return (f_c);
 }
 
 /*void	print_parser(t_command_parser *head)

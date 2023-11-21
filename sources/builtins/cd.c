@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 14:36:01 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/21 15:55:12 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*home_path(char *home_env)
 	home_path = malloc((len + 1) * sizeof(char));
 	if (!home_path)
 		return (NULL);
-	
 	while (j < len)
 		home_path[j++] = home_env[++i];
 	home_path[len] = '\0';
@@ -43,7 +42,7 @@ int	cd_home(char **env)
 	char	*home;
 
 	i = -1;
-	while(env[++i])
+	while (env[++i])
 	{
 		if (ft_strncmp(env[i], "HOME", 4) == 0)
 		{

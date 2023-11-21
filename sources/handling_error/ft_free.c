@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 16:43:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:43:52 by toteixei         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/21 17:00:46 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ void	ft_free(t_minishell **m, int exit_flag)
 		free_tokenlist((*m)->tokens);
 		(*m)->tokens = NULL;
 	}
-	if ((*m)->first_command)
+	if ((*m)->f_c)
 	{
-		free_cmdlist((*m)->first_command);
-		(*m)->first_command = NULL;
+		free_cmdlist((*m)->f_c);
+		(*m)->f_c = NULL;
 	}
 	if ((*m)->env_var && exit_flag == 2)
 	{

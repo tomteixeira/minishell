@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:58:47 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:00:35 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,10 @@ void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
-int					set_flag(t_command_parser **first_command);
+int					set_flag(t_command_parser **f_c);
 void				heredoc_read_and_write_bis(t_redirection *redir);
+void				handle_redirections_and_continue(t_command_parser **command,
+						int *pipefd, int *p_pipe);
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell, int exit_flag);
@@ -157,6 +159,8 @@ int					unset(char **args, char ***env, t_minishell **minishell);
 int					ft_env(char **args, char **envp);
 void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);
+int					check_local(char *var, t_minishell **minishell);
+
 
 /*Environment*/
 char				**ft_fill_env(char **env);

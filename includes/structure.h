@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ typedef struct s_command_parser
 typedef struct s_minishell
 {
 	t_tokenlist				*tokens;
-	t_command_parser		*first_command;
+	t_command_parser		*f_c;
 	t_env_var				*env_var;
 	char					**env;
 	int						flag;

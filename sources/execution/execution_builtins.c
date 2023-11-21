@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/16 15:58:12 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	duplicate_std_fds(int *original_stdout, int *original_stdin)
 // Executing the built-in command
 static void	execute_builtin_wrapper(t_minishell **current, char ***env)
 {
-	handle_redirection((*current)->first_command->command);
+	handle_redirection((*current)->f_c->command);
 	execute_builtin(current, env);
 }
 
@@ -50,17 +50,17 @@ int	execute_builtin_command(t_minishell **current,
 		dup2(*prev_pipe, STDIN_FILENO);
 		close(*prev_pipe);
 	}
-	if ((*current)->first_command->command->pipe_after)
+	if ((*current)->f_c->command->pipe_after)
 		dup2(pipefd[1], STDOUT_FILENO);
 	execute_builtin_wrapper(current, env);
 	restore_std_fds(original_stdout, original_stdin);
-	if ((*current)->first_command->command->pipe_after)
+	if ((*current)->f_c->command->pipe_after)
 	{
 		*prev_pipe = pipefd[0];
 		close(pipefd[1]);
 	}
 	else
 		*prev_pipe = -1;
-	(*current)->first_command = (*current)->first_command->next;
+	(*current)->f_c = (*current)->f_c->next;
 	return (1);
 }

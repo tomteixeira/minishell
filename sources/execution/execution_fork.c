@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:15:27 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,24 @@ void	handle_child_process(t_minishell **cur,
 	char	*f_p;
 
 	f_p = NULL;
-	handle_pipe_redirection((*cur)->first_command, pipefd, prev_pipe);
-	handle_redirection((*cur)->first_command->command);
-	if ((*cur)->first_command->command->cargs)
+	handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
+	handle_redirection((*cur)->f_c->command);
+	if ((*cur)->f_c->command->cargs)
 	{
-		check_directory((*cur)->first_command->command->cargs[0]);
+		check_directory((*cur)->f_c->command->cargs[0]);
 		f_p = find_command_in_path((*cur)
-				->first_command->command->cargs[0], env);
+				->f_c->command->cargs[0], env);
 	}
-	if ((*cur)->first_command->command->cargs && f_p
+	if ((*cur)->f_c->command->cargs && f_p
 		&& access(f_p, X_OK) != -1
-		&& ft_strcmp((*cur)->first_command->command->cargs[0], ""))
-		execve(f_p, (*cur)->first_command->command->cargs, env);
-	else if ((*cur)->first_command->command->cargs[0])
+		&& ft_strcmp((*cur)->f_c->command->cargs[0], ""))
+		execve(f_p, (*cur)->f_c->command->cargs, env);
+	else if ((*cur)->f_c->command->cargs[0])
 	{
 		if (f_p != NULL)
 			free(f_p);
 		ft_error("bash: %s: command not found\n",
-			(*cur)->first_command->command->cargs[0]);
+			(*cur)->f_c->command->cargs[0]);
 		ft_free(cur, 2);
 		exit(127);
 	}
@@ -94,7 +94,7 @@ void	handle_child_process(t_minishell **cur,
 void	handle_parent_process(t_minishell **current,
 	int *pipefd, int *prev_pipe_read_fd)
 {
-	if ((*current)->first_command->command->pipe_after)
+	if ((*current)->f_c->command->pipe_after)
 	{
 		if (pipefd[1] != -1)
 			close(pipefd[1]);

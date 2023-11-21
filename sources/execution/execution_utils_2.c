@@ -6,13 +6,13 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 16:25:06 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:23:31 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void replace_and_free(char **old_str, char *new_str)
+void	replace_and_free(char **old_str, char *new_str)
 {
 	if (*old_str != new_str)
 	{
@@ -22,7 +22,6 @@ void replace_and_free(char **old_str, char *new_str)
 	else if (new_str != NULL)
 		free(new_str);
 }
-
 
 void	ft_error_exit(const char *format, const char *filename)
 {
