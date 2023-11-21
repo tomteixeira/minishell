@@ -6,7 +6,7 @@
 #    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/21 15:51:35 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/21 15:54:24 by hebernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/builtins/echo.c \
 				sources/builtins/export.c \
 				sources/builtins/unset.c \
+				sources/builtins/unset_bis.c \
 				sources/builtins/env.c \
 				sources/builtins/exit.c \
 				sources/signal.c \

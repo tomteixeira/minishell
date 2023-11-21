@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:53 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/20 17:55:39 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:56:36 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ int	modify_existant_var(char *var, char ***env, int i)
 {
 	char	*var_key;
 	size_t	key_len;
-	
+
 	var_key = ft_substr(var, 0, ft_strlenchr(var, '='));
 	if (!var_key)
 		return (0);
 	key_len = ft_strlen(var_key);
 	while ((*env)[i])
 	{
-		if (ft_strncmp((*env)[i], var_key, key_len ) == 0 &&
-			(*env)[i][key_len] == '=')
+		if (ft_strncmp((*env)[i], var_key, key_len ) == 0
+		&& (*env)[i][key_len] == '=')
 		{
 			free((*env)[i]);
 			(*env)[i] = ft_strdup(var);

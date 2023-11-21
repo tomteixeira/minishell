@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 23:27:04 by hebernar         ###   ########.fr       */
+/*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
+/*   Updated: 2023/11/21 15:56:05 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
