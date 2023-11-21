@@ -6,11 +6,33 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 12:47:26 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:17:10 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void create_file(t_redirection *out) {
+    int fd;
+
+    while (out) {
+        if (out->type == R_OUT) {
+            // Open for writing, create if not exists, truncate if exists
+            fd = open(out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        } else if (out->type == A_R_OUT) {
+            // Open for writing, create if not exists, append if exists
+            fd = open(out->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        }
+
+        if (fd == -1) {
+            perror("open");
+        } else {
+            close(fd); // Close the file descriptor as we're just creating the file
+        }
+
+        out = out->next;
+    }
+}
 
 // Function to wait for signal
 static int	wait_for_children(pid_t pid,
@@ -100,6 +122,7 @@ static pid_t	execute_command_loop(t_minishell **cur,
 			|| (*cur)->first_command->command->out_redirection))
 		{
 			heredoc_read_and_write_bis((*cur)-> first_command->command->in_redirection);
+			create_file((*cur)->first_command->command->out_redirection);
 			if ((*cur)->first_command->command->pipe_after)
 			{
 				if (pipefd[1] != -1)

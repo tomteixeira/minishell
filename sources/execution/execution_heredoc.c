@@ -6,13 +6,13 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:57:44 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:21:44 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Utility function to remove /0 from char*
+// Utility function to remove /n from char* with creating memory leak
 void	remove_null_char(char *str)
 {
 	int	i;
@@ -39,6 +39,7 @@ void	setup_heredoc_pipe(int pipefd[2])
 void	heredoc_read_and_write_bis(t_redirection *redir)
 {
 	char	*line;
+
 	while (redir)
 	{
 		if(redir->type == HEREDOC)
@@ -46,13 +47,12 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 			while (1)
 			{
 				write(STDERR_FILENO, "heredoc> ", 9);
-				line = get_next_line(STDERR_FILENO);
+				line = readline(NULL);
 				if (line == NULL)
 				{
 					printf("\n");
 					return ;
 				}
-				remove_null_char(line);
 				if (ft_strcmp(line, (char *) redir->file) == 0)
 				{
 					free(line);
@@ -60,32 +60,30 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 				}
 				free(line);
 			}
-			redir = redir->next;
 		}
+		redir = redir->next;
 	}
 }
 
 // Utility function to read and write lines for heredoc
-void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
+void heredoc_read_and_write(int pipefd[2], const char *delimiter)
 {
-	char	*line;
+	char *line;
 
-	while (1)
-	{
+	while (1) {
 		write(STDERR_FILENO, "heredoc> ", 9);
-		line = get_next_line(STDERR_FILENO);
+		line = readline(NULL); // Read input using readline
 		if (line == NULL)
 		{
 			printf("\n");
-			return ;
+			return;
 		}
-		remove_null_char(line);
-		if (ft_strcmp(line, (char *) delimiter) == 0)
+		if (strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break ;
+			break;
 		}
-		if (write(pipefd[1], line, ft_strlen(line)) == -1
+		if (write(pipefd[1], line, strlen(line)) == -1
 			|| write(pipefd[1], "\n", 1) == -1)
 		{
 			perror("write");
