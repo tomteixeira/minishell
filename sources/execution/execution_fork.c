@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:30:48 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:43:15 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	check_directory(const char *command, t_minishell **cur)
 		if (access(command, F_OK) == -1)
 		{
 			ft_error("bash: %s: No such file or directory\n", command);
-			ft_free(cur, 2);
+			ft_free(cur, 0);
 			exit(127);
 		}
 		else if (is_directory(command))
 		{
 			ft_error("bash: %s: Is a directory\n", command);
-			ft_free(cur, 2);
+			ft_free(cur, 0);
 			exit(126);
 		}
 	}

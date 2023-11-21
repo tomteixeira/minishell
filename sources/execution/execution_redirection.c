@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:35:36 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:54:30 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

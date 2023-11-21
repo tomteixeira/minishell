@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 16:50:01 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/10 08:53:58 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/21 17:40:42 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ $(NAME):$(OBJ)
 
 .c.o:
 	@printf "\033[0;33mGenerating libft objects... %-33.33s\r" $@
-	gcc -Wall -Wextra -Werror -g3 -c $< -I includes -o $@
+	gcc -Wall -Wextra -Werror -c $< -I includes -o $@
 	@printf "\033[1A\033[K"
 
 clean:
