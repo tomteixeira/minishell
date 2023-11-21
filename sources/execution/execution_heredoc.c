@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:43:36 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:11:11 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 				}
 				if (ft_strcmp(line, (char *) redir->file) == 0)
 				{
-					free(line);
-					handle_exec_signal();
+					free_line_and_handle_signal(&line);
 					break ;
 				}
 				free(line);

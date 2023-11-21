@@ -6,11 +6,21 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:51:02 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:10:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	free_line_and_handle_signal(char **line)
+{
+	if (line && *line)
+	{
+		free(*line);
+		*line = NULL;
+	}
+	handle_exec_signal();
+}
 
 void	create_file(t_redirection *out)
 {
