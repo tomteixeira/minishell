@@ -5,90 +5,102 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/21 13:11:34 by hebernar         ###   ########.fr       */
+/*   Created: 2021/09/03 10:39:55 by elraira-          #+#    #+#             */
+/*   Updated: 2023/11/21 14:55:27 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
-#include <fcntl.h>
-#include <limits.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
 
-static void	ft_read(int fd, char *buffer, char **line)
+char	*ft_get_line(char *save)
 {
-	int		bytes;
-	char	*temp;
+	int		i;
+	char	*s;
 
-	if (!line[fd] || !ft_strchr(line[fd], '\n'))
+	i = 0;
+	if (!save[i])
+		return (NULL);
+	while (save[i] && save[i] != '\n')
+		i++;
+	s = (char *)malloc(sizeof(char) * (i + 2));
+	if (!s)
+		return (NULL);
+	i = 0;
+	while (save[i] && save[i] != '\n')
 	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		while (bytes > 0)
-		{
-			buffer[bytes] = 0;
-			if (!line[fd])
-				line[fd] = ft_substr(buffer, 0, bytes);
-			else
-			{
-				temp = line[fd];
-				line[fd] = ft_strjoin(temp, buffer);
-			}
-			if (ft_strchr(buffer, '\n'))
-				break ;
-			bytes = read(fd, buffer, BUFFER_SIZE);
-		}
+		s[i] = save[i];
+		i++;
 	}
-	free(buffer);
-	buffer = NULL;
+	if (save[i] == '\n')
+	{
+		s[i] = save[i];
+		i++;
+	}
+	s[i] = '\0';
+	return (s);
 }
 
-static char	*get_line(char **line, int fd)
+char	*ft_save(char *save)
 {
-	int		j;
 	int		i;
-	char	*temp;
-	char	*ret;
+	int		c;
+	char	*s;
 
-	if (!line[fd])
-		return (NULL);
-	if (!ft_strchr(line[fd], '\n'))
+	i = 0;
+	while (save[i] && save[i] != '\n')
+		i++;
+	if (!save[i])
 	{
-		ret = ft_substr(line[fd], 0, ft_strlen(line[fd]));
-		free(line[fd]);
-		line[fd] = 0;
-		return (ret);
+		free(save);
+		return (NULL);
 	}
-	i = ft_strlen(line[fd]);
-	j = ft_strlen(ft_strchr(line[fd], '\n'));
-	ret = ft_substr(line[fd], 0, i - j + 1);
-	temp = line[fd];
-	line[fd] = ft_substr(ft_strchr(temp, '\n'), 1, j - 1);
-	free(temp);
-	return (ret);
+	s = (char *)malloc(sizeof(char) * (ft_strlen(save) - i + 1));
+	if (!s)
+		return (NULL);
+	i++;
+	c = 0;
+	while (save[i])
+		s[c++] = save[i++];
+	s[c] = '\0';
+	free(save);
+	return (s);
+}
+
+char	*ft_read_and_save(int fd, char *save)
+{
+	char	*buff;
+	int		read_bytes;
+
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
+		return (NULL);
+	read_bytes = 1;
+	while (!ft_strchr(save, '\n') && read_bytes != 0)
+	{
+		read_bytes = read(fd, buff, BUFFER_SIZE);
+		if (read_bytes == -1)
+		{
+			free(buff);
+			return (NULL);
+		}
+		buff[read_bytes] = '\0';
+		save = ft_strjoin(save, buff);
+	}
+	free(buff);
+	return (save);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
-	static char	*line[FOPEN_MAX];
+	char		*line;
+	static char	*save;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	save = ft_read_and_save(fd, save);
+	if (!save)
 		return (NULL);
-	if (BUFFER_SIZE < 1 || fd == -1 || read(fd, buffer, 0) < 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	ft_read(fd, buffer, line);
-	if (line[fd] && line[fd][0] == 0)
-	{
-		free(line[fd]);
-		line[fd] = NULL;
-	}
-	return (get_line(line, fd));
+	line = ft_get_line(save);
+	save = ft_save(save);
+	return (line);
 }
