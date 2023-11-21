@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/19 16:38:48 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:36 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,24 @@ void	exit_with_error(const char *error_msg)
 }
 
 // Handle output redirections
-static void	handle_out_redirection(t_redirection *redir)
+static void	handle_out_r(t_minishell **m)
 {
 	int	fd;
 
 	fd = -1;
-	while (redir)
+	while ((*m)->f_c->command->out_r)
 	{
 		if (fd != -1)
 			close(fd);
-		if (redir->type == R_OUT)
-			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (redir->type == A_R_OUT)
-			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if ((*m)->f_c->command->out_r->type == R_OUT)
+			fd = open((*m)->f_c->command->out_r->file,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if ((*m)->f_c->command->out_r->type == A_R_OUT)
+			fd = open((*m)->f_c->command->out_r->file,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			ft_error_exit("bash: %s: %s\n", redir->file);
-		redir = redir->next;
+			ft_error_exit("bash: %s: %s\n", (*m)->f_c->command->out_r->file, m);
+		(*m)->f_c->command->out_r = (*m)->f_c->command->out_r->next;
 	}
 	if (fd != -1)
 	{
@@ -45,36 +47,37 @@ static void	handle_out_redirection(t_redirection *redir)
 }
 
 // Handle input redirections
-static void	handle_in_redirection(t_redirection *redir)
+static void	handle_in_r(t_minishell **c)
 {
 	int	fd;
 
 	fd = -1;
-	while (redir)
+	while ((*c)->f_c->command->in_r)
 	{
 		if (fd != -1)
 			close(fd);
-		if (redir->type == R_IN)
+		if ((*c)->f_c->command->in_r->type == R_IN)
 		{
-			fd = open(redir->file, O_RDONLY);
+			fd = open((*c)->f_c->command->in_r->file, O_RDONLY);
 			if (fd == -1)
-				ft_error_exit("bash: %s: %s\n", redir->file);
+				ft_error_exit("bash: %s: %s\n",
+					(*c)->f_c->command->in_r->file, c);
 		}
-		else if (redir->type == HEREDOC)
-			handle_heredoc(redir, &fd);
+		else if ((*c)->f_c->command->in_r->type == HEREDOC)
+			handle_heredoc((*c)->f_c->command->in_r, &fd);
 		if (fd != -1)
 		{
 			if (dup2(fd, 0) == -1)
 				exit_with_error("dup2");
 			close(fd);
 		}
-		redir = redir->next;
+		(*c)->f_c->command->in_r = (*c)->f_c->command->in_r->next;
 	}
 }
 
 // Utility function to handle redirections
-void	handle_redirection(t_command *cmd)
+void	handle_redirection(t_minishell **m)
 {
-	handle_out_redirection(cmd->out_redirection);
-	handle_in_redirection(cmd->in_redirection);
+	handle_out_r(m);
+	handle_in_r(m);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:18:26 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void	expand_cargs(char **cargs, t_env_var *env_var)
 
 void	expand_command_arguments(t_command *cmd, t_env_var *env_var)
 {
-	expand_redirections(cmd->in_redirection, env_var);
-	expand_redirections(cmd->out_redirection, env_var);
+	expand_redirections(cmd->in_r, env_var);
+	expand_redirections(cmd->out_r, env_var);
 	if (cmd->cargs)
 		expand_cargs(cmd->cargs, env_var);
 }

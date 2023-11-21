@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:14:07 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:30:25 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void				remove_null_char(char *str);
 // PATH
 char				*find_command_in_path(const char *command, char **env);
 // REDIRECTION
-void				handle_redirection(t_command *cmd);
+void				handle_redirection(t_minishell **m);
 void				exit_with_error(const char *error_msg);
 // SIGNALS
 void				put_sig(int sig_code);
@@ -122,7 +122,8 @@ int					is_assignment(const char *cmd);
 int					execute_builtin(t_minishell **cur, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
 void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
-void				ft_error_exit(const char *format, const char *filename);
+void				ft_error_exit(const char *format, const char *filename,
+						t_minishell **cur);
 void				split_assignment(const char *assignment, char **key,
 						char **value);
 void				replace_and_free(char **old_str, char *new_str);

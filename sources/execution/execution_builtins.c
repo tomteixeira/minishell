@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:32:46 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	duplicate_std_fds(int *original_stdout, int *original_stdin)
 // Executing the built-in command
 static void	execute_builtin_wrapper(t_minishell **current, char ***env)
 {
-	handle_redirection((*current)->f_c->command);
+	handle_redirection(current);
 	execute_builtin(current, env);
 }
 

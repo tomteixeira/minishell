@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ typedef struct s_command
 	char					**cargs;
 	int						pipe_after;
 	int						nb_args;
-	struct s_redirection	*in_redirection;
-	struct s_redirection	*out_redirection;
+	struct s_redirection	*in_r;
+	struct s_redirection	*out_r;
 }							t_command;
 
 typedef struct s_command_parser
