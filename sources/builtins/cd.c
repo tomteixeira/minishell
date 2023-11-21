@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:22:49 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:19:15 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:26:37 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ int	cd(char **args, char **env)
 {
 	if (!args[1])
 		return (cd_home(env));
+	if (args[2])
+	{
+		ft_putstr_fd("bash: cd: too many arguments\n", 2);
+		return (EXIT_FAILURE);
+	}
 	if (chdir(args[1]) != 0)
 	{
 		printf("bash: cd: %s: No such file or directory\n", args[1]);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/21 16:12:13 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/21 17:40:12 by toteixei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ LIB 		= 	libft.a
 INCLUDES	=	-I libft -I /opt/homebrew/opt/readline/include
 RLLIBS		=	-L /opt/homebrew/opt/readline/lib -lreadline
 
-CFLAGS 		= 	-Wall -Wextra -Werror -g3
+CFLAGS 		= 	-Wall -Wextra -Werror
 
 all : libs $(NAME)
 

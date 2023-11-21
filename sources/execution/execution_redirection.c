@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 17:39:11 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 20:50:41 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	handle_out_r(t_minishell **m)
 	}
 	if (fd != -1)
 		duplicate_and_close_fd(fd, 1);
+	(*m)->f_c->command->out_r = tmp;
 }
 
 // Handle input redirections
@@ -86,6 +87,7 @@ static void	handle_in_r(t_minishell **c)
 		}
 		(*c)->f_c->command->in_r = (*c)->f_c->command->in_r->next;
 	}
+	(*c)->f_c->command->in_r = tmp;
 }
 
 // Utility function to handle redirections
