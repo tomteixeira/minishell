@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:13:07 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:25:53 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void				exit_with_error(const char *error_msg);
 void				put_sig(int sig_code);
 void				handle_exec_signal(void);
 void				handle_input_signal(void);
+void				handle_heredoc_pipe_signal(void);
 // UTILS
 int					is_assignment(const char *cmd);
 int					execute_builtin(t_minishell **cur, char ***env);

@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:10:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:36:15 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:41:28 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ int	handle_unfinished_pipe(t_tokenlist **t)
 	new_tokens = NULL;
 	while (1)
 	{
-		//handle_heredoc_signal();
-		//write(STDIN_FILENO, "pipe> ", 6);
-		//line = get_next_line(STDIN_FILENO);
 		line = readline("pipe> ");
 		if (!line)
 			return (write(2, "\n", 1), 0);
