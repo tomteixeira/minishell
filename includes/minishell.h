@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 12:47:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void				update_existing_env_var(char ***env,
 						const char *key, const char *value, int i);
 void				add_new_env_var(char ***env, const char *key,
 						const char *value, int i);
-int					set_flag(t_command_parser **first_command);
+int					set_flag(t_command_parser **f_c);
 void				heredoc_read_and_write_bis(t_redirection *redir);
 
 /*Free functions*/

@@ -6,32 +6,28 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:17:10 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:27:18 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void create_file(t_redirection *out) {
-    int fd;
+void	create_file(t_redirection *out)
+{
+	int	fd;
 
-    while (out) {
-        if (out->type == R_OUT) {
-            // Open for writing, create if not exists, truncate if exists
-            fd = open(out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        } else if (out->type == A_R_OUT) {
-            // Open for writing, create if not exists, append if exists
-            fd = open(out->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        }
-
-        if (fd == -1) {
-            perror("open");
-        } else {
-            close(fd); // Close the file descriptor as we're just creating the file
-        }
-
-        out = out->next;
-    }
+	while (out)
+	{
+		if (out->type == R_OUT)
+			fd = open(out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (out->type == A_R_OUT)
+			fd = open(out->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+			perror("open");
+		else
+			close(fd);
+		out = out->next;
+	}
 }
 
 // Function to wait for signal
@@ -98,56 +94,45 @@ static int	process_command(t_command_parser *current,
 
 // Utility function to read and write lines for heredoc
 static pid_t	execute_command_loop(t_minishell **cur,
-	char ***env,  int *pipefd)
+	char ***env, int *pipefd)
 {
-	int		p_pipe;
-	pid_t	pid;
-	t_command_parser *buffer;
+	int					p_pipe;
+	pid_t				pid;
+	t_command_parser	*buffer;
 
 	pid = 0;
 	p_pipe = -1;
-	buffer = (*cur)->first_command;
-	while ((*cur)->first_command)
+	buffer = (*cur)->f_c;
+	while ((*cur)->f_c)
 	{
-		if (process_command((*cur)->first_command, env, &(*cur)->env_var, pipefd) == 1)
+		if (process_command((*cur)->f_c, env, &(*cur)->env_var, pipefd) == 1)
 			break ;
-		if ((*cur)->first_command->command->cargs
-			&& is_builtin((*cur)->first_command->command->cargs[0]))
+		if ((*cur)->f_c->command->cargs
+			&& is_builtin((*cur)->f_c->command->cargs[0]))
 		{
 			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
 		}
-		if (!(*cur)->first_command->command->cargs
-			&& ((*cur)->first_command->command->in_redirection
-			|| (*cur)->first_command->command->out_redirection))
+		if (!(*cur)->f_c->command->cargs
+			&& ((*cur)->f_c->command->in_redirection
+				|| (*cur)->f_c->command->out_redirection))
 		{
-			heredoc_read_and_write_bis((*cur)-> first_command->command->in_redirection);
-			create_file((*cur)->first_command->command->out_redirection);
-			if ((*cur)->first_command->command->pipe_after)
+			heredoc_read_and_write_bis((*cur)-> f_c->command->in_redirection);
+			create_file((*cur)->f_c->command->out_redirection);
+			if ((*cur)->f_c->command->pipe_after)
 			{
 				if (pipefd[1] != -1)
 					close(pipefd[1]);
 				p_pipe = pipefd[0];
 			}
-			(*cur)->first_command = (*cur)->first_command->next;
+			(*cur)->f_c = (*cur)->f_c->next;
 		}
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}
-	(*cur)->first_command = buffer;
+	(*cur)->f_c = buffer;
 	return (pid);
 }
-
-void print_local_env(t_env_var *env_var) {
-    t_env_var *current = env_var;
-
-    while (env_var != NULL) {
-        printf("Key: %s, Value: %s\n", env_var->key, env_var->value);
-        env_var = env_var->next;
-    }
-	env_var = current;
-}
-
 
 int	execute_command(t_minishell **m, char ***env)
 {
@@ -156,7 +141,7 @@ int	execute_command(t_minishell **m, char ***env)
 	pid_t				pid;
 	int					flag_last;
 
-	flag_last = set_flag(&(*m)->first_command);
+	flag_last = set_flag(&(*m)->f_c);
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);
 	pid = execute_command_loop(m, env, pipefd);

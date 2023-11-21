@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomteixeira <tomteixeira@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:35:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 10:37:05 by tomteixeira      ###   ########.fr       */
+/*   Updated: 2023/11/21 15:26:04 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	**ft_fill_env(char **env)
 
 	env_len = 0;
 	i = -1;
-	while(env[env_len])
+	while (env[env_len])
 		env_len++;
 	n_env = malloc((env_len + 1) * sizeof(char *));
 	if (!n_env)
@@ -107,12 +107,12 @@ char	**ft_fill_env(char **env)
 
 t_minishell	*init_variables(char **env)
 {
-	t_minishell *m;
+	t_minishell	*m;
 
 	m = malloc(sizeof(t_minishell));
 	if (!m)
 		exit(0);
-	m->first_command = NULL;
+	m->f_c = NULL;
 	m->tokens = NULL;
 	m->env = ft_fill_env(env);
 	if (!m->env)
@@ -143,9 +143,9 @@ int	main(int argc, char **argv, char **env)
 			m->tokens = lexer(line);
 		free(line);
 		if (m->tokens)
-			m->first_command = parse_tokens(m->tokens);
+			m->f_c = parse_tokens(m->tokens);
 		handle_exec_signal();
-		if (m->first_command)
+		if (m->f_c)
 			(execute_command(&m, &m->env));
 		ft_free(&m, 0);
 	}

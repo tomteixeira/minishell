@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:11:53 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:23:12 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 
 	while (redir)
 	{
-		if(redir->type == HEREDOC)
+		if (redir->type == HEREDOC)
 		{
 			while (1)
 			{
@@ -66,22 +66,23 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 }
 
 // Utility function to read and write lines for heredoc
-void heredoc_read_and_write(int pipefd[2], const char *delimiter)
+void	heredoc_read_and_write(int pipefd[2], const char *delimiter)
 {
-	char *line;
+	char	*line;
 
-	while (1) {
+	while (1)
+	{
 		write(STDERR_FILENO, "heredoc> ", 9);
-		line = readline(NULL); // Read input using readline
+		line = readline(NULL);
 		if (line == NULL)
 		{
 			printf("\n");
-			return;
+			return ;
 		}
 		if (strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		if (write(pipefd[1], line, strlen(line)) == -1
 			|| write(pipefd[1], "\n", 1) == -1)
