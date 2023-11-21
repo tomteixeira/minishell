@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:08:26 by hebernar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/21 16:13:22 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	free_cmdlist(t_command_parser *h)
 		cur = h;
 		h = h->next;
 		if (cur->command)
+			ft_free_arrays_i(cur->command->cargs, cur->command->nb_args);
 			ft_free_arrays_i(cur->command->cargs, cur->command->nb_args);
 		if (cur->command->in_redirection != NULL)
 			free_redirection(cur->command->in_redirection);

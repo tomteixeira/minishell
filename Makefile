@@ -6,7 +6,7 @@
 #    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/21 16:06:34 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/21 16:12:13 by hebernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/builtins/env.c \
 				sources/builtins/exit.c \
 				sources/signal.c \
-				sources/prompt.c
+				sources/prompt.c \
+				sources/env_utils.c
 
 OBJ 		= 	$(SRCS:.c=.o)
 

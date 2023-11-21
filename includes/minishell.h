@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:10:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:12:40 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,12 @@ int					ft_env(char **args, char **envp);
 void				ft_exit(t_minishell **cur, char **args, char **env);
 void				export_no_args(char **env);
 int					check_local(char *var, t_minishell **minishell);
+
+
+/*Environment*/
+char				**ft_fill_env(char **env);
+void				init_env_var(t_env_var **env_var, char **env);
+t_env_var			*create_env_var(const char *env_str);
 int					set_and_update_new_env(char *var, char ***env);
 char				**set_new_env(char *var, char **env);
 
