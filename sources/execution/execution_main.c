@@ -6,29 +6,11 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:27:18 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:50:55 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	create_file(t_redirection *out)
-{
-	int	fd;
-
-	while (out)
-	{
-		if (out->type == R_OUT)
-			fd = open(out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (out->type == A_R_OUT)
-			fd = open(out->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd == -1)
-			perror("open");
-		else
-			close(fd);
-		out = out->next;
-	}
-}
 
 // Function to wait for signal
 static int	wait_for_children(pid_t pid,
@@ -109,24 +91,12 @@ static pid_t	execute_command_loop(t_minishell **cur,
 			break ;
 		if ((*cur)->f_c->command->cargs
 			&& is_builtin((*cur)->f_c->command->cargs[0]))
-		{
 			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
-		}
 		if (!(*cur)->f_c->command->cargs
 			&& ((*cur)->f_c->command->in_redirection
 				|| (*cur)->f_c->command->out_redirection))
-		{
-			heredoc_read_and_write_bis((*cur)-> f_c->command->in_redirection);
-			create_file((*cur)->f_c->command->out_redirection);
-			if ((*cur)->f_c->command->pipe_after)
-			{
-				if (pipefd[1] != -1)
-					close(pipefd[1]);
-				p_pipe = pipefd[0];
-			}
-			(*cur)->f_c = (*cur)->f_c->next;
-		}
+			handle_redirections_and_continue(&(*cur)->f_c, pipefd, &p_pipe);
 		else
 			pid = fork_and_execute(cur, pipefd, &p_pipe, *env);
 	}

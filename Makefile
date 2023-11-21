@@ -6,7 +6,7 @@
 #    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/20 11:01:17 by hebernar         ###   ########.fr        #
+#    Updated: 2023/11/21 15:51:35 by hebernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/execution/execution_expansion.c \
 				sources/execution/execution_expansion_bis.c \
 				sources/execution/execution_expansion_ter.c \
+				sources/execution/execution_norminette.c \
 				sources/builtins/cd.c \
 				sources/builtins/pwd.c \
 				sources/builtins/echo.c \
