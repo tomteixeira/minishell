@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 15:23:12 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:43:36 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,19 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 	{
 		if (redir->type == HEREDOC)
 		{
+			handle_input_signal();
 			while (1)
 			{
-				write(STDERR_FILENO, "heredoc> ", 9);
-				line = readline(NULL);
+				line = readline("heredoc> ");
 				if (line == NULL)
 				{
-					printf("\n");
-					return ;
+					ft_putchar_fd('\n', 2);
+					return (handle_exec_signal());
 				}
 				if (ft_strcmp(line, (char *) redir->file) == 0)
 				{
 					free(line);
+					handle_exec_signal();
 					break ;
 				}
 				free(line);
