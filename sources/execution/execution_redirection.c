@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:57:39 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:39:11 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ static void	handle_in_r(t_minishell **c)
 		else if ((*c)->f_c->command->in_r->type == HEREDOC)
 			handle_heredoc((*c)->f_c->command->in_r, &fd);
 		if (fd != -1)
-			duplicate_and_close_fd(fd, 0);
+		{
+			if (dup2(fd, 0) == -1)
+				exit_with_error("dup2");
+			close(fd);
+		}
 		(*c)->f_c->command->in_r = (*c)->f_c->command->in_r->next;
 	}
 }
@@ -87,6 +91,6 @@ static void	handle_in_r(t_minishell **c)
 // Utility function to handle redirections
 void	handle_redirection(t_minishell **m)
 {
-	handle_out_r(m);
 	handle_in_r(m);
+	handle_out_r(m);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:35:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:15:59 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:42:30 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
+	rl_outstream = stderr;
 	m = init_variables(env);
 	init_env_var(&m->env_var, env);
 	while (42)
