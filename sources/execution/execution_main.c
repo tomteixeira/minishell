@@ -14,9 +14,9 @@
 
 // Function to wait for signal
 static int	wait_for_children(pid_t pid,
-	int flag_last)
+								int flag_last)
 {
-	int		status;
+	int	status;
 
 	if (pid == 0)
 		return (0);
@@ -35,7 +35,7 @@ static int	wait_for_children(pid_t pid,
 }
 
 void	update_local_env_with_global(t_env_var **local_env_var,
-	char **global_env)
+									char **global_env)
 {
 	t_env_var	*current_var;
 	t_env_var	*tmp;
@@ -46,8 +46,8 @@ void	update_local_env_with_global(t_env_var **local_env_var,
 	while (current_var != NULL)
 	{
 		global_value = get_value_from_global_env(global_env, current_var->key);
-		if (global_value != NULL
-			&& ft_strcmp(global_value, current_var->value) != 0)
+		if (global_value != NULL && ft_strcmp(global_value,
+				current_var->value) != 0)
 		{
 			if (current_var->value != NULL)
 				free(current_var->value);
@@ -62,7 +62,9 @@ void	update_local_env_with_global(t_env_var **local_env_var,
 }
 
 static int	process_command(t_command_parser *current,
-	char ***env, t_env_var **env_var, int *pipefd)
+							char ***env,
+							t_env_var **env_var,
+							int *pipefd)
 {
 	if (handle_assignments(&current, env, env_var) == 1)
 	{
@@ -76,7 +78,8 @@ static int	process_command(t_command_parser *current,
 
 // Utility function to read and write lines for heredoc
 static pid_t	execute_command_loop(t_minishell **cur,
-	char ***env, int *pipefd)
+									char ***env,
+									int *pipefd)
 {
 	int					p_pipe;
 	pid_t				pid;
@@ -93,8 +96,7 @@ static pid_t	execute_command_loop(t_minishell **cur,
 			&& is_builtin((*cur)->f_c->command->cargs[0]))
 			if (execute_builtin_command(cur, env, &p_pipe, pipefd))
 				continue ;
-		if (!(*cur)->f_c->command->cargs
-			&& ((*cur)->f_c->command->in_r
+		if (!(*cur)->f_c->command->cargs && ((*cur)->f_c->command->in_r
 				|| (*cur)->f_c->command->out_r))
 			handle_redirections_and_continue(&(*cur)->f_c, pipefd, &p_pipe);
 		else
@@ -106,15 +108,14 @@ static pid_t	execute_command_loop(t_minishell **cur,
 
 int	execute_command(t_minishell **m, char ***env)
 {
-	int					pipefd[2];
-	int					prev_pipe;
-	pid_t				pid;
-	int					flag_last;
+	int		pipefd[2];
+	int		prev_pipe;
+	pid_t	pid;
+	int		flag_last;
 
 	flag_last = set_flag(&(*m)->f_c);
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);
 	pid = execute_command_loop(m, env, pipefd);
-	
 	return (wait_for_children(pid, flag_last));
 }

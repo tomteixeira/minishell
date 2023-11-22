@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 03:44:28 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:10:14 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static void	handle_out_r(t_minishell **m)
 			fd = open((*m)->f_c->command->out_r->file,
 					O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
-			ft_error_exit("bash: %s: %s\n", (*m)->f_c->command->out_r->file, m, tmp);
+			ft_error_exit("bash: %s: %s\n", (*m)->f_c->command->out_r->file, m,
+				tmp);
 		(*m)->f_c->command->out_r = (*m)->f_c->command->out_r->next;
 	}
 	if (fd != -1)

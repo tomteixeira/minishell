@@ -39,10 +39,12 @@ static void	restore_std_fds(int original_stdout, int original_stdin)
 
 // The refactored execute_builtin_command function
 int	execute_builtin_command(t_minishell **current,
-	char ***env, int *prev_pipe, int pipefd[2])
+							char ***env,
+							int *prev_pipe,
+							int pipefd[2])
 {
-	int		original_stdout;
-	int		original_stdin;
+	int	original_stdout;
+	int	original_stdin;
 
 	duplicate_std_fds(&original_stdout, &original_stdin);
 	if (*prev_pipe != -1)

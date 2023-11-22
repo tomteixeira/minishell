@@ -47,7 +47,9 @@ int	current_command_involves_heredoc(t_command *command)
 }
 
 pid_t	fork_and_execute(t_minishell **current,
-	int *pipefd, int *prev_pipe_read_fd, char **env)
+						int *pipefd,
+						int *prev_pipe_read_fd,
+						char **env)
 {
 	pid_t	pid;
 
@@ -56,12 +58,13 @@ pid_t	fork_and_execute(t_minishell **current,
 		handle_child_process(current, pipefd, env, prev_pipe_read_fd);
 	else if (pid < 0)
 		exit_with_error("fork");
-	else if (pid > 0){
-        if (current_command_involves_heredoc((*current)->f_c->command))
-            waitpid(pid, NULL, 0);
-        else
-            handle_parent_process(current, pipefd, prev_pipe_read_fd);
-    }
+	else if (pid > 0)
+	{
+		if (current_command_involves_heredoc((*current)->f_c->command))
+			waitpid(pid, NULL, 0);
+		else
+			handle_parent_process(current, pipefd, prev_pipe_read_fd);
+	}
 	(*current)->f_c = (*current)->f_c->next;
 	return (pid);
 }

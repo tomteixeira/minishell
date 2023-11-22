@@ -41,7 +41,8 @@ void	create_file(t_redirection *out)
 }
 
 void	handle_redirections_and_continue(t_command_parser **command,
-	int *pipefd, int *p_pipe)
+										int *pipefd,
+										int *p_pipe)
 {
 	heredoc_read_and_write_bis((*command)->command->in_r);
 	create_file((*command)->command->out_r);

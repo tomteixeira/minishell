@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_assignment.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 00:12:42 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:14:47 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ static void	update_env(char ***env, char *key, char *value)
 /*
 static void	update_env(char ***env, char *key, char *value, int i)
 {
-	size_t	key_len;
-	size_t	value_len;
+	size_t		key_len;
+	size_t		value_len;
+	t_env_var	*current;
+	t_env_var	*new_var;
 
 	key_len = ft_strlen(key);
 	value_len = ft_strlen(value);
@@ -80,12 +82,8 @@ static void	update_env(char ***env, char *key, char *value, int i)
 	ft_strcpy((*env)[i] + key_len + 1, value);
 	(*env)[i + 1] = NULL;
 }*/
-
 static void	update_local_env(t_env_var **env_var, char *key, char *value)
 {
-	t_env_var	*current;
-	t_env_var	*new_var;
-
 	new_var = NULL;
 	current = *env_var;
 	while (current != NULL)
@@ -106,7 +104,9 @@ static void	update_local_env(t_env_var **env_var, char *key, char *value)
 }
 
 static int	update_global_env(char ***env,
-	t_env_var **env_var, char *key, char *value)
+								t_env_var **env_var,
+								char *key,
+								char *value)
 {
 	(void)env_var;
 	if (key_in_env(*env, key))
@@ -120,7 +120,8 @@ static int	update_global_env(char ***env,
 
 // Utility function to handle assignments $> a=b
 int	handle_assignments(t_command_parser **current,
-	char ***env, t_env_var **env_var)
+						char ***env,
+						t_env_var **env_var)
 {
 	char	*key;
 	char	*value;
@@ -130,8 +131,7 @@ int	handle_assignments(t_command_parser **current,
 	if (!(*current)->command->cargs)
 		return (0);
 	if (is_assignment((*current)->command->cargs[0])
-		&& (*current)->command->cargs[1]
-		== NULL && (*current)->next == NULL)
+		&& (*current)->command->cargs[1] == NULL && (*current)->next == NULL)
 	{
 		split_assignment((*current)->command->cargs[0], &key, &value);
 		if (update_global_env(env, env_var, key, value))
@@ -143,8 +143,7 @@ int	handle_assignments(t_command_parser **current,
 		return (1);
 	}
 	else if (is_assignment((*current)->command->cargs[0]))
-		(*current)->command->cargs
-			= remove_from_list((*current)->command->cargs,
+		(*current)->command->cargs = remove_from_list((*current)->command->cargs,
 				(*current)->command->cargs[0], 0);
 	return (0);
 }
