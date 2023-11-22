@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 04:16:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:12:43 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,25 @@ static int	process_command(t_command_parser *current,
 	return (0);
 }
 
+int	count_command_not_builtin(t_command_parser **f_c)
+{
+	t_command_parser	*current;
+	int					flag_last;
+
+	current = *f_c;
+	flag_last = 0;
+	if (!current->command->cargs)
+		return (0);
+	while (current)
+	{
+		if (is_builtin(current->command->cargs[0]))
+				current = current->next;
+		flag_last++;
+		current = current->next;
+	}
+	return (flag_last);
+}
+
 // Utility function to read and write lines for heredoc
 static pid_t	execute_command_loop(t_minishell **cur,
 	char ***env, int *pipefd)
@@ -82,7 +101,6 @@ static pid_t	execute_command_loop(t_minishell **cur,
 	pid_t				pid;
 	t_command_parser	*buffer;
 
-	pid = 0;
 	p_pipe = -1;
 	buffer = (*cur)->f_c;
 	while ((*cur)->f_c)
@@ -115,6 +133,5 @@ int	execute_command(t_minishell **m, char ***env)
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);
 	pid = execute_command_loop(m, env, pipefd);
-	
 	return (wait_for_children(pid, flag_last));
 }

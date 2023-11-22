@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 04:03:21 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:26:03 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ void pid_to_str(char *str, pid_t pid) {
 	}
 }
 
-int handle_heredoc(t_redirection *heredoc, int *read_end) {
+int handle_heredoc(t_redirection *heredoc, int *read_end)
+{
 	char temp_file[64] = "/tmp/minishell_heredoc_";
 	char pid_str[20];
 	pid_to_str(pid_str, getpid());
@@ -138,8 +139,8 @@ int handle_heredoc(t_redirection *heredoc, int *read_end) {
 		buff = readline("heredoc> ");
 		if (!buff)
 		{
-			fprintf(stderr, "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", heredoc->file);
-			break;
+			ft_putchar_fd('\n', 2);
+			break ;
 		}
 		if (!strcmp(buff, heredoc->file))
 		{
