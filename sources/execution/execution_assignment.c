@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_assignment.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 13:14:47 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:32:16 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,12 @@ static void	update_env(char ***env, char *key, char *value, int i)
 	ft_strcpy((*env)[i] + key_len + 1, value);
 	(*env)[i + 1] = NULL;
 }*/
+
 static void	update_local_env(t_env_var **env_var, char *key, char *value)
 {
+	t_env_var	*current;
+	t_env_var	*new_var;
+
 	new_var = NULL;
 	current = *env_var;
 	while (current != NULL)

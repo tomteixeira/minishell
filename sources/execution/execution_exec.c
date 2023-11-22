@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 04:14:35 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:27:54 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ int	current_command_involves_heredoc(t_command *command)
 			return (1);
 		current_redirection = current_redirection->next;
 	}
+	return (0);
+}
+
+int	command_is_not_last(t_command *command)
+{
+	if (command->pipe_after == 1)
+		return (1);
 	return (0);
 }
 

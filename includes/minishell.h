@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 20:57:11 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:04:22 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ void				heredoc_read_and_write_bis(t_redirection *redir);
 void				handle_redirections_and_continue(t_command_parser **command,
 						int *pipefd, int *p_pipe);
 void				free_line_and_handle_signal(char **line);
+int					current_command_involves_heredoc(t_command *command);
+
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell, int exit_flag);

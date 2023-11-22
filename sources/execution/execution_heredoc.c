@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 13:26:47 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:33:56 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 
 void	pid_to_str(char *str, pid_t pid)
 {
+	char	*ptr;
+	char	*start;
+	char	temp;
+	char	*end;
+
 	if (pid == 0)
 	{
 		*str = '0';
@@ -90,14 +95,12 @@ void	pid_to_str(char *str, pid_t pid)
 	}
 }
 
-int	handle_heredoc(t_redirection *heredoc, int *read_end)
+int handle_heredoc(t_redirection *heredoc, int *read_end)
 {
-	char	temp_file[64];
-	char	pid_str[20];
 	int		tempf;
-	char	*buff;
-
-	temp_file[64] = "/tmp/minishell_heredoc_";
+	char temp_file[64] = "/tmp/minishell_heredoc_";
+	char pid_str[20];
+	char *buff;
 	pid_to_str(pid_str, getpid());
 	strcat(temp_file, pid_str);
 	tempf = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -111,9 +114,7 @@ int	handle_heredoc(t_redirection *heredoc, int *read_end)
 		buff = readline("heredoc> ");
 		if (!buff)
 		{
-			fprintf(stderr,
-				"minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-				heredoc->file);
+			ft_putchar_fd('\n', 2);
 			break ;
 		}
 		if (!strcmp(buff, heredoc->file))
