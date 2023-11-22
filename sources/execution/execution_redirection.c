@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 03:40:57 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 03:44:28 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	handle_in_r(t_minishell **c)
 		}
 		else if ((*c)->f_c->command->in_r->type == HEREDOC)
 			handle_heredoc((*c)->f_c->command->in_r, &fd);
-
 		(*c)->f_c->command->in_r = (*c)->f_c->command->in_r->next;
 	}
 	if (fd != -1)

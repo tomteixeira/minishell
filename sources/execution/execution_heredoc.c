@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 03:39:20 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 04:03:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,12 @@ int handle_heredoc(t_redirection *heredoc, int *read_end) {
 	strcat(temp_file, pid_str);
 
 	int tempf = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	
+
 	if (tempf < 0)
 	{
 		perror("open");
 		exit(EXIT_FAILURE);
 	}
-
 	char *buff;
 	while (1)
 	{
