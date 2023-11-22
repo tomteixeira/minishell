@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:35:48 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 20:50:29 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:32:49 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_minishell	*init_variables(char **env)
 	m->f_c = NULL;
 	m->tokens = NULL;
 	m->env = ft_fill_env(env);
+	m->heredoc_f = 0;
 	if (!m->env)
 	{
 		free(m);

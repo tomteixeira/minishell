@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 04:16:41 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:34:49 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ void	update_local_env_with_global(t_env_var **local_env_var,
 }
 
 static int	process_command(t_command_parser *current,
-							char ***env,
-							t_env_var **env_var,
-							int *pipefd)
+		char ***env, t_env_var **env_var, int *pipefd)
 {
 	if (handle_assignments(&current, env, env_var) == 1)
 	{

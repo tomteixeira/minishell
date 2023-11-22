@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:31:46 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ typedef struct s_minishell
 	t_command_parser		*f_c;
 	t_env_var				*env_var;
 	char					**env;
-	int						flag;
+	int						heredoc_f;
 }							t_minishell;
 
 #endif
