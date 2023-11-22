@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 13:41:50 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:48:23 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	wait_for_children(pid_t pid,
 {
 	int	status;
 
+	status = 0;
 	if (pid == 0)
 		return (0);
 	while (waitpid(pid, &status, 0) != -1)

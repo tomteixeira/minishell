@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 13:09:00 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:39:43 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	handle_child_process(t_minishell **cur,
 	char	*f_p;
 
 	f_p = NULL;
-	handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
 	handle_redirection(cur);
+	handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
 	if ((*cur)->f_c->command->cargs)
 	{
 		check_directory((*cur)->f_c->command->cargs[0], cur);
