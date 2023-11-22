@@ -6,7 +6,7 @@
 /*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 14:00:07 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:38:33 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	execute_command(t_minishell **m, char ***env)
 	int		prev_pipe;
 	pid_t	pid;
 	int		flag_last;
-
+	
 	flag_last = set_flag(&(*m)->f_c);
 	init_execution_context(&prev_pipe, pipefd);
 	update_local_env_with_global(&(*m)->env_var, *env);

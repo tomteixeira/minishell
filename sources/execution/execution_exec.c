@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 12:52:13 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:37:14 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	set_flag(t_command_parser **f_c)
 		return (1);
 	while (current)
 	{
-		if (current->command->pipe_after == 0
+		if (current->command->cargs && current->command->pipe_after == 0
 			&& is_builtin(current->command->cargs[0]))
 			flag_last = 1;
 		current = current->next;

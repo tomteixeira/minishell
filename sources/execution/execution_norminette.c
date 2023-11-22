@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_norminette.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:38:55 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ void	handle_redirections_and_continue(t_command_parser **command,
 		if (pipefd[1] != -1)
 			close(pipefd[1]);
 		*p_pipe = pipefd[0];
+	}
+	else
+	{
+		if (pipefd[0] != -1)
+			close(pipefd[0]);
+		if (pipefd[1] != -1)
+			close(pipefd[1]);
+		*p_pipe = -1;
 	}
 	*command = (*command)->next;
 }

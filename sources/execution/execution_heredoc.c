@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 12:33:56 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:43:16 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,13 @@ void	pid_to_str(char *str, pid_t pid)
 	}
 }
 
-int handle_heredoc(t_redirection *heredoc, int *read_end)
+int	handle_heredoc(t_redirection *heredoc, int *read_end)
 {
 	int		tempf;
-	char temp_file[64] = "/tmp/minishell_heredoc_";
-	char pid_str[20];
-	char *buff;
+	char	temp_file[64] = "/tmp/minishell_heredoc_";
+	char	pid_str[20];
+	char	*buff;
+
 	pid_to_str(pid_str, getpid());
 	strcat(temp_file, pid_str);
 	tempf = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
