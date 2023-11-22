@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 20:50:49 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 21:11:02 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ void	replace_and_free(char **old_str, char *new_str)
 }
 
 void	ft_error_exit(const char *format, const char *filename,
-	t_minishell **cur)
+	t_minishell **cur, t_redirection *tmp)
 {
 	ft_error(format, filename, strerror(errno));
+	if (tmp->type == R_OUT || tmp->type == A_R_OUT)
+		(*cur)->f_c->command->out_r = tmp;
+	else if (tmp->type == R_IN || tmp->type == HEREDOC)
+		(*cur)->f_c->command->in_r = tmp;
 	ft_free(cur, 2);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 20:50:35 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/21 20:57:11 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int					execute_builtin(t_minishell **cur, char ***env);
 char				**remove_from_list(char **list, char *arg, int i);
 void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
 void				ft_error_exit(const char *format, const char *filename,
-						t_minishell **cur);
+						t_minishell **cur, t_redirection *tmp);
 void				split_assignment(const char *assignment, char **key,
 						char **value);
 void				replace_and_free(char **old_str, char *new_str);
