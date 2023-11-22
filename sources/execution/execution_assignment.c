@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 12:32:16 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:08:44 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,41 +47,6 @@ static void	update_env(char ***env, char *key, char *value)
 	}
 	add_new_env_var(env, key, value, i);
 }
-
-/*
-static void	update_env(char ***env, char *key, char *value, int i)
-{
-	size_t		key_len;
-	size_t		value_len;
-	t_env_var	*current;
-	t_env_var	*new_var;
-
-	key_len = ft_strlen(key);
-	value_len = ft_strlen(value);
-	while ((*env)[i] != NULL)
-	{
-		if (ft_strncmp((*env)[i], key,
-			key_len) == 0 && (*env)[i][key_len] == '=')
-		{
-			free((*env)[i]);
-			(*env)[i] = malloc(key_len + value_len + 2);
-			if (!(*env)[i])
-				exit(EXIT_FAILURE);
-			ft_strcpy((*env)[i], key);
-			(*env)[i][key_len] = '=';
-			ft_strcpy((*env)[i] + key_len + 1, value);
-			return ;
-		}
-		i++;
-	}
-	(*env)[i] = malloc(key_len + value_len + 2);
-	if (!(*env)[i])
-		exit(EXIT_FAILURE);
-	ft_strcpy((*env)[i], key);
-	(*env)[i][key_len] = '=';
-	ft_strcpy((*env)[i] + key_len + 1, value);
-	(*env)[i + 1] = NULL;
-}*/
 
 static void	update_local_env(t_env_var **env_var, char *key, char *value)
 {

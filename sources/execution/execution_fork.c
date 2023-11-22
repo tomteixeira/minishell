@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 16:05:50 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:15:45 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,63 +65,73 @@ void	handle_pipe_redirection(t_command_parser *current,
 	}
 }
 
-int no_heredoc_in_prompt(t_minishell *cur)
+int	no_heredoc_in_prompt(t_minishell *cur)
 {
-    if (!cur || !cur->f_c || !cur->f_c->command)
-        return 1;
+	t_redirection		*redir;
+	t_command_parser	*cmd_parser;
 
-    t_command_parser *cmd_parser = cur->f_c;
-    while (cmd_parser) {
-        t_redirection *redir = cmd_parser->command->in_r;
-        while (redir) {
-            if (redir->type == HEREDOC) {
-                // Found a heredoc, return 0
-                return 0;
-            }
-            redir = redir->next;
-        }
-        cmd_parser = cmd_parser->next;
-    }
-    return 1;
+	redir = NULL;
+	cmd_parser = NULL;
+	if (!cur || !cur->f_c || !cur->f_c->command)
+		return (1);
+	cmd_parser = cur->f_c;
+	while (cmd_parser)
+	{
+		redir = cmd_parser->command->in_r;
+		while (redir)
+		{
+			if (redir->type == HEREDOC)
+				return (0);
+			redir = redir->next;
+		}
+		cmd_parser = cmd_parser->next;
+	}
+	return (1);
 }
 
-void    handle_child_process(t_minishell **cur,
-                    		int *pipefd,
-                            char **env,
-                            int *prev_pipe)
+void	handle_redirections_and_pipes(t_minishell **cur,
+			int *pipefd, int *prev_pipe)
 {
-	char    *f_p;
+	if (no_heredoc_in_prompt(*cur))
+	{
+		handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
+		handle_redirection(cur);
+	}
+	else
+	{
+		handle_redirection(cur);
+		if ((*cur)->f_c->command->pipe_after && !(*cur)->f_c->command->out_r)
+			handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
+	}
+}
 
-    f_p = NULL;
-    if (no_heredoc_in_prompt(*cur))
-    {
-        handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
-        handle_redirection(cur);
-    }
-    else
-    {
-        handle_redirection(cur);
-        if ((*cur)->f_c->command->pipe_after && !(*cur)->f_c->command->out_r)
-            handle_pipe_redirection((*cur)->f_c, pipefd, prev_pipe);
-    }
-    if ((*cur)->f_c->command->cargs)
-    {
-        check_directory((*cur)->f_c->command->cargs[0], cur);
-        f_p = find_command_in_path((*cur)
-                ->f_c->command->cargs[0], env);
-    }
-    if ((*cur)->f_c->command->cargs && f_p && access(f_p, X_OK) != -1
-        && ft_strcmp((*cur)->f_c->command->cargs[0], ""))
-        execve(f_p, (*cur)->f_c->command->cargs, env);
-    else if ((*cur)->f_c->command->cargs[0])
-    {
-        if (f_p != NULL)
-            free(f_p);
-        ft_error("bash: %s: command not found\n",
-            (*cur)->f_c->command->cargs[0]);
-        ft_free(cur, 2);
-        exit(127);
-    }
+void	handle_child_process(t_minishell **cur,
+							int *pipefd,
+							char **env,
+							int *prev_pipe)
+{
+	char	*f_p;
+
+	f_p = NULL;
+	handle_redirections_and_pipes(cur, pipefd, prev_pipe);
+	if ((*cur)->f_c->command->cargs)
+	{
+		check_directory((*cur)->f_c->command->cargs[0], cur);
+		f_p = find_command_in_path((*cur)
+				->f_c->command->cargs[0], env);
+	}
+	if ((*cur)->f_c->command->cargs && f_p && access(f_p, X_OK) != -1
+		&& ft_strcmp((*cur)->f_c->command->cargs[0], ""))
+		execve(f_p, (*cur)->f_c->command->cargs, env);
+	else if ((*cur)->f_c->command->cargs[0])
+	{
+		if (f_p != NULL)
+			free(f_p);
+		ft_error("bash: %s: command not found\n",
+			(*cur)->f_c->command->cargs[0]);
+		ft_free(cur, 2);
+		exit(127);
+	}
 }
 
 void	handle_parent_process(t_minishell **current,
