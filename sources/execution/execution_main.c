@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 11:12:43 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:41:18 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	wait_for_children(pid_t pid,
 {
 	int	status;
 
+	status = 0;
 	if (pid == 0)
 		return (0);
 	while (waitpid(pid, &status, 0) != -1)
