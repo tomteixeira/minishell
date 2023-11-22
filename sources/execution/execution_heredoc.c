@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 15:43:16 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:30:42 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,75 +65,27 @@ void	heredoc_read_and_write_bis(t_redirection *redir)
 	}
 }
 
-void	pid_to_str(char *str, pid_t pid)
+void	open_temp_file_for_reading(const char *temp_file_path, int *read_end)
 {
-	char	*ptr;
-	char	*start;
-	char	temp;
-	char	*end;
-
-	if (pid == 0)
-	{
-		*str = '0';
-		*(str + 1) = '\0';
-		return ;
-	}
-	ptr = str;
-	while (pid > 0)
-	{
-		*ptr++ = '0' + (pid % 10);
-		pid /= 10;
-	}
-	*ptr = '\0';
-	start = str;
-	end = ptr - 1;
-	while (end > start)
-	{
-		temp = *start;
-		*start++ = *end;
-		*end-- = temp;
-	}
-}
-
-int	handle_heredoc(t_redirection *heredoc, int *read_end)
-{
-	int		tempf;
-	char	temp_file[64] = "/tmp/minishell_heredoc_";
-	char	pid_str[20];
-	char	*buff;
-
-	pid_to_str(pid_str, getpid());
-	strcat(temp_file, pid_str);
-	tempf = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (tempf < 0)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	while (1)
-	{
-		buff = readline("heredoc> ");
-		if (!buff)
-		{
-			ft_putchar_fd('\n', 2);
-			break ;
-		}
-		if (!strcmp(buff, heredoc->file))
-		{
-			free(buff);
-			break ;
-		}
-		write(tempf, buff, strlen(buff));
-		write(tempf, "\n", 1);
-		free(buff);
-	}
-	close(tempf);
-	*read_end = open(temp_file, O_RDONLY);
-	unlink(temp_file);
+	*read_end = open(temp_file_path, O_RDONLY);
 	if (*read_end < 0)
 	{
 		perror("open");
 		exit(EXIT_FAILURE);
 	}
+	unlink(temp_file_path);
+}
+
+int	handle_heredoc(t_redirection *heredoc, int *read_end)
+{
+	char	*temp_file;
+	int		tempf;
+
+	temp_file = ft_strdup("/tmp/heredoc");
+	tempf = create_temp_file(temp_file);
+	write_to_temp_file(tempf, heredoc->file);
+	close(tempf);
+	open_temp_file_for_reading(temp_file, read_end);
+	free(temp_file);
 	return (0);
 }

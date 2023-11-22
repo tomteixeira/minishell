@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 15:21:15 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:30:21 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ void				handle_redirections_and_continue(t_command_parser **command,
 void				free_line_and_handle_signal(char **line);
 int					current_command_involves_heredoc(t_command *command);
 void				set_stdin_to_fd(int fd);
-
-
+int					create_temp_file(const char *temp_file_path);
+void				set_stdin_to_fd(int fd);
 
 /*Free functions*/
 void				ft_free(t_minishell **minishell, int exit_flag);
