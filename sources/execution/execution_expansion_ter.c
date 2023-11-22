@@ -69,7 +69,9 @@ char	*remove_backslashes(char *str, int *index)
 
 // Function to replace the variable name in the string with its value.
 char	*replace_name(const char *str,
-	const char *var_name, const char *var_value, int i)
+					const char *var_name,
+					const char *var_value,
+					int i)
 {
 	int		name_len;
 	int		value_len;

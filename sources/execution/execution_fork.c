@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_fork.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 03:52:15 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:09:00 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	check_directory(const char *command, t_minishell **cur)
 }
 
 void	handle_pipe_redirection(t_command_parser *current,
-	int *pipefd, int *prev_pipe_read_fd)
+								int *pipefd,
+								int *prev_pipe_read_fd)
 {
 	if (current->previous && current->previous->command->pipe_after
 		&& *prev_pipe_read_fd != -1)
@@ -65,7 +66,9 @@ void	handle_pipe_redirection(t_command_parser *current,
 }
 
 void	handle_child_process(t_minishell **cur,
-	int *pipefd, char **env, int *prev_pipe)
+							int *pipefd,
+							char **env,
+							int *prev_pipe)
 {
 	char	*f_p;
 
@@ -78,8 +81,7 @@ void	handle_child_process(t_minishell **cur,
 		f_p = find_command_in_path((*cur)
 				->f_c->command->cargs[0], env);
 	}
-	if ((*cur)->f_c->command->cargs && f_p
-		&& access(f_p, X_OK) != -1
+	if ((*cur)->f_c->command->cargs && f_p && access(f_p, X_OK) != -1
 		&& ft_strcmp((*cur)->f_c->command->cargs[0], ""))
 		execve(f_p, (*cur)->f_c->command->cargs, env);
 	else if ((*cur)->f_c->command->cargs[0])
@@ -94,7 +96,8 @@ void	handle_child_process(t_minishell **cur,
 }
 
 void	handle_parent_process(t_minishell **current,
-	int *pipefd, int *prev_pipe_read_fd)
+							int *pipefd,
+							int *prev_pipe_read_fd)
 {
 	if ((*current)->f_c->command->pipe_after)
 	{

@@ -24,7 +24,7 @@ void	replace_and_free(char **old_str, char *new_str)
 }
 
 void	ft_error_exit(const char *format, const char *filename,
-	t_minishell **cur, t_redirection *tmp)
+		t_minishell **cur, t_redirection *tmp)
 {
 	ft_error(format, filename, strerror(errno));
 	if (tmp->type == R_OUT || tmp->type == A_R_OUT)

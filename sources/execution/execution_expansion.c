@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   execution_expansion.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/21 16:35:17 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:16:17 by toteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static char	*expand_variables(char *str,
-	t_env_var *env_var, int *index, int quotes)
+								t_env_var *env_var,
+								int *index,
+								int quotes)
 {
 	char	*new_str;
 
-	if ((quotes == 0 || quotes == 1) && str[*index] == '$'
-		&& str[*index + 1] != '\0' && str[*index + 1] != ' '
-		&& str[*index + 1] != '\"' && str[*index + 1] != '\''
-		&& (*index == 0 || str[*index - 1] != '\\') && str[*index + 1] != '=')
+	if ((quotes == 0 || quotes == 1) && str[*index] == '$' && str[*index
+			+ 1] != '\0' && str[*index + 1] != ' ' && str[*index + 1] != '\"'
+		&& str[*index + 1] != '\'' && (*index == 0 || str[*index - 1] != '\\')
+		&& str[*index + 1] != '=')
 	{
 		new_str = expand_variable(str, env_var, *index);
 		*index = -1;

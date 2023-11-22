@@ -13,7 +13,9 @@
 #include "../../includes/minishell.h"
 
 void	update_existing_env_var(char ***env,
-	const char *key, const char *value, int i)
+								const char *key,
+								const char *value,
+								int i)
 {
 	size_t	key_len;
 	size_t	value_len;
@@ -29,8 +31,7 @@ void	update_existing_env_var(char ***env,
 	ft_strcpy((*env)[i] + key_len + 1, value);
 }
 
-void	add_new_env_var(char ***env, const char *key,
-	const char *value, int i)
+void	add_new_env_var(char ***env, const char *key, const char *value, int i)
 {
 	size_t	key_len;
 	size_t	value_len;

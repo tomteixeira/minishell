@@ -47,7 +47,8 @@ char	*allocate_without_quotes(const char *str, int quotes_nb)
 }
 
 char	*remove_quotes_from_str(const char *str,
-	char quote_char, char *result)
+								char quote_char,
+								char *result)
 {
 	int	i;
 	int	j;

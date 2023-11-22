@@ -36,7 +36,7 @@ static int	key_in_local_env(t_env_var *local_env, const char *key)
 {
 	while (local_env != NULL)
 	{
-		if (ft_strcmp(local_env->key, (char *) key) == 0)
+		if (ft_strcmp(local_env->key, (char *)key) == 0)
 			return (1);
 		local_env = local_env->next;
 	}
@@ -44,7 +44,8 @@ static int	key_in_local_env(t_env_var *local_env, const char *key)
 }
 
 static void	add_to_local_env(t_env_var **local_env,
-	const char *key, const char *value)
+								const char *key,
+								const char *value)
 {
 	t_env_var	*new_var;
 
