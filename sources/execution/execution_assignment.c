@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 15:08:44 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:21:03 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	handle_assignments(t_command_parser **current,
 		return (1);
 	}
 	else if (is_assignment((*current)->command->cargs[0]))
-		(*current)->command->cargs = remove_from_list((*current)->command->cargs,
+		(*current)->command->cargs = r_f_l((*current)->command->cargs,
 				(*current)->command->cargs[0], 0);
 	return (0);
 }

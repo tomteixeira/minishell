@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 13:10:14 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:20:32 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,7 @@ static void	handle_in_r(t_minishell **c)
 			handle_heredoc((*c)->f_c->command->in_r, &fd);
 		(*c)->f_c->command->in_r = (*c)->f_c->command->in_r->next;
 	}
-	if (fd != -1)
-	{
-		if (dup2(fd, 0) == -1)
-			exit_with_error("dup2");
-		close(fd);
-	}
+	duplicate_and_close_fd(fd, 0);
 	(*c)->f_c->command->in_r = tmp;
 }
 

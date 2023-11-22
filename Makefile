@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+         #
+#    By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 16:32:28 by toteixei          #+#    #+#              #
-#    Updated: 2023/11/21 17:40:12 by toteixei         ###   ########.fr        #
+#    Updated: 2023/11/22 15:19:40 by hebernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS 		=	main.c sources/lexer/lexer.c sources/lexer/len_fonctions.c \
 				sources/execution/execution_expansion_bis.c \
 				sources/execution/execution_expansion_ter.c \
 				sources/execution/execution_norminette.c \
+				sources/execution/execution_norminette_bis.c \
 				sources/builtins/cd.c \
 				sources/builtins/pwd.c \
 				sources/builtins/echo.c \

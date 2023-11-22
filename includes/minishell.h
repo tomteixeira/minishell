@@ -6,7 +6,7 @@
 /*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 16:25:38 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 11:04:22 by hebernar         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:21:15 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void				handle_heredoc_pipe_signal(void);
 // UTILS
 int					is_assignment(const char *cmd);
 int					execute_builtin(t_minishell **cur, char ***env);
-char				**remove_from_list(char **list, char *arg, int i);
+char				**r_f_l(char **list, char *arg, int i);
 void				init_execution_context(int *prev_pipe_read_fd, int *pipefd);
 void				ft_error_exit(const char *format, const char *filename,
 						t_minishell **cur, t_redirection *tmp);
@@ -145,6 +145,8 @@ void				handle_redirections_and_continue(t_command_parser **command,
 						int *pipefd, int *p_pipe);
 void				free_line_and_handle_signal(char **line);
 int					current_command_involves_heredoc(t_command *command);
+void				set_stdin_to_fd(int fd);
+
 
 
 /*Free functions*/

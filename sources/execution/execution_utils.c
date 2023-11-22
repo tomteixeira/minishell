@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toteixei <toteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hebernar <hebernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:56:18 by toteixei          #+#    #+#             */
-/*   Updated: 2023/11/22 13:13:57 by toteixei         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:21:15 by hebernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_assignment(const char *cmd)
 }
 
 // Utility to remove an element from a char **
-char	**remove_from_list(char **list, char *arg, int i)
+char	**r_f_l(char **list, char *arg, int i)
 {
 	int		count;
 	char	**new_list;
